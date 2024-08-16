@@ -1216,8 +1216,8 @@ def combate(pk_r, pk_a):
             else:
                 pk_a.vida = 0
         
-        sys.stdout.write("pk1 " + pok_a.nombre + " " + str(pok_a.vida_inicial) + " " + str(pok_a.vida) + "\n")
-        sys.stdout.write("pk2 " + pok_r.nombre + " " + str(pok_r.vida_inicial) + " " + str(pok_r.vida) + "\n")
+        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
             
     
     if pk_r.vida < 1:
@@ -1239,8 +1239,8 @@ for i in range(1):
     #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
     pok_r = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
     pok_a = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
-    sys.stdout.write("pk1 " + pok_a.nombre + " " + str(pok_a.vida_inicial) + " " + str(pok_a.vida) + "\n")
-    sys.stdout.write("pk2 " + pok_r.nombre + " " + str(pok_r.vida_inicial) + " " + str(pok_r.vida) + "\n")
+    sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+    sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
 
     while(len(unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_r.nombre])) <= 1):
         pok_r = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
@@ -1287,8 +1287,6 @@ for i in range(1):
     combat.loc[i, 'los_atk4'] = loser.atk4.nombre
     combat.loc[i, 'los_nature'] = loser.natur
 
-    sys.stdout.write("pk1 " + pok_a.nombre + " " + str(pok_a.vida_inicial) + " " + str(pok_a.vida) + "\n")
-    sys.stdout.write("pk2 " + pok_r.nombre + " " + str(pok_r.vida_inicial) + " " + str(pok_r.vida) + "\n")
+    sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+    sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
     sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
-
-combat.head(10)

@@ -96,7 +96,7 @@ def get_pds():
     return pk, moves, nat, pwp, eff, m_learn
 
 class Poke:
-    def __init__(self, name):
+    def __init__(self, name, pk):
         self.nombre = name
         self.nivel = 50
         self.iv = get_iv()
@@ -133,13 +133,13 @@ class Poke:
         {self.atk4.nombre} Pot:({self.atk4.potencia})
         """
     
-    def set_atk(self, name1, name2, name3, name4):
-        self.atk1 = Atk(name1)
-        self.atk2 = Atk(name2)
-        self.atk3 = Atk(name3)
-        self.atk4 = Atk(name4)
+    def set_atk(self, name1, name2, name3, name4, moves):
+        self.atk1 = Atk(name1, moves)
+        self.atk2 = Atk(name2, moves)
+        self.atk3 = Atk(name3, moves)
+        self.atk4 = Atk(name4, moves)
         
-    def set_natur(self, natur):
+    def set_natur(self, natur, nat):
         self.natur = natur
         nat_tmp = nat.copy()
         nat_tmp = nat_tmp.set_index('Nature')
@@ -184,7 +184,7 @@ class Poke:
         self.velocidad = get_stat_eff(self.velocidad, self.iv[5], self.ev[5], self.nivel, nat_vel)
 
 class Atk:
-    def __init__(self, name):
+    def __init__(self, name, moves):
         self.nombre = name
         self.potencia = int((moves[moves["Name"] == name]["Power"].values)[0])
         self.clase = (moves[moves["Name"] == name]["Damage_class"].values)[0]
@@ -975,12 +975,12 @@ def check_estado(pk_r, atk_r, pk_a, atk_a):
     return par_a, pr_a, par_r, pr_r
 
 
-def combate(pk_r, pk_a):
+def combate(pk_r, pk_a, eff):
     log = 0
     sys.stdout.write("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
     while ((pk_r.vida > 0) and (pk_a.vida) > 0):
         log += 1
-        sleep(2)
+        
         
         if("HEALING" in pk_a.estado):
             sys.stdout.write(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
@@ -1073,7 +1073,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             sys.stdout.write("Golpea: " + str(dano) + '\n')
@@ -1083,7 +1083,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_a)
             if pk_a.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             if ("DOB_ATK" in atk_a.efecto):
                 dano += dano
@@ -1097,7 +1097,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_a)
             if pk_a.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             sys.stdout.write("Golpea: " + str(dano) + '\n')
@@ -1107,7 +1107,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             if ("DOB_ATK" in atk_r.efecto):
                 dano += dano
@@ -1115,7 +1115,7 @@ def combate(pk_r, pk_a):
             pk_a.vida -= dano
         
         elif ("M_DPRIOR" in atk_r.efecto):
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             dano_estado(pk_a)
@@ -1128,7 +1128,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             if ("DOB_ATK" in atk_r.efecto):
                 dano += dano
@@ -1139,7 +1139,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             sys.stdout.write("Golpea: " + str(dano) + '\n')
@@ -1149,7 +1149,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_a)
             if pk_a.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             if ("DOB_ATK" in atk_a.efecto):
                 dano += dano
@@ -1166,7 +1166,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             sys.stdout.write("Golpea: " + str(dano) + '\n')
@@ -1176,7 +1176,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_a)
             if pk_a.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             if ("DOB_ATK" in atk_a.efecto):
                 dano += dano
@@ -1193,7 +1193,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_a)
             if pk_a.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
             par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
             sys.stdout.write("Golpea: " + str(dano) + '\n')
@@ -1203,7 +1203,7 @@ def combate(pk_r, pk_a):
             dano_estado(pk_r)
             if pk_r.vida < 1:
                 break
-            sleep(2)
+            sleep(1)
             dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
             if ("DOB_ATK" in atk_r.efecto):
                 dano += dano
@@ -1216,8 +1216,8 @@ def combate(pk_r, pk_a):
             else:
                 pk_a.vida = 0
         
-        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        sys.stdout.write("pk1," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
+        sys.stdout.write("pk2," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
             
     
     if pk_r.vida < 1:
@@ -1229,64 +1229,61 @@ def combate(pk_r, pk_a):
         
     return winner, loser
 
-sys.stdout.write("Cargando valores..." + "\n")
-pk, moves, nat, pwp, eff, m_learn = get_pds()
+def main():
+    sys.stdout.write("Cargando valores..." + "\n")
+    pk, moves, nat, pwp, eff, m_learn = get_pds()
 
-combat = pd.DataFrame()
+    combat = pd.DataFrame()
 
-for i in range(1):
-    sys.stdout.write("Definiendo parámetros..." + "\n")
-    #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
-    pok_r = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
-    pok_a = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
-    sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-    sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+    for i in range(1):
+        sys.stdout.write("Definiendo parámetros..." + "\n")
+        #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
+        pok_r = Poke(str(sys.argv[1]), pk)
+        pok_a = Poke(str(sys.argv[2]), pk)
+        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+            
+        pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+            
+        pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
-    while(len(unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_r.nombre])) <= 1):
-        pok_r = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
+
         
-    pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'])
-    
+        att_r = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_r.nombre])
+        atk_r1 = att_r[rd.randrange(0, len(att_r)-1, 1)]
+        atk_r2 = att_r[rd.randrange(0, len(att_r)-1, 1)]
+        atk_r3 = att_r[rd.randrange(0, len(att_r)-1, 1)]
+        atk_r4 = att_r[rd.randrange(0, len(att_r)-1, 1)]
+        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)    
 
-    while(len(unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_a.nombre])) <= 1):
-        pok_a = Poke(pk['Nombre'].iloc[rd.randrange(0, len(pk)-1, 1)])
+        att_a = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_a.nombre])
+        atk_a1 = att_a[rd.randrange(0, len(att_a)-1, 1)]
+        atk_a2 = att_a[rd.randrange(0, len(att_a)-1, 1)]
+        atk_a3 = att_a[rd.randrange(0, len(att_a)-1, 1)]
+        atk_a4 = att_a[rd.randrange(0, len(att_a)-1, 1)]
+        pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
+
+        sys.stdout.write("Comenzando el combate..." + "\n")
         
-    pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'])
+        winner, loser = combate(pok_r, pok_a, eff)
+        
+        combat.loc[i, 'First_pokemon'] = pok_r.nombre
+        combat.loc[i, 'Second_pokemon'] = pok_a.nombre
+        combat.loc[i, 'Winner'] = winner.nombre
+        combat.loc[i, 'win_atk1'] = winner.atk1.nombre
+        combat.loc[i, 'win_atk2'] = winner.atk2.nombre
+        combat.loc[i, 'win_atk3'] = winner.atk3.nombre
+        combat.loc[i, 'win_atk4'] = winner.atk4.nombre
+        combat.loc[i, 'win_nature'] = winner.natur
+        combat.loc[i, 'los_atk1'] = loser.atk1.nombre
+        combat.loc[i, 'los_atk2'] = loser.atk2.nombre
+        combat.loc[i, 'los_atk3'] = loser.atk3.nombre
+        combat.loc[i, 'los_atk4'] = loser.atk4.nombre
+        combat.loc[i, 'los_nature'] = loser.natur
 
+        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
 
-    
-    att_r = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_r.nombre])
-    atk_r1 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-    atk_r2 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-    atk_r3 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-    atk_r4 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-    pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4)    
-
-    att_a = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_a.nombre])
-    atk_a1 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-    atk_a2 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-    atk_a3 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-    atk_a4 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-    pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4)
-
-    sys.stdout.write("Comenzando el combate..." + "\n")
-    
-    winner, loser = combate(pok_r, pok_a)
-    
-    combat.loc[i, 'First_pokemon'] = pok_r.nombre
-    combat.loc[i, 'Second_pokemon'] = pok_a.nombre
-    combat.loc[i, 'Winner'] = winner.nombre
-    combat.loc[i, 'win_atk1'] = winner.atk1.nombre
-    combat.loc[i, 'win_atk2'] = winner.atk2.nombre
-    combat.loc[i, 'win_atk3'] = winner.atk3.nombre
-    combat.loc[i, 'win_atk4'] = winner.atk4.nombre
-    combat.loc[i, 'win_nature'] = winner.natur
-    combat.loc[i, 'los_atk1'] = loser.atk1.nombre
-    combat.loc[i, 'los_atk2'] = loser.atk2.nombre
-    combat.loc[i, 'los_atk3'] = loser.atk3.nombre
-    combat.loc[i, 'los_atk4'] = loser.atk4.nombre
-    combat.loc[i, 'los_nature'] = loser.natur
-
-    sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-    sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-    sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
+if __name__ == "__main__":
+    main()

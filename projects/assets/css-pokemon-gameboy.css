@@ -67,6 +67,10 @@ h1,h2,h3,h4,h5,h6{
     background-clip:padding-box
 }
 
+.framed::-webkit-scrollbar{
+    display: none
+}
+
 .stats{
     position:relative;
     border:4px solid #181010;
@@ -2610,7 +2614,7 @@ body{
     background:url("/projects/assets/images/fondo_pk.jpg");
     background-size: 100% 110%;
     background-repeat: no-repeat;
-    color:#181010
+    color:#181010;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -2648,7 +2652,6 @@ h1{
 }
 
 .resultado {
-    max-height: 50%;
     overflow-x: hidden;
 }
 

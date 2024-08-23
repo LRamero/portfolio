@@ -53,7 +53,7 @@ def get_pds():
     pk = pk2[~(pk2['Nombre'].str.contains('Mega'))]
     pk['Tipo2'] = pk['Tipo2'].fillna("Nada")
     pk.reset_index()
-    sys.stdout.write("016%\n")
+    sys.stdout.write("025%\n")
 
     ## Información sobre los distintos movimientos, tipo de ataque, tipo de daño, presición, etc.
     url = 'https://drive.google.com/file/d/10bN4zif5RYgSEtNByuorwvWnvqWmSKgv/view?usp=sharing'
@@ -63,37 +63,22 @@ def get_pds():
     moves['Cant'] = moves['Cant'].fillna(0)
     moves['Cant'] = moves['Cant'].astype(str)
     moves['Acc.'] = moves['Acc.'].fillna(100)
-    sys.stdout.write("032%\n")
+    sys.stdout.write("050%\n")
 
     ## Información sobre la naturaleza del Pokemon y como afecta las estadísticas del mismo (incrementa o decrementa cada stat en 10%)
     url = 'https://drive.google.com/file/d/1af9KS4H6NkTCMPJBvXx70j9TDk12cfk9/view?usp=sharing'
     path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
     nat = pd.read_csv(path)
-    sys.stdout.write("048%\n")
-    
-    ## Información sobre pokemones utilizados en conjunto en el mismo equipo
-    url = 'https://drive.google.com/file/d/194RGr9hAuo3QTsg01Dnyw2MCAoBNeEvz/view?usp=sharing'
-    path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
-    pwp = pd.read_csv(path)
-    pwp.rename(columns = {'Use_Percentage (%)':'Uso(%)', 'Pokemon':'Pokemon', 'Teammate':'Compañero'}, inplace = True)
-    pwp['Uso(%)'] = pwp['Uso(%)'].apply(lambda x: x.replace("%", ""))
-    pwp = pwp.astype({'Uso(%)': 'float64'})
-    sys.stdout.write("064%\n")
+    sys.stdout.write("075%\n")
     
     ## Efectividad de tipos
     url = 'https://drive.google.com/file/d/1MeRyRnwszQlp1HZegznslQash2pCAdcX/view?usp=sharing'
     path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
     eff = pd.read_csv(path)
     eff["Effectiveness"] = eff["Effectiveness"].apply(lambda x: 1 if str(x).find('Normal') != -1 else (0.5 if str(x).find('Not very') != -1 else (2 if str(x).find('Super-') != -1 else 0)))
-    sys.stdout.write("080%\n")
-
-    ## Movimientos que puede aprender un Pokemon
-    url = 'https://drive.google.com/file/d/1sbpvpGnUYM6p4tJcWT3qEqyWUCZyvDNs/view?usp=sharing'
-    path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
-    m_learn = pd.read_csv(path)
     sys.stdout.write("100%\n")
     
-    return pk, moves, nat, pwp, eff, m_learn
+    return pk, moves, nat, eff
 
 class Poke:
     def __init__(self, name, pk):
@@ -1231,7 +1216,7 @@ def combate(pk_r, pk_a, eff):
 
 def main():
     sys.stdout.write("Cargando valores..." + "\n")
-    pk, moves, nat, pwp, eff, m_learn = get_pds()
+    pk, moves, nat, eff = get_pds()
 
     combat = pd.DataFrame()
 
@@ -1248,19 +1233,16 @@ def main():
         pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
 
-        
-        att_r = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_r.nombre])
-        atk_r1 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-        atk_r2 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-        atk_r3 = att_r[rd.randrange(0, len(att_r)-1, 1)]
-        atk_r4 = att_r[rd.randrange(0, len(att_r)-1, 1)]
+        atk_r1 = sys.argv[3]
+        atk_r2 = sys.argv[4]
+        atk_r3 = sys.argv[5]
+        atk_r4 = sys.argv[6]
         pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)    
 
-        att_a = unique_sorted_values(m_learn['Move'].loc[m_learn["Pokemon"] == pok_a.nombre])
-        atk_a1 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-        atk_a2 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-        atk_a3 = att_a[rd.randrange(0, len(att_a)-1, 1)]
-        atk_a4 = att_a[rd.randrange(0, len(att_a)-1, 1)]
+        atk_a1 = sys.argv[7]
+        atk_a2 = sys.argv[8]
+        atk_a3 = sys.argv[9]
+        atk_a4 = sys.argv[10]
         pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
 
         sys.stdout.write("Comenzando el combate..." + "\n")

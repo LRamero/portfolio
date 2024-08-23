@@ -24,6 +24,42 @@
                         {% endfor %}
                     </select>
                 </ul>
+                <div id='pk_ability1'>
+                    <ul class=pk>
+                        <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
+                            {% for ability in abilities1 %}
+                                <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability2'>
+                    <ul class=pk>
+                        <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
+                            {% for ability in abilities1 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability3'>
+                    <ul class=pk>
+                        <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
+                            {% for ability in abilities1 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability4'>
+                    <ul class=pk>
+                        <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
+                            {% for ability in abilities1 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
             </div>
             <div id='boton'>
                 <ul class=pk>
@@ -40,6 +76,42 @@
                         {% endfor %}
                     </select>
                 </ul>
+                <div id='pk_ability1'>
+                    <ul class=pk>
+                        <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
+                            {% for ability in abilities2 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability2'>
+                    <ul class=pk>
+                        <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
+                            {% for ability in abilities2 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability3'>
+                    <ul class=pk>
+                        <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
+                            {% for ability in abilities2 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
+                <div id='pk_ability4'>
+                    <ul class=pk>
+                        <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
+                            {% for ability in abilities2 %}
+                            <option value="{{ ability }}">{{ ability }}</option>
+                            {% endfor %}
+                        </select>
+                    </ul>
+                </div>
             </div>
         </section>
         <section id="resultado" class="resultado">
@@ -51,10 +123,19 @@
         const pk_life1 = document.getElementById("pk_life1");
         const pk_life2 = document.getElementById("pk_life2");
         const button = form.querySelector("button");
+        const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');
 
         button.addEventListener("click", (e) => {
             const pokemon1 = document.getElementById("pokemon1").value;
             const pokemon2 = document.getElementById("pokemon2").value;
+            const pk1_ability1 = document.getElementById("pk1_ability1").value;
+            const pk1_ability2 = document.getElementById("pk1_ability2").value; 
+            const pk1_ability3 = document.getElementById("pk1_ability3").value; 
+            const pk1_ability4 = document.getElementById("pk1_ability4").value; 
+            const pk2_ability1 = document.getElementById("pk2_ability1").value; 
+            const pk2_ability2 = document.getElementById("pk2_ability2").value; 
+            const pk2_ability3 = document.getElementById("pk2_ability3").value; 
+            const pk2_ability4 = document.getElementById("pk2_ability4").value;
             button.style.display = "none";
             e.preventDefault();
             fetch("/pokemon_combat", {
@@ -62,7 +143,7 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({pokemon1, pokemon2})
+                body: JSON.stringify({pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
             })
                 .then((response) => {
                     if (response.ok) {
@@ -98,18 +179,18 @@
                                 encabezado.innerHTML += event.data + "<br>";
                             }
                             else if (event.data.includes("El ganador")) {
-                                resultado.innerHTML += event.data + "<br>";
+                                resultado.innerHTML = "";
                                 encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                                pk_life1.innerHTML = "<ul class=pk><label for=pokemon1>Pokémon 1:</label><select name=pokemon1 id=pokemon1>{% for valor in pk_list %}{% if valor == " + pokemon1 + "%}<option value={{valor}} selected>{{ valor }}</option>{% else %}<option value={{valor}}>{{valor}}</option>{% endif %}{% endfor %} </select></ul>"
-                                pk_life2.innerHTML = "<ul class=pk><label for=pokemon2>Pokémon 2:</label><select name=pokemon2 id=pokemon2>{% for valor in pk_list %}{% if valor == " + pokemon2 + "%}<option value={{valor}} selected>{{ valor }}</option>{% else %}<option value={{valor}}>{{valor}}</option>{% endif %}{% endfor %} </select></ul>"
-                                button.style.display = "block"; 
+                                pk_life1.innerHTML = '<ul class=pk><label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">{% for valor in pk_list %}<option value="{{valor}}">{{valor}}</option>{% endfor %}</select></ul><div id="pk_ability1"><ul class=pk><label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
+                                pk_life2.innerHTML = '<ul class=pk><label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">{% for valor in pk_list %}<option value="{{valor}}">{{ valor }}</option>{% endfor %}</select></ul ><div id="pk_ability1"><ul class=pk><label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
+                                button.style.display = "block";
                             }
                             else if (event.data.includes("Error!!")) {
                                 if (!(encabezado.innerHTML.includes("El ganador"))){
-                                    resultado.innerHTML += event.data + "<br>";
+                                    resultado.innerHTML = "";
                                     encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                                    pk_life1.innerHTML = "<ul class=pk><label for=pokemon1>Pokémon 1:</label><select name=pokemon1 id=pokemon1>{% for valor in pk_list %}{% if valor == " + pokemon1 + "%}<option value={{valor}} selected>{{ valor }}</option>{% else %}<option value={{valor}}>{{valor}}</option>{% endif %}{% endfor %} </select></ul>"
-                                    pk_life2.innerHTML = "<ul class=pk><label for=pokemon2>Pokémon 2:</label><select name=pokemon2 id=pokemon2>{% for valor in pk_list %}{% if valor == " + pokemon2 + "%}<option value={{valor}} selected>{{ valor }}</option>{% else %}<option value={{valor}}>{{valor}}</option>{% endif %}{% endfor %} </select></ul>"
+                                    pk_life1.innerHTML = '<ul class=pk><label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">{% for valor in pk_list %}<option value="{{valor}}">{{valor}}</option>{% endfor %}</select></ul><div id="pk_ability1"><ul class=pk><label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
+                                    pk_life2.innerHTML = '<ul class=pk><label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">{% for valor in pk_list %}<option value="{{valor}}">{{ valor }}</option>{% endfor %}</select></ul ><div id="pk_ability1"><ul class=pk><label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
                                     button.style.display = "block"; 
                                 }
                             }
@@ -130,6 +211,98 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
-        });</script>
+        })
+        
+            const pokemon1Select = document.getElementById("pokemon1");
+            const pk1_ability1Select = document.getElementById("pk1_ability1");
+            const pk1_ability2Select = document.getElementById("pk1_ability2");
+            const pk1_ability3Select = document.getElementById("pk1_ability3");
+            const pk1_ability4Select = document.getElementById("pk1_ability4");
+
+        pokemon1Select.addEventListener("change", async () => {
+                const pokemon1Value = pokemon1Select.value;
+                const response = await fetch("/get_abilities1", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ pokemon1: pokemon1Value })
+                });
+                const abilities1 = await response.json();
+                pk1_ability1Select.innerHTML = "";
+                abilities1.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk1_ability1Select.appendChild(option);
+                });
+                pk1_ability2Select.innerHTML = "";
+                abilities1.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk1_ability2Select.appendChild(option);
+                });
+                pk1_ability3Select.innerHTML = "";
+                abilities1.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk1_ability3Select.appendChild(option);
+                });
+                pk1_ability4Select.innerHTML = "";
+                abilities1.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk1_ability4Select.appendChild(option);
+                });
+        });
+
+            const pokemon2Select = document.getElementById("pokemon2");
+            const pk2_ability1Select = document.getElementById("pk2_ability1");
+            const pk2_ability2Select = document.getElementById("pk2_ability2");
+            const pk2_ability3Select = document.getElementById("pk2_ability3");
+            const pk2_ability4Select = document.getElementById("pk2_ability4");
+        
+        pokemon2Select.addEventListener("change", async () => {
+                const pokemon2Value = pokemon2Select.value;
+                const response = await fetch("/get_abilities2", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ pokemon2: pokemon2Value })
+                });
+                const abilities2 = await response.json();
+                pk2_ability1Select.innerHTML = "";
+                abilities2.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk2_ability1Select.appendChild(option);
+                });
+                pk2_ability2Select.innerHTML = "";
+                abilities2.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk2_ability2Select.appendChild(option);
+                });
+                pk2_ability3Select.innerHTML = "";
+                abilities2.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk2_ability3Select.appendChild(option);
+                });
+                pk2_ability4Select.innerHTML = "";
+                abilities2.forEach((ability) => {
+                    const option = document.createElement("option");
+                    option.value = ability;
+                    option.text = ability;
+                    pk2_ability4Select.appendChild(option);
+                });
+            });</script>
 </body>
 </html>

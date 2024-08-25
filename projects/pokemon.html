@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ejecutar Script</title>
+    <title>A combatir!</title>
     <link rel="stylesheet" href="/projects/assets/css-pokemon-gameboy.css">
     <link rel="icon" type="image/x-icon" href="/projects/assets/images/pk.ico">
 </head>
@@ -11,19 +11,46 @@
             <h1>Simulador de combates Pokemon</h1>
             <div class="framed secondary">
                 <div id="encabezado">
-                    <h3>Selecciona tus Pokémon</h3>
+                    <div class="modo">
+                        <h3>Selecciona modo de juego</h3>
+                        <ul>
+                            <form id="JvC">
+                                <button type="button" secondary data-show-pk-life-container>Jugador contra Computadora</button>
+                            </form>
+                        </ul>
+                        <ul>
+                            <form id="JvJ">
+                                <button type="button" secondary data-show-pk-life-container>Jugador contra Jugador</button>
+                            </form>
+                        </ul>
+                        <ul>
+                            <form id="CvC">
+                                <button type="button" secondary data-show-pk-life-container>Computadora contra Computadora</button>
+                            </form>
+                        </ul>
+                    </div>
+                    <div class="atras">
+                        <h3>Elige a los combatientes!</h3>
+                        <ul>
+                            <form id="atras_modo">
+                                <button type="button" secondary atras_modo>Atras</button>
+                            </form>
+                        </ul>
+                    </div>
+                    <div id="encabezado_msj"
                 </div>
             </div>
         </section>
         <section class="pk-life-container">
             <div id='pk_life1'>
-                <ul class=pk>
+                <ul id="pk1" class=pk>
                     <label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">
                         {% for valor in pk_list %}
                             <option value="{{valor}}">{{valor}}</option>
                         {% endfor %}
                     </select>
                 </ul>
+                <ul id="pk1_life"></ul>
                 <div id='pk_ability1'>
                     <ul class=pk>
                         <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
@@ -69,13 +96,14 @@
                 </ul>
             </div>
             <div id='pk_life2'>
-                <ul class=pk>
+                <ul id="pk2" class=pk>
                     <label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">
                         {% for valor in pk_list %}
                             <option value="{{valor}}">{{valor}}</option>
                         {% endfor %}
                     </select>
                 </ul>
+                <ul id="pk2_life"></ul>
                 <div id='pk_ability1'>
                     <ul class=pk>
                         <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
@@ -117,15 +145,34 @@
         <section id="resultado" class="resultado">
         </section>
     </section>
-    <script>const encabezado = document.getElementById("encabezado");
+    <script>
+        const encabezado = document.getElementById("encabezado_msj");
         const form = document.getElementById("ejecutar-script");
         const resultado = document.getElementById("resultado");
-        const pk_life1 = document.getElementById("pk_life1");
-        const pk_life2 = document.getElementById("pk_life2");
+        const pk1 = document.getElementById("pk1");
+        const pk2 = document.getElementById("pk2");
+        const pk1_life = document.getElementById("pk1_life");
+        const pk2_life = document.getElementById("pk2_life");
         const button = form.querySelector("button");
         const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');
+        const pokemon1Select = document.getElementById("pokemon1");
+        const pk1_ability1Select = document.getElementById("pk1_ability1");
+        const pk1_ability2Select = document.getElementById("pk1_ability2");
+        const pk1_ability3Select = document.getElementById("pk1_ability3");
+        const pk1_ability4Select = document.getElementById("pk1_ability4");
+        const pokemon2Select = document.getElementById("pokemon2");
+        const pk2_ability1Select = document.getElementById("pk2_ability1");
+        const pk2_ability2Select = document.getElementById("pk2_ability2");
+        const pk2_ability3Select = document.getElementById("pk2_ability3");
+        const pk2_ability4Select = document.getElementById("pk2_ability4");
+        const pkLifeContainer = document.querySelector('.pk-life-container');
+        const modo = document.querySelector('.modo');
+        const atras_modo = document.querySelector('.atras');
+        const buttons = document.querySelectorAll('button[secondary][data-show-pk-life-container]');
+        const button_atras = document.querySelector('button[secondary][atras_modo]');
 
         button.addEventListener("click", (e) => {
+            atras_modo.style.display = "none";
             const pokemon1 = document.getElementById("pokemon1").value;
             const pokemon2 = document.getElementById("pokemon2").value;
             const pk1_ability1 = document.getElementById("pk1_ability1").value;
@@ -150,25 +197,28 @@
                         const eventSource = new EventSource("/pokemon_combat_stream");
                         eventSource.onmessage = (event) => {
                             if (event.data.includes("Cargando valores...")) {
-                                encabezado.innerHTML = "Cargando valores..."
-                                pk_life1.innerHTML = "<ul class=pk>" + pokemon1 + "</ul>"
-                                pk_life2.innerHTML = "<ul class=pk>" + pokemon2 + "</ul>"
-                                resultado.innerHTML = ""
+                                encabezado.innerHTML = "Cargando valores...";
+                                pk1_life.innerHTML = "<ul class=pk>" + pokemon1 + "</ul>";
+                                pk2_life.innerHTML = "<ul class=pk>" + pokemon2 + "</ul>";
+                                pk1.style.display = "none";
+                                pk2.style.display = "none";
+                                resultado.innerHTML = "";
+                                abilityDivs.forEach((div) => div.style.display = "none");
                             }
                             else if (event.data.includes("pk1")) {
                                 const partes = event.data.split(',');
-                                const v_max = partes[partes.length - 2]
-                                const vida = partes[partes.length - 1]
+                                const v_max = partes[partes.length - 2];
+                                const vida = partes[partes.length - 1];
                                 porcentaje = Math.round((vida / v_max) * 100).toString()
-                                pk_life1.innerHTML = "<ul class=pk><div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
+                                pk1_life.innerHTML = "<ul id=pk1_life class=pk><div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
                                     vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div></ul>";
                             }
                             else if (event.data.includes("pk2")) {
                                 const partes = event.data.split(',');
-                                const v_max = partes[partes.length - 2]
-                                const vida = partes[partes.length - 1]
-                                porcentaje = Math.round((vida / v_max) * 100).toString()
-                                pk_life2.innerHTML = "<ul class=pk><div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
+                                const v_max = partes[partes.length - 2];
+                                const vida = partes[partes.length - 1];
+                                porcentaje = Math.round((vida / v_max) * 100).toString();
+                                pk2_life.innerHTML = "<ul id=pk2_life class=pk><div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
                                     vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div></ul>";
                             }
                             else if (event.data.includes("%")) {
@@ -179,19 +229,26 @@
                                 encabezado.innerHTML += event.data + "<br>";
                             }
                             else if (event.data.includes("El ganador")) {
-                                resultado.innerHTML = "";
                                 encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                                pk_life1.innerHTML = '<ul class=pk><label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">{% for valor in pk_list %}<option value="{{valor}}">{{valor}}</option>{% endfor %}</select></ul><div id="pk_ability1"><ul class=pk><label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
-                                pk_life2.innerHTML = '<ul class=pk><label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">{% for valor in pk_list %}<option value="{{valor}}">{{ valor }}</option>{% endfor %}</select></ul ><div id="pk_ability1"><ul class=pk><label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
+                                pk1_life.innerHTML = '';
+                                pk2_life.innerHTML = '';
+                                pk1.style.display = "block";
+                                pk2.style.display = "block";
                                 button.style.display = "block";
+                                abilityDivs.forEach((div) => div.style.display = "block");
+                                atras_modo.style.display = "block";
                             }
                             else if (event.data.includes("Error!!")) {
                                 if (!(encabezado.innerHTML.includes("El ganador"))){
                                     resultado.innerHTML = "";
                                     encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                                    pk_life1.innerHTML = '<ul class=pk><label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">{% for valor in pk_list %}<option value="{{valor}}">{{valor}}</option>{% endfor %}</select></ul><div id="pk_ability1"><ul class=pk><label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">{% for ability in abilities1 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
-                                    pk_life2.innerHTML = '<ul class=pk><label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">{% for valor in pk_list %}<option value="{{valor}}">{{ valor }}</option>{% endfor %}</select></ul ><div id="pk_ability1"><ul class=pk><label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability2"><ul class=pk><label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability3"><ul class=pk><label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div><div id="pk_ability4"><ul class=pk><label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">{% for ability in abilities2 %}<option value="{{ ability }}">{{ ability }}</option>{% endfor %}</select></ul></div>'
-                                    button.style.display = "block"; 
+                                    pk1_life.innerHTML = '';
+                                    pk2_life.innerHTML = '';
+                                    pk1.style.display = "block";
+                                    pk2.style.display = "block";
+                                    button.style.display = "block";
+                                    abilityDivs.forEach((div) => div.style.display = "block"); 
+                                    atras_modo.style.display = "block";
                                 }
                             }
                             else {
@@ -212,97 +269,103 @@
                     console.log("Error al iniciar la ejecución del script", error);
                 });
         })
-        
-            const pokemon1Select = document.getElementById("pokemon1");
-            const pk1_ability1Select = document.getElementById("pk1_ability1");
-            const pk1_ability2Select = document.getElementById("pk1_ability2");
-            const pk1_ability3Select = document.getElementById("pk1_ability3");
-            const pk1_ability4Select = document.getElementById("pk1_ability4");
 
         pokemon1Select.addEventListener("change", async () => {
-                const pokemon1Value = pokemon1Select.value;
-                const response = await fetch("/get_abilities1", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ pokemon1: pokemon1Value })
-                });
-                const abilities1 = await response.json();
-                pk1_ability1Select.innerHTML = "";
-                abilities1.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk1_ability1Select.appendChild(option);
-                });
-                pk1_ability2Select.innerHTML = "";
-                abilities1.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk1_ability2Select.appendChild(option);
-                });
-                pk1_ability3Select.innerHTML = "";
-                abilities1.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk1_ability3Select.appendChild(option);
-                });
-                pk1_ability4Select.innerHTML = "";
-                abilities1.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk1_ability4Select.appendChild(option);
-                });
+            const pokemon1Value = pokemon1Select.value;
+            const response = await fetch("/get_abilities1", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ pokemon1: pokemon1Value })
+            });
+            const abilities1 = await response.json();
+            pk1_ability1Select.innerHTML = "";
+            abilities1.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk1_ability1Select.appendChild(option);
+            });
+            pk1_ability2Select.innerHTML = "";
+            abilities1.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk1_ability2Select.appendChild(option);
+            });
+            pk1_ability3Select.innerHTML = "";
+            abilities1.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk1_ability3Select.appendChild(option);
+            });
+            pk1_ability4Select.innerHTML = "";
+            abilities1.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk1_ability4Select.appendChild(option);
+            });
         });
-
-            const pokemon2Select = document.getElementById("pokemon2");
-            const pk2_ability1Select = document.getElementById("pk2_ability1");
-            const pk2_ability2Select = document.getElementById("pk2_ability2");
-            const pk2_ability3Select = document.getElementById("pk2_ability3");
-            const pk2_ability4Select = document.getElementById("pk2_ability4");
         
         pokemon2Select.addEventListener("change", async () => {
-                const pokemon2Value = pokemon2Select.value;
-                const response = await fetch("/get_abilities2", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ pokemon2: pokemon2Value })
-                });
-                const abilities2 = await response.json();
-                pk2_ability1Select.innerHTML = "";
-                abilities2.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk2_ability1Select.appendChild(option);
-                });
-                pk2_ability2Select.innerHTML = "";
-                abilities2.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk2_ability2Select.appendChild(option);
-                });
-                pk2_ability3Select.innerHTML = "";
-                abilities2.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk2_ability3Select.appendChild(option);
-                });
-                pk2_ability4Select.innerHTML = "";
-                abilities2.forEach((ability) => {
-                    const option = document.createElement("option");
-                    option.value = ability;
-                    option.text = ability;
-                    pk2_ability4Select.appendChild(option);
-                });
-            });</script>
+            const pokemon2Value = pokemon2Select.value;
+            const response = await fetch("/get_abilities2", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ pokemon2: pokemon2Value })
+            });
+            const abilities2 = await response.json();
+            pk2_ability1Select.innerHTML = "";
+            abilities2.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk2_ability1Select.appendChild(option);
+            });
+            pk2_ability2Select.innerHTML = "";
+            abilities2.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk2_ability2Select.appendChild(option);
+            });
+            pk2_ability3Select.innerHTML = "";
+            abilities2.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk2_ability3Select.appendChild(option);
+            });
+            pk2_ability4Select.innerHTML = "";
+            abilities2.forEach((ability) => {
+                const option = document.createElement("option");
+                option.value = ability;
+                option.text = ability;
+                pk2_ability4Select.appendChild(option);
+            });
+        });
+
+        buttons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); // previene el comportamiento predeterminado del botón
+                pkLifeContainer.style.display = "flex";
+                modo.style.display = "none";
+                atras_modo.style.display = "block";
+            });
+        });
+
+        button_atras.addEventListener("click", (e) => {
+            e.preventDefault();
+            modo.style.display = "block";
+            atras_modo.style.display = "none";
+            pkLifeContainer.style.display = "none";
+            encabezado.innerHTML = "";
+            resultado.innerHTML = "";
+        });</script>
 </body>
 </html>

@@ -621,7 +621,7 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("AATK_RED")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_def + " tendrá ataque reducido" + '\n')
+            sys.stdout.write(pk_def.nombre + " tendrá ataque reducido" + '\n')
             pk_def.estado.append("AATK_RED")
             pk_def.var_respaldo.append("atkred_count")
             pk_def.var_respaldo.append(5)
@@ -630,7 +630,7 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("SLEEP")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_def + " se ha dormido" + '\n')
+            sys.stdout.write(pk_def.nombre + " se ha dormido" + '\n')
             pk_def.estado.append("SLEEP")
             pk_def.var_respaldo.append("sl_count")
             pk_def.var_respaldo.append(rd.randrange(1, 3, 1))
@@ -639,19 +639,19 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("A_BURN")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att + " se ha quemado" + '\n')
+            sys.stdout.write(pk_att.nombre + " se ha quemado" + '\n')
             pk_att.estado.append("BURN")
     if "A_RETRO" in efecto:
         ind = efecto.index("A_RETRO")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att + " ha retrocedido" + '\n')
+            sys.stdout.write(pk_att.nombre + " ha retrocedido" + '\n')
             pk_att.estado.append("RETRO")
     if "A_SLEEP" in efecto:
         ind = efecto.index("A_SLEEP")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att + " se ha dormido" + '\n')
+            sys.stdout.write(pk_att.nombre + " se ha dormido" + '\n')
             pk_att.estado.append("SLEEP")
         
     if "CURE" in efecto:
@@ -1215,53 +1215,70 @@ def combate(pk_r, pk_a, eff):
     return winner, loser
 
 def main():
+    if((str(sys.argv[2]) == "Aleatorio") | (str(sys.argv[3]) == "Aleatorio")):
+        url = 'https://drive.google.com/file/d/1sbpvpGnUYM6p4tJcWT3qEqyWUCZyvDNs/view?usp=sharing'
+        path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
+        m_learn = pd.read_csv(path)
+    
     sys.stdout.write("Cargando valores..." + "\n")
     pk, moves, nat, eff = get_pds()
 
-    combat = pd.DataFrame()
-
-    for i in range(1):
-        sys.stdout.write("Definiendo parámetros..." + "\n")
+    sys.stdout.write("Definiendo parámetros..." + "\n")
+    if(str(sys.argv[2]) != "Aleatorio"):
         #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
-        pok_r = Poke(str(sys.argv[1]), pk)
-        pok_a = Poke(str(sys.argv[2]), pk)
-        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-            
+        pok_r = Poke(str(sys.argv[2]), pk)
+        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")               
         pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
-            
+        
+        atk_r1 = sys.argv[4]
+        atk_r2 = sys.argv[5]
+        atk_r3 = sys.argv[6]
+        atk_r4 = sys.argv[7]
+        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
+    
+    else:
+        pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
+        pok_r = Poke(pokemon, pk)
+        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")                
+        pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+        
+        abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
+
+        atk_r1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_r2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_r3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_r4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
+
+    if (str(sys.argv[3]) != "Aleatorio"):
+        pok_a = Poke(str(sys.argv[3]), pk)
+        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")    
         pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
+        atk_a1 = sys.argv[8]
+        atk_a2 = sys.argv[9]
+        atk_a3 = sys.argv[10]
+        atk_a4 = sys.argv[11]
+        pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
+    
+    else:
+        pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
+        pok_a = Poke(pokemon, pk)
+        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")  
+        pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
-        atk_r1 = sys.argv[3]
-        atk_r2 = sys.argv[4]
-        atk_r3 = sys.argv[5]
-        atk_r4 = sys.argv[6]
-        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)    
+        abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
 
-        atk_a1 = sys.argv[7]
-        atk_a2 = sys.argv[8]
-        atk_a3 = sys.argv[9]
-        atk_a4 = sys.argv[10]
+        atk_a1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_a2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_a3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+        atk_a4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
         pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
 
-        sys.stdout.write("Comenzando el combate..." + "\n")
-        
+    sys.stdout.write("Comenzando el combate..." + "\n")
+    
+    if(sys.argv[1] == "CvC"):
         winner, loser = combate(pok_r, pok_a, eff)
-        
-        combat.loc[i, 'First_pokemon'] = pok_r.nombre
-        combat.loc[i, 'Second_pokemon'] = pok_a.nombre
-        combat.loc[i, 'Winner'] = winner.nombre
-        combat.loc[i, 'win_atk1'] = winner.atk1.nombre
-        combat.loc[i, 'win_atk2'] = winner.atk2.nombre
-        combat.loc[i, 'win_atk3'] = winner.atk3.nombre
-        combat.loc[i, 'win_atk4'] = winner.atk4.nombre
-        combat.loc[i, 'win_nature'] = winner.natur
-        combat.loc[i, 'los_atk1'] = loser.atk1.nombre
-        combat.loc[i, 'los_atk2'] = loser.atk2.nombre
-        combat.loc[i, 'los_atk3'] = loser.atk3.nombre
-        combat.loc[i, 'los_atk4'] = loser.atk4.nombre
-        combat.loc[i, 'los_nature'] = loser.natur
 
         sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
         sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")

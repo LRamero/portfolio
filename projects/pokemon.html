@@ -9,6 +9,7 @@
     <section class="framed neutral">
         <section>
             <h1>Simulador de combates Pokemon</h1>
+            <div class=progress-bar-container id="carga_datos">Prueba</div>
             <div class="framed secondary">
                 <div id="encabezado">
                     <div class="modo">
@@ -182,6 +183,23 @@
         const pkLifeContainer = document.querySelector('.pk-life-container');
         const modo = document.querySelector('.modo');
         const atras_modo = document.querySelector('.atras');
+        const barra_datos = document.getElementById('carga_datos');
+        
+        window.addEventListener('load', function () {
+            fetch("/pokemon_load")
+                .then((response) => {
+                    if (response.ok) {
+                        const eventSource = new EventSource("/pokemon_load_stream");
+                        eventSource.onmessage = (event) => {
+                            barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando valores...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
+                                event.data.substring(0, 3) + " max=100></progress></div>\n";
+                        };
+                    };
+                })
+                .catch((error) => {
+                    console.log("Error al iniciar la ejecución del script", error);
+                });
+        });
 
         function acciones(response) {
             const pokemon1 = document.getElementById("pokemon1").value;
@@ -289,12 +307,13 @@
 
         pokemon1Select.addEventListener("change", async () => {
             const pokemon1Value = pokemon1Select.value;
-            const response = await fetch("/get_abilities1", {
+            barra_datos.innerHTML = pokemon1Value;
+            const response =  await fetch("/get_abilities", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ pokemon1: pokemon1Value })
+                body: JSON.stringify({ pokemon: pokemon1Value })
             });
             const abilities1 = await response.json();
             pk1_ability1Select.innerHTML = "";
@@ -329,12 +348,13 @@
         
         pokemon2Select.addEventListener("change", async () => {
             const pokemon2Value = pokemon2Select.value;
-            const response = await fetch("/get_abilities2", {
+            barra_datos.innerHTML = pokemon2Value;
+            const response = await fetch("/get_abilities", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ pokemon2: pokemon2Value })
+                body: JSON.stringify({ pokemon: pokemon2Value })
             });
             const abilities2 = await response.json();
             pk2_ability1Select.innerHTML = "";
@@ -369,29 +389,95 @@
 
         button_CvC.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
-            pkLifeContainer.style.display = "flex";
-            modo.style.display = "none";
-            atras_modo.style.display = "block";
-            form_JvC.style.display = "none";
-            form_JvJ.style.display = "none";
+            fetch("/get_pokemon")
+                .then(
+                    response => response.json()
+                )
+                .then(pk_list => {
+                    pokemon1Select.innerHTML = "";
+                    pokemon2Select.innerHTML = "";
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon1Select.appendChild(option);
+                    });
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon2Select.appendChild(option);
+                    });
+                    pokemon1Select.selectedIndex = 0;
+                    pokemon2Select.selectedIndex = 0;
+                    pkLifeContainer.style.display = "flex";
+                    modo.style.display = "none";
+                    atras_modo.style.display = "block";
+                    form_JvC.style.display = "none";
+                    form_JvJ.style.display = "none";
+                });
         });
 
         button_JvJ.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
-            pkLifeContainer.style.display = "flex";
-            modo.style.display = "none";
-            atras_modo.style.display = "block";
-            form_JvC.style.display = "none";
-            form_CvC.style.display = "none";
+            fetch("/get_pokemon")
+                .then(
+                    response => response.json()
+                )
+                .then(pk_list => {
+                    pokemon1Select.innerHTML = "";
+                    pokemon2Select.innerHTML = "";
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon1Select.appendChild(option);
+                    });
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon2Select.appendChild(option);
+                    });
+                    pokemon1Select.selectedIndex = 0;
+                    pokemon2Select.selectedIndex = 0;
+                    pkLifeContainer.style.display = "flex";
+                    modo.style.display = "none";
+                    atras_modo.style.display = "block";
+                    form_JvC.style.display = "none";
+                    form_CvC.style.display = "none";
+                });
         });
 
         button_JvC.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
-            pkLifeContainer.style.display = "flex";
-            modo.style.display = "none";
-            atras_modo.style.display = "block";
-            form_JvJ.style.display = "none";
-            form_CvC.style.display = "none";
+            fetch("/get_pokemon")
+                .then(
+                    response => response.json()
+                )
+                .then(pk_list => {
+                    pokemon1Select.innerHTML = "";
+                    pokemon2Select.innerHTML = "";
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon1Select.appendChild(option);
+                    });
+                    pk_list.forEach((pk) => {
+                        const option = document.createElement("option");
+                        option.value = pk;
+                        option.text = pk;
+                        pokemon2Select.appendChild(option);
+                    });
+                    pokemon1Select.selectedIndex = 0;
+                    pokemon2Select.selectedIndex = 0;
+                    pkLifeContainer.style.display = "flex";
+                    modo.style.display = "none";
+                    atras_modo.style.display = "block";
+                    form_CvC.style.display = "none";
+                    form_JvJ.style.display = "none";
+                });
         });
 
         button_atras.addEventListener("click", (e) => {

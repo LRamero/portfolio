@@ -9,8 +9,8 @@
     <section class="framed neutral">
         <section>
             <h1>Simulador de combates Pokemon</h1>
-            <div class=progress-bar-container id="carga_datos">Prueba</div>
             <div class="framed secondary">
+                <div class=progress-bar-container id="carga_datos">Cargando datos</div>
                 <div id="encabezado">
                     <div class="modo">
                         <h3>Selecciona modo de juego</h3>
@@ -44,48 +44,50 @@
         </section>
             <section class="pk-life-container">
                 <div id='pk_life1'>
-                    <ul id="pk1" class=pk>
-                        <label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">
-                            {% for valor in pk_list %}
-                                <option value="{{valor}}">{{valor}}</option>
-                            {% endfor %}
-                        </select>
-                    </ul>
-                    <div id='pk_ability1'>
-                        <ul class=pk>
-                            <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
-                                {% for ability in abilities1 %}
+                    <div id="pk1_select">
+                        <ul id="pk1" class=pk>
+                            <label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">
+                                {% for valor in pk_list %}
+                                    <option value="{{valor}}">{{valor}}</option>
+                                {% endfor %}
+                            </select>
+                        </ul>
+                        <div id='pk_ability1'>
+                            <ul class=pk>
+                                <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
+                                    {% for ability in abilities1 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability2'>
+                            <ul class=pk>
+                                <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
+                                    {% for ability in abilities1 %}
                                     <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
-                    </div>
-                    <div id='pk_ability2'>
-                        <ul class=pk>
-                            <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
-                                {% for ability in abilities1 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
-                    </div>
-                    <div id='pk_ability3'>
-                        <ul class=pk>
-                            <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
-                                {% for ability in abilities1 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
-                    </div>
-                    <div id='pk_ability4'>
-                        <ul class=pk>
-                            <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
-                                {% for ability in abilities1 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability3'>
+                            <ul class=pk>
+                                <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
+                                    {% for ability in abilities1 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability4'>
+                            <ul class=pk>
+                                <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
+                                    {% for ability in abilities1 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
                     </div>
                     <div id="pk1_life"></div>
                 </div>
@@ -103,48 +105,50 @@
                     </ul>
                 </div>
                 <div id='pk_life2'>
-                    <ul id="pk2" class=pk>
-                        <label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">
-                            {% for valor in pk_list %}
-                                <option value="{{valor}}">{{valor}}</option>
-                            {% endfor %}
-                        </select>
-                    </ul>
-                    <div id='pk_ability1'>
-                        <ul class=pk>
-                            <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
-                                {% for ability in abilities2 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
+                    <div id="pk2_select">
+                        <ul id="pk2" class=pk>
+                            <label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">
+                                {% for valor in pk_list %}
+                                    <option value="{{valor}}">{{valor}}</option>
                                 {% endfor %}
                             </select>
                         </ul>
-                    </div>
-                    <div id='pk_ability2'>
-                        <ul class=pk>
-                            <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
-                                {% for ability in abilities2 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
-                    </div>
-                    <div id='pk_ability3'>
-                        <ul class=pk>
-                            <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
-                                {% for ability in abilities2 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
-                    </div>
-                    <div id='pk_ability4'>
-                        <ul class=pk>
-                            <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
-                                {% for ability in abilities2 %}
-                                <option value="{{ ability }}">{{ ability }}</option>
-                                {% endfor %}
-                            </select>
-                        </ul>
+                        <div id='pk_ability1'>
+                            <ul class=pk>
+                                <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
+                                    {% for ability in abilities2 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability2'>
+                            <ul class=pk>
+                                <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
+                                    {% for ability in abilities2 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability3'>
+                            <ul class=pk>
+                                <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
+                                    {% for ability in abilities2 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
+                        <div id='pk_ability4'>
+                            <ul class=pk>
+                                <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
+                                    {% for ability in abilities2 %}
+                                    <option value="{{ ability }}">{{ ability }}</option>
+                                    {% endfor %}
+                                </select>
+                            </ul>
+                        </div>
                     </div>
                     <div id="pk2_life"></div>
                 </div>
@@ -158,8 +162,6 @@
         const form_JvJ = document.getElementById("ejecutar-JvJ");
         const form_CvC = document.getElementById("ejecutar-CvC");
         const resultado = document.getElementById("resultado");
-        const pk1 = document.getElementById("pk1");
-        const pk2 = document.getElementById("pk2");
         const pk1_life = document.getElementById("pk1_life");
         const pk2_life = document.getElementById("pk2_life");
         const button_inicio_JvJ = form_JvJ.querySelector("button[secondary][inicio_JvJ]");
@@ -170,11 +172,13 @@
         const button_CvC = document.querySelector('button[secondary][CvC]');
         const button_atras = document.querySelector('button[secondary][atras_modo]');
         const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');
+        const pk1_select = document.getElementById("pk1_select");
         const pokemon1Select = document.getElementById("pokemon1");
         const pk1_ability1Select = document.getElementById("pk1_ability1");
         const pk1_ability2Select = document.getElementById("pk1_ability2");
         const pk1_ability3Select = document.getElementById("pk1_ability3");
         const pk1_ability4Select = document.getElementById("pk1_ability4");
+        const pk2_select = document.getElementById("pk2_select");
         const pokemon2Select = document.getElementById("pokemon2");
         const pk2_ability1Select = document.getElementById("pk2_ability1");
         const pk2_ability2Select = document.getElementById("pk2_ability2");
@@ -186,6 +190,7 @@
         const barra_datos = document.getElementById('carga_datos');
         
         window.addEventListener('load', function () {
+            modo.style.display = 'none';
             fetch("/pokemon_load")
                 .then((response) => {
                     if (response.ok) {
@@ -193,6 +198,10 @@
                         eventSource.onmessage = (event) => {
                             barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando valores...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
                                 event.data.substring(0, 3) + " max=100></progress></div>\n";
+                            if (Number(event.data.substring(0, 3)).toString() == 100) {
+                                modo.style.display = "block";
+                                barra_datos.style.display = "none"
+                            }
                         };
                     };
                 })
@@ -211,8 +220,8 @@
                         encabezado.innerHTML = "Cargando valores...";
                         pk1_life.innerHTML = "<ul class=pk>" + pokemon1 + "</ul>";
                         pk2_life.innerHTML = "<ul class=pk>" + pokemon2 + "</ul>";
-                        pk1.style.display = "none";
-                        pk2.style.display = "none";
+                        pk1_select.style.display = "none";
+                        pk2_select.style.display = "none";
                         resultado.innerHTML = "";
                         abilityDivs.forEach((div) => div.style.display = "none");
                     }
@@ -232,17 +241,13 @@
                         pk2_life.innerHTML = "<ul id=pk2_life class=pk><div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
                             vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div></ul>";
                     }
-                    else if (event.data.includes("%")) {
-                        encabezado.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando valores...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
-                            event.data.substring(0, 3) + " max=100></progress></div>\n";
-                    }
                     else if ((event.data == "Definiendo parámetros...") | (event.data == "Comenzando el combate...")) {
                         encabezado.innerHTML += event.data + "<br>";
                     }
                     else if (event.data.includes("El ganador")) {
                         encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                        pk1.style.display = "block";
-                        pk2.style.display = "block";
+                        pk1_select.style.display = "block";
+                        pk2_select.style.display = "block";
                         button_inicio_CvC.style.display = "block";
                         abilityDivs.forEach((div) => div.style.display = "block");
                         atras_modo.style.display = "block";
@@ -254,8 +259,8 @@
                             encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
                             pk1_life.innerHTML = '';
                             pk2_life.innerHTML = '';
-                            pk1.style.display = "block";
-                            pk2.style.display = "block";
+                            pk1_select.style.display = "block";
+                            pk2_select.style.display = "block";
                             button_inicio_CvC.style.display = "block";
                             abilityDivs.forEach((div) => div.style.display = "block");
                             atras_modo.style.display = "block";
@@ -277,6 +282,8 @@
         }
 
         button_inicio_CvC.addEventListener("click", (e) => {
+            encabezado.innerHTML = "";
+            resultado.innerHTML = "";
             atras_modo.style.display = "none";
             const pokemon1 = document.getElementById("pokemon1").value;
             const pokemon2 = document.getElementById("pokemon2").value;
@@ -289,6 +296,8 @@
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
             button_inicio_CvC.style.display = "none";
+            pk1_select.style.display = "none";
+            pk2_select.style.display = "none";
             e.preventDefault();
             fetch("/pokemon_combat", {
                 method: "POST",

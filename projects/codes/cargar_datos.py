@@ -13,7 +13,7 @@ def get_pds():
     pk2 = pk1[~(pk1['Nombre'].str.contains('Gigantamax'))]
     pk = pk2[~(pk2['Nombre'].str.contains('Mega'))]
     pk['Tipo2'] = pk['Tipo2'].fillna("Nada")
-    pk.reset_index()
+    pk = pk.reset_index()
     sys.stdout.write("020%\n")
 
     ## Información sobre los distintos movimientos, tipo de ataque, tipo de daño, presición, etc.
@@ -45,6 +45,9 @@ def get_pds():
     m_learn = pd.read_csv(path)
     m_learn = m_learn[['Pokemon', 'Move']]
     sys.stdout.write("100%\n")
+
+    moves_count = m_learn['Pokemon'].value_counts()
+    pk = pk[pk['Nombre'].isin(moves_count[moves_count>=4].index)].reset_index(drop=True)
     
     return pk, moves, nat, eff, m_learn
 

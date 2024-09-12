@@ -918,330 +918,414 @@ def check_estado(pk_r, atk_r, pk_a, atk_a):
         values2 = [pr_a, 0]
         pr_a = rd.choices(values2, weights=(75, 25), k=1)
     else:
-        par_a = 0
+        par_a = 1
     
     return par_a, pr_a, par_r, pr_r
 
-
-def combate(pk_r, pk_a, eff):
-    log = 0
-    sys.stdout.write("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
-    while ((pk_r.vida > 0) and (pk_a.vida) > 0):
-        log += 1
-        
-        
-        if("HEALING" in pk_a.estado):
-            sys.stdout.write(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
-            if ((pk_a.vida + pk_a.vida_inicial/16) >= pk_a.vida_inicial):
-                pk_a.vida = pk_a.vida_inicial
-            else:
-                pk_a.vida += pk_a.vida_inicial/16
-                
-        if("HEALING" in pk_r.estado):
-            sys.stdout.write(pk_r.nombre + " se curó " + str(pk_r.vida_inicial/16) + '\n')
-            if ((pk_r.vida + pk_r.vida_inicial/16) >= pk_r.vida_inicial):
-                pk_r.vida = pk_r.vida_inicial
-            else:
-                pk_r.vida += pk_r.vida_inicial/16
-        
-        #Define de forma aleatoria el ataque a utilizar
-        atkr = rd.randrange(1, 4)
-        atka = rd.randrange(1, 4)
-        
-        if (atkr == 1):
-            atk_r = pk_r.atk1
-        elif (atkr == 2):
-            atk_r = pk_r.atk2
-        elif (atkr == 3):
-            atk_r = pk_r.atk3
+def enfrentamiento(pk_r, pk_a, eff):
+    if("HEALING" in pk_a.estado):
+        sys.stdout.write(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
+        if ((pk_a.vida + pk_a.vida_inicial/16) >= pk_a.vida_inicial):
+            pk_a.vida = pk_a.vida_inicial
         else:
-            atk_r = pk_r.atk4
-        
-        if (atka == 1):
-            atk_a = pk_a.atk1
-        elif (atka == 2):
-            atk_a = pk_r.atk2
-        elif (atka == 3):
-            atk_a = pk_a.atk3
+            pk_a.vida += pk_a.vida_inicial/16
+            
+    if("HEALING" in pk_r.estado):
+        sys.stdout.write(pk_r.nombre + " se curó " + str(pk_r.vida_inicial/16) + '\n')
+        if ((pk_r.vida + pk_r.vida_inicial/16) >= pk_r.vida_inicial):
+            pk_r.vida = pk_r.vida_inicial
         else:
-            atk_a = pk_a.atk4
-
-        #Calcula efectividad del ataque por tipo
-        eff1 = eff[eff["Atk. Move Type"] == atk_r.tipo]
-        eff2 = eff[eff["Atk. Move Type"] == atk_a.tipo]
-        
-        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
-            
-        if ("CONF" in pk_r.estado):
-            values2 = [1, 0]
-            conf = rd.choices(values2, weights=(33, 67), k=1)
-            if conf:
-                p_d = Atk("Pay Day")
-                dano, crit, precis = ataque(pk_r, pk_r, p_d, 1, 1)
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-                pk_r.vida -= dano
-                pr_r = 0
-                if pk_r.vida < 1:
-                    break
-        if ("CONF" in pk_a.estado):
-            values2 = [1, 0]
-            conf = rd.choices(values2, weights=(33, 67), k=1)
-            if conf:
-                p_d = Atk("Pay Day")
-                dano, crit, precis = ataque(pk_a, pk_a, p_d, 1, 1)
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-                pk_a.vida -= dano
-                pr_a = 0
-                if pk_r.vida < 1:
-                    break  
-        
-
-        if pk_a.tipo2 == 'Nada':
-            effi_r = float((eff1[eff1["Def. Pokemon Type"] == pk_a.tipo1])["Effectiveness"].values[0])
-        else:
-            effi_r = float((eff1[eff1["Def. Pokemon Type"] == pk_a.tipo1])["Effectiveness"].values[0]) * float(
-                (eff1[eff1["Def. Pokemon Type"] == pk_a.tipo2])["Effectiveness"].values[0])
-        if pk_r.tipo2 == 'Nada':
-            effi_a = float((eff2[eff2["Def. Pokemon Type"] == pk_r.tipo1])["Effectiveness"].values[0])
-        else:
-            effi_a = float((eff2[eff2["Def. Pokemon Type"] == pk_r.tipo1])["Effectiveness"].values[0]) * float(
-                (eff2[eff2["Def. Pokemon Type"] == pk_r.tipo2])["Effectiveness"].values[0])
-        
-        ##Ajusta la velocidad con el modificador correspondiente
-        spd_stg1 = ((2 + abs(pk_r.stg[4]))/2)**(pk_r.stg[4]/abs(pk_r.stg[4]) if pk_r.stg[4] != 0 else 1)
-        spd_stg2 = ((2 + abs(pk_a.stg[4]))/2)**(pk_a.stg[4]/abs(pk_a.stg[4]) if pk_a.stg[4] != 0 else 1)
-        
-        spd_r = (pk_r.velocidad * spd_stg1 * par_r)
-        spd_a = (pk_a.velocidad * spd_stg2 * par_a)
-        
-        if (("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)) and not(
-            ("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)):
-            if ("D_PRIOR" in pk_r.estado):
-                pk_r.estado.remove("D_PRIOR")
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                break
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-        
-        elif (("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)) and not(
-            ("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)):
-            if ("D_PRIOR" in pk_a.estado):
-                pk_a.estado.remove("D_PRIOR")
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                break
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-        
-        elif ("M_DPRIOR" in atk_r.efecto):
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                break
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            
-        elif ("M_DPRIOR" in atk_a.efecto):
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                break
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-        
-        elif (spd_r > spd_a):
-            if ("D_PRIOR" in pk_r.estado):
-                pk_r.estado.remove("D_PRIOR")
-            if ("D_PRIOR" in atk_r.efecto):
-                pk_r.estado.append("D_PRIOR")
-            if ("D_PRIOR" in atk_a.efecto):
-                pk_a.estado.append("D_PRIOR")
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                break
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            
-        else:
-            if ("D_PRIOR" in pk_r.estado):
-                pk_r.estado.remove("D_PRIOR")
-            if ("D_PRIOR" in atk_r.efecto):
-                pk_r.estado.append("D_PRIOR")
-            if ("D_PRIOR" in atk_a.efecto):
-                pk_a.estado.append("D_PRIOR")
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            par_a, pr_a, par_b, pr_b = check_estado(pk_r, atk_r, pk_a, atk_a)
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                break
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                break
-            sleep(1)
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            
-        if (log) > 500000:
-            if pk_a.vida > pk_r.vida:
-                pk_r.vida = 0
-            else:
-                pk_a.vida = 0
-        
-        sys.stdout.write("pk1," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
-        sys.stdout.write("pk2," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
-            
+            pk_r.vida += pk_r.vida_inicial/16
     
-    if pk_r.vida < 1:
-        winner = pk_a
-        loser = pk_r
-    if pk_a.vida < 1:
-        winner = pk_r
-        loser = pk_a
+    #Define de forma aleatoria el ataque a utilizar
+    atkr = rd.randrange(1, 4)
+    atka = rd.randrange(1, 4)
+    
+    if (atkr == 1):
+        atk_r = pk_r.atk1
+    elif (atkr == 2):
+        atk_r = pk_r.atk2
+    elif (atkr == 3):
+        atk_r = pk_r.atk3
+    else:
+        atk_r = pk_r.atk4
+    
+    if (atka == 1):
+        atk_a = pk_a.atk1
+    elif (atka == 2):
+        atk_a = pk_r.atk2
+    elif (atka == 3):
+        atk_a = pk_a.atk3
+    else:
+        atk_a = pk_a.atk4
+
+    #Calcula efectividad del ataque por tipo
+    eff1 = eff[eff["Atk. Move Type"] == atk_r.tipo]
+    eff2 = eff[eff["Atk. Move Type"] == atk_a.tipo]
+    
+    par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
         
-    return winner, loser
+    if ("CONF" in pk_r.estado):
+        values2 = [1, 0]
+        conf = rd.choices(values2, weights=(33, 67), k=1)
+        if conf:
+            p_d = Atk("Pay Day")
+            dano, crit, precis = ataque(pk_r, pk_r, p_d, 1, 1)
+            if precis == 0:
+                sys.stdout.write("El ataque falla" + '\n')
+            elif crit:
+                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            else:
+                sys.stdout.write("Golpea: " + str(dano) + '\n')
+            pk_r.vida -= dano
+            pr_r = 0
+            if pk_r.vida < 1:
+                return pk_r, pk_a
+    if ("CONF" in pk_a.estado):
+        values2 = [1, 0]
+        conf = rd.choices(values2, weights=(33, 67), k=1)
+        if conf:
+            p_d = Atk("Pay Day")
+            dano, crit, precis = ataque(pk_a, pk_a, p_d, 1, 1)
+            if precis == 0:
+                sys.stdout.write("El ataque falla" + '\n')
+            elif crit:
+                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            else:
+                sys.stdout.write("Golpea: " + str(dano) + '\n')
+            pk_a.vida -= dano
+            pr_a = 0
+            if pk_r.vida < 1:
+                return pk_r, pk_a  
+    
+
+    if pk_a.tipo2 == 'Nada':
+        effi_r = float((eff1[eff1["Def. Pokemon Type"] == pk_a.tipo1])["Effectiveness"].values[0])
+    else:
+        effi_r = float((eff1[eff1["Def. Pokemon Type"] == pk_a.tipo1])["Effectiveness"].values[0]) * float(
+            (eff1[eff1["Def. Pokemon Type"] == pk_a.tipo2])["Effectiveness"].values[0])
+    if pk_r.tipo2 == 'Nada':
+        effi_a = float((eff2[eff2["Def. Pokemon Type"] == pk_r.tipo1])["Effectiveness"].values[0])
+    else:
+        effi_a = float((eff2[eff2["Def. Pokemon Type"] == pk_r.tipo1])["Effectiveness"].values[0]) * float(
+            (eff2[eff2["Def. Pokemon Type"] == pk_r.tipo2])["Effectiveness"].values[0])
+    
+    ##Ajusta la velocidad con el modificador correspondiente
+    spd_stg1 = ((2 + abs(pk_r.stg[4]))/2)**(pk_r.stg[4]/abs(pk_r.stg[4]) if pk_r.stg[4] != 0 else 1)
+    spd_stg2 = ((2 + abs(pk_a.stg[4]))/2)**(pk_a.stg[4]/abs(pk_a.stg[4]) if pk_a.stg[4] != 0 else 1)
+    
+    spd_r = (pk_r.velocidad * spd_stg1 * par_r)
+    spd_a = (pk_a.velocidad * spd_stg2 * par_a)
+    
+    if (("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)) and not(
+        ("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)):
+        if ("D_PRIOR" in pk_r.estado):
+            pk_r.estado.remove("D_PRIOR")
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+    
+    elif (("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)) and not(
+        ("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)):
+        if ("D_PRIOR" in pk_a.estado):
+            pk_a.estado.remove("D_PRIOR")
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+    
+    elif ("M_DPRIOR" in atk_r.efecto):
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        
+    elif ("M_DPRIOR" in atk_a.efecto):
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+    
+    elif (spd_r > spd_a):
+        if ("D_PRIOR" in pk_r.estado):
+            pk_r.estado.remove("D_PRIOR")
+        if ("D_PRIOR" in atk_r.efecto):
+            pk_r.estado.append("D_PRIOR")
+        if ("D_PRIOR" in atk_a.efecto):
+            pk_a.estado.append("D_PRIOR")
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        
+    else:
+        if ("D_PRIOR" in pk_r.estado):
+            pk_r.estado.remove("D_PRIOR")
+        if ("D_PRIOR" in atk_r.efecto):
+            pk_r.estado.append("D_PRIOR")
+        if ("D_PRIOR" in atk_a.efecto):
+            pk_a.estado.append("D_PRIOR")
+        dano_estado(pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+        par_a, pr_a, par_r, pr_r = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        sleep(1)
+        dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            sys.stdout.write("El ataque falla" + '\n')
+        elif crit:
+            sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            sys.stdout.write("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+
+    return pk_r, pk_a
+
+def combate(pk_r, pk_a, eff, combat_type):
+    if combat_type == "CvC":
+        log = 0
+        sys.stdout.write("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
+        while ((pk_r.vida > 0) and (pk_a.vida) > 0):
+            log += 1            
+            pk_r, pk_a = enfrentamiento(pk_r, pk_a, eff)                
+            if (log) > 500000:
+                if pk_a.vida > pk_r.vida:
+                    pk_r.vida = 0
+                else:
+                    pk_a.vida = 0
+            
+            sys.stdout.write("pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
+            sys.stdout.write("pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
+
+    elif combat_type == "JvC":
+        print("JC")
+
+    elif combat_type == "JvJ":
+        print('JJ')      
+    
+    return pk_r, pk_a
 
 def main():
+    combat_type = sys.argv[1]
+    
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "../assets/dataframes.pkl")
     with open(path, 'rb') as f:
         pk, moves, nat, eff, m_learn = pickle.load(f, encoding='latin1')
 
-    sys.stdout.write("Definiendo parámetros..." + "\n")
-    if(str(sys.argv[2]) != "Aleatorio"):
-        #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
-        pok_r = Poke(str(sys.argv[2]), pk)
-        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")               
-        pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+    if ((combat_type != "JvJ") & (combat_type != "JvC")):
+        sys.stdout.write("Definiendo parámetros..." + "\n")
+        if(str(sys.argv[2]) != "Aleatorio"):
+            #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
+            pok_r = Poke(str(sys.argv[2]), pk)
+            sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")               
+            pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+            
+            atk_r1 = sys.argv[4]
+            atk_r2 = sys.argv[5]
+            atk_r3 = sys.argv[6]
+            atk_r4 = sys.argv[7]
+            pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
         
-        atk_r1 = sys.argv[4]
-        atk_r2 = sys.argv[5]
-        atk_r3 = sys.argv[6]
-        atk_r4 = sys.argv[7]
-        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
-    
-    else:
-        pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
-        pok_r = Poke(pokemon, pk)
-        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")                
-        pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+        else:
+            pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
+            pok_r = Poke(pokemon, pk)
+            sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")                
+            pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+            
+            abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
+
+            atk_r1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_r2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_r3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_r4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
+
+        if (str(sys.argv[3]) != "Aleatorio"):
+            pok_a = Poke(str(sys.argv[3]), pk)
+            sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")    
+            pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
+
+            atk_a1 = sys.argv[8]
+            atk_a2 = sys.argv[9]
+            atk_a3 = sys.argv[10]
+            atk_a4 = sys.argv[11]
+            pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
         
-        abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
+        else:
+            pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
+            pok_a = Poke(pokemon, pk)
+            sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")  
+            pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
-        atk_r1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_r2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_r3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_r4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
+            abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
 
-    if (str(sys.argv[3]) != "Aleatorio"):
-        pok_a = Poke(str(sys.argv[3]), pk)
-        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")    
-        pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
-
-        atk_a1 = sys.argv[8]
-        atk_a2 = sys.argv[9]
-        atk_a3 = sys.argv[10]
-        atk_a4 = sys.argv[11]
-        pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
-    
+            atk_a1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_a2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_a3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            atk_a4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
+            pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
+            if (combat_type != "CvC"):
+                with open('projects/assets/pok.pkl', 'wb') as f:
+                    pickle.dump((pok_r, pok_a), f)
     else:
-        pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
-        pok_a = Poke(pokemon, pk)
-        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")  
-        pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
-
-        abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
-
-        atk_a1 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_a2 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_a3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        atk_a4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
-        pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
-
-    sys.stdout.write("Comenzando el combate..." + "\n")
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        path = os.path.join(my_path, "../assets/pok.pkl")
+        with open(path, 'rb') as f:
+            pok_r, pok_a = pickle.load(f, encoding='latin1')
     
-    if(sys.argv[1] == "CvC"):
-        winner, loser = combate(pok_r, pok_a, eff)
+    if(combat_type == "CvC"):
+        sys.stdout.write("Comenzando el combate..." + "\n")
+        pok_r, pok_a = combate(pok_r, pok_a, eff, combat_type)
+        if pok_r.vida < 1:
+            winner = pok_a
+        if pok_a.vida < 1:
+            winner = pok_r
 
-        sys.stdout.write("pk1," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        sys.stdout.write("pk2," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
         sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
 
 if __name__ == "__main__":

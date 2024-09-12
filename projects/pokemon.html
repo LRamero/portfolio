@@ -34,7 +34,10 @@
                         <h3>Elige a los combatientes!</h3>
                         <ul>
                             <form id="atras_modo">
-                                <button type="button" secondary atras_modo>Atras</button>
+                                <button type="button" secondary atras_modo>Atrás</button>
+                            </form>
+                            <form id="atras_combate"></form>
+                                <button type="button" secondary atras_combate>Volver a combatir</button>
                             </form>
                         </ul>
                     </div>
@@ -46,7 +49,7 @@
                 <div id='pk_life1'>
                     <div id="pk1_select">
                         <ul id="pk1" class=pk>
-                            <label for="pokemon1">Pokémon 1:</label><select name="pokemon1" id="pokemon1">
+                            <label for="pokemon1"></label><select name="pokemon1" id="pokemon1">
                                 {% for valor in pk_list %}
                                     <option value="{{valor}}">{{valor}}</option>
                                 {% endfor %}
@@ -107,7 +110,7 @@
                 <div id='pk_life2'>
                     <div id="pk2_select">
                         <ul id="pk2" class=pk>
-                            <label for="pokemon2">Pokémon 2:</label><select name="pokemon2" id="pokemon2">
+                            <label for="pokemon2"></label><select name="pokemon2" id="pokemon2">
                                 {% for valor in pk_list %}
                                     <option value="{{valor}}">{{valor}}</option>
                                 {% endfor %}
@@ -164,6 +167,7 @@
         const resultado = document.getElementById("resultado");
         const pk1_life = document.getElementById("pk1_life");
         const pk2_life = document.getElementById("pk2_life");
+        const boton_peleas = document.getElementById("boton");
         const button_inicio_JvJ = form_JvJ.querySelector("button[secondary][inicio_JvJ]");
         const button_inicio_JvC = form_JvC.querySelector("button[secondary][inicio_JvC]");
         const button_inicio_CvC = form_CvC.querySelector("button[secondary][inicio_CvC]");
@@ -171,6 +175,7 @@
         const button_JvC = document.querySelector('button[secondary][JvC]');
         const button_CvC = document.querySelector('button[secondary][CvC]');
         const button_atras = document.querySelector('button[secondary][atras_modo]');
+        const button_combate = document.querySelector('button[secondary][atras_combate]');
         const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');
         const pk1_select = document.getElementById("pk1_select");
         const pokemon1Select = document.getElementById("pokemon1");
@@ -186,8 +191,10 @@
         const pk2_ability4Select = document.getElementById("pk2_ability4");
         const pkLifeContainer = document.querySelector('.pk-life-container');
         const modo = document.querySelector('.modo');
-        const atras_modo = document.querySelector('.atras');
+        const atras = document.querySelector('.atras');
         const barra_datos = document.getElementById('carga_datos');
+        const label1 = document.querySelector('label[for="pokemon1"]');
+        const label2 = document.querySelector('label[for="pokemon2"]');
         
         window.addEventListener('load', function () {
             modo.style.display = 'none';
@@ -196,7 +203,7 @@
                     if (response.ok) {
                         const eventSource = new EventSource("/pokemon_load_stream");
                         eventSource.onmessage = (event) => {
-                            barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando valores...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
+                            barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando datos...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
                                 event.data.substring(0, 3) + " max=100></progress></div>\n";
                             if (Number(event.data.substring(0, 3)).toString() == 100) {
                                 modo.style.display = "block";
@@ -216,16 +223,7 @@
             if (response.ok) {
                 const eventSource = new EventSource("/pokemon_combat_stream");
                 eventSource.onmessage = (event) => {
-                    if (event.data.includes("Cargando valores...")) {
-                        encabezado.innerHTML = "Cargando valores...";
-                        pk1_life.innerHTML = "<ul class=pk>" + pokemon1 + "</ul>";
-                        pk2_life.innerHTML = "<ul class=pk>" + pokemon2 + "</ul>";
-                        pk1_select.style.display = "none";
-                        pk2_select.style.display = "none";
-                        resultado.innerHTML = "";
-                        abilityDivs.forEach((div) => div.style.display = "none");
-                    }
-                    else if (event.data.includes("pk1")) {
+                    if (event.data.includes("pk1")) {
                         const partes = event.data.split(',');
                         const v_max = partes[partes.length - 2];
                         const vida = partes[partes.length - 1];
@@ -246,24 +244,16 @@
                     }
                     else if (event.data.includes("El ganador")) {
                         encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
-                        pk1_select.style.display = "block";
-                        pk2_select.style.display = "block";
-                        button_inicio_CvC.style.display = "block";
-                        abilityDivs.forEach((div) => div.style.display = "block");
-                        atras_modo.style.display = "block";
+                        atras.style.display = "block";
 
                     }
                     else if (event.data.includes("Error!!")) {
                         if (!(encabezado.innerHTML.includes("El ganador"))) {
                             resultado.innerHTML = "";
-                            encabezado.innerHTML += "Combate finalizado. " + event.data + "<br>";
+                            encabezado.innerHTML += "Hubo un error!! Por favor vuelva a intentarlo.<br>";
                             pk1_life.innerHTML = '';
                             pk2_life.innerHTML = '';
-                            pk1_select.style.display = "block";
-                            pk2_select.style.display = "block";
-                            button_inicio_CvC.style.display = "block";
-                            abilityDivs.forEach((div) => div.style.display = "block");
-                            atras_modo.style.display = "block";
+                            atras.style.display = "block";
                         }
                     }
                     else {
@@ -284,7 +274,7 @@
         button_inicio_CvC.addEventListener("click", (e) => {
             encabezado.innerHTML = "";
             resultado.innerHTML = "";
-            atras_modo.style.display = "none";
+            atras.style.display = "none";
             const pokemon1 = document.getElementById("pokemon1").value;
             const pokemon2 = document.getElementById("pokemon2").value;
             const pk1_ability1 = document.getElementById("pk1_ability1").value;
@@ -295,7 +285,7 @@
             const pk2_ability2 = document.getElementById("pk2_ability2").value; 
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
-            button_inicio_CvC.style.display = "none";
+            boton_peleas.style.display = "none";
             pk1_select.style.display = "none";
             pk2_select.style.display = "none";
             e.preventDefault();
@@ -421,9 +411,11 @@
                     pokemon2Select.selectedIndex = 0;
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
-                    atras_modo.style.display = "block";
+                    atras.style.display = "block";
                     form_JvC.style.display = "none";
                     form_JvJ.style.display = "none";
+                    label1.textContent = "Pokemon 1: ";
+                    label2.textContent = "Pokemon 2: ";
                 });
         });
 
@@ -452,9 +444,11 @@
                     pokemon2Select.selectedIndex = 0;
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
-                    atras_modo.style.display = "block";
+                    atras.style.display = "block";
                     form_JvC.style.display = "none";
                     form_CvC.style.display = "none";
+                    label1.textContent = "Jugador 1: ";
+                    label2.textContent = "Jugador 2: ";
                 });
         });
 
@@ -483,24 +477,39 @@
                     pokemon2Select.selectedIndex = 0;
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
-                    atras_modo.style.display = "block";
+                    atras.style.display = "block";
                     form_CvC.style.display = "none";
                     form_JvJ.style.display = "none";
+                    label1.textContent = "Jugador: ";
+                    label2.textContent = "Computadora: ";
                 });
         });
 
         button_atras.addEventListener("click", (e) => {
             e.preventDefault();
             modo.style.display = "block";
-            atras_modo.style.display = "none";
+            atras.style.display = "none";
             pkLifeContainer.style.display = "none";
             encabezado.innerHTML = "";
             resultado.innerHTML = "";
+            boton_peleas.style.display = "block";
             form_JvC.style.display = "block";
             form_JvJ.style.display = "block";
             form_CvC.style.display = "block";
             pk1_life.innerHTML = "";
             pk2_life.innerHTML = "";
+        });
+        
+        button_combate.addEventListener("click", (e) => {
+            e.preventDefault();
+            pk1_select.style.display = "block";
+            pk2_select.style.display = "block";
+            boton_peleas.style.display = "block";
+            abilityDivs.forEach((div) => div.style.display = "block");
+            pk1_life.innerHTML = "";
+            pk2_life.innerHTML = "";
+            encabezado.innerHTML = "";
+            resultado.innerHTML = "";
         });</script>
 </body>
 </html>

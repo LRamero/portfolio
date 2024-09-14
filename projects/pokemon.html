@@ -176,6 +176,21 @@
                     </div>
                 </section>
                 <section>
+                    <div id="ataque_pk1_seleccionado">
+
+                    </div>
+                </section>
+                <section>
+                    <form>
+                        <button id="atacar" secondary atk1_p2>Ataquen!</button>
+                    </form>
+                </section>
+                <section>
+                    <div id="ataque_pk2_seleccionado">
+                        
+                    </div>
+                </section>
+                <section>
                     <div id='ataques_pk2'>
                         <ul class=pk>
                             <form>
@@ -238,6 +253,9 @@
         const pk2_ability2Button = document.getElementById("ataque2_pk2"); /*Botón habilidad 2 pk2*/
         const pk2_ability3Button = document.getElementById("ataque3_pk2"); /*Botón habilidad 3 pk2*/
         const pk2_ability4Button = document.getElementById("ataque4_pk2"); /*Botón habilidad 4 pk2*/
+        const atacar = document.getElementById("atacar"); /*Botón para iniciar ataque JvJ y JvC*/
+        const atk1_sel = document.getElementById("ataque_pk1_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 1*/
+        const atk2_sel = document.getElementById("ataque_pk2_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 2*/
         const modo = document.querySelector('.modo'); /*Sección de selección de modo de combate*/
         const atras = document.querySelector('.atras'); /*Sección de botones de atrás*/
         const barra_datos = document.getElementById('carga_datos'); /*Barra de carga de datos inicial*/
@@ -636,6 +654,8 @@
             pk1_life.innerHTML = "";
             pk2_life.innerHTML = "";
             pkbuttonContainer.style.display = "none";
+            atk1_sel.innerHTML = "";
+            atk2_sel.innerHTML = "";
         });
         
         button_combate.addEventListener("click", (e) => {
@@ -648,32 +668,75 @@
             pk2_life.innerHTML = "";
             encabezado.innerHTML = "";
             resultado.innerHTML = "";
+            atk1_sel.innerHTML = "";
+            atk2_sel.innerHTML = "";
         });
         
         pk1_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab1 = pk1_ability1Button.innerText;
+            atk1_sel.innerHTML = ab1;
         });
         pk1_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab2 = pk1_ability2Button.innerText;
+            atk1_sel.innerHTML = ab2;
         });
         pk1_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab3 = pk1_ability3Button.innerText;
+            atk1_sel.innerHTML = ab3;
         });
         pk1_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab4 = pk1_ability4Button.innerText;
+            atk1_sel.innerHTML = ab4;
         });
 
         pk2_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab1 = pk2_ability1Button.innerText;
+            atk2_sel.innerHTML = ab1;
         });
         pk2_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab2 = pk2_ability2Button.innerText;
+            atk2_sel.innerHTML = ab2;
         });
         pk2_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab3 = pk2_ability3Button.innerText;
+            atk2_sel.innerHTML = ab3;
         });
         pk2_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
+            const ab4 = pk2_ability4Button.innerText;
+            atk2_sel.innerHTML = ab4;
+        });
+        
+        atacar.addEventListener("click", (e) => {
+            e.preventDefault();
+            atk_pk1 = atk1_sel.innerHTML;
+            atk_pk2 = atk2_sel.innerHTML;
+            if (encabezado.innerHTML.includes("JvJ")) {
+                modo_combate = "JvJ_c";
+            }
+            else if (encabezado.innerHTML.includes("JvC")) {
+                modo_combate = "JvC_c";
+            }
+            fetch("/pokemon_combat_c", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({modo_combate, atk_pk1, atk_pk2})
+            })
+                .then((response) => {
+                    acciones(response);
+                })
+                .catch((error) => {
+                    console.log("Error al iniciar la ejecución del script", error);
+                });
         });</script>
 </body>
 </html>

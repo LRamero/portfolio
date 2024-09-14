@@ -139,6 +139,7 @@ section {
 
 .tarjeta-de-proyectos a {
     text-decoration: none;
+    display: "flex";
     color: #c9d5d894;
     font-family: Impact, Haettenschweiler, 'Arial Narrow', sans-serif;
     transition: color 0.2s ease;
@@ -210,11 +211,10 @@ section {
 
 
 
-.enlace-de-proyecto {
+/*.enlace-de-proyecto {
     display: inline-block;
     width: 75%;
     background-color: rgba(0, 0, 0, 0.7);
-    /* color de fondo del botón */
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -230,8 +230,7 @@ section {
 
 .enlace-de-proyecto:hover {
     background-color: rgba(223, 231, 240, 0.7);
-    /* color de fondo del botón al pasar el mouse */
-}
+}*/
 
 
 

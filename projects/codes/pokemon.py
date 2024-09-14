@@ -6,8 +6,12 @@ import sys
 from time import sleep
 import pickle
 import os
+import json
 
 global log
+
+def obj_to_json(obj):
+    return obj.__dict__
 
 def get_iv():
     # IV generados random [HP, Att, Def, Sp.Att, Sp.Def, Speed]
@@ -135,6 +139,7 @@ class Atk:
     def __init__(self, name, moves):
         self.nombre = name
         self.potencia = int((moves[moves["Name"] == name]["Power"].values)[0])
+        self.pp = int((moves[moves["Name"] == name]["PP"].values)[0])
         self.clase = (moves[moves["Name"] == name]["Damage_class"].values)[0]
         self.tipo = (moves[moves["Name"] == name]["Type"].values)[0]
         self.precision = 100 if (pd.isna((moves[moves["Name"] == name]["Acc."].values)[0]) or 
@@ -1236,8 +1241,8 @@ def combate(pk_r, pk_a, eff, combat_type):
                 else:
                     pk_a.vida = 0
             
-            sys.stdout.write("pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
-            sys.stdout.write("pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
+            sys.stdout.write("data_pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
+            sys.stdout.write("data_pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
 
     elif combat_type == "JvC":
         print("JC")
@@ -1254,13 +1259,12 @@ def main():
     path = os.path.join(my_path, "../assets/dataframes.pkl")
     with open(path, 'rb') as f:
         pk, moves, nat, eff, m_learn = pickle.load(f, encoding='latin1')
-
-    if ((combat_type != "JvJ") & (combat_type != "JvC")):
+    
+    if ((combat_type != "JvJ_c") & (combat_type != "JvC_c")):
         sys.stdout.write("Definiendo parámetros..." + "\n")
         if(str(sys.argv[2]) != "Aleatorio"):
             #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
-            pok_r = Poke(str(sys.argv[2]), pk)
-            sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")               
+            pok_r = Poke(str(sys.argv[2]), pk)              
             pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
             
             atk_r1 = sys.argv[4]
@@ -1271,8 +1275,7 @@ def main():
         
         else:
             pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
-            pok_r = Poke(pokemon, pk)
-            sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")                
+            pok_r = Poke(pokemon, pk)              
             pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
             
             abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
@@ -1282,10 +1285,10 @@ def main():
             atk_r3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             atk_r4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
+        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
 
         if (str(sys.argv[3]) != "Aleatorio"):
-            pok_a = Poke(str(sys.argv[3]), pk)
-            sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")    
+            pok_a = Poke(str(sys.argv[3]), pk)   
             pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
             atk_a1 = sys.argv[8]
@@ -1297,7 +1300,6 @@ def main():
         else:
             pokemon = pk.loc[rd.randrange(0, len(pk)-1, 1), 'Nombre']
             pok_a = Poke(pokemon, pk)
-            sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")  
             pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
             abilities = m_learn[m_learn["Pokemon"] == pokemon].reset_index(drop=True)
@@ -1307,9 +1309,14 @@ def main():
             atk_a3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             atk_a4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
-            if (combat_type != "CvC"):
-                with open('projects/assets/pok.pkl', 'wb') as f:
-                    pickle.dump((pok_r, pok_a), f)
+        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+
+        if (combat_type != "CvC"):
+            sys.stdout.write("atk_pk1," + pok_r.atk1.nombre + "," + pok_r.atk2.nombre + "," + pok_r.atk3.nombre + "," + pok_r.atk4.nombre + "\n") 
+            sys.stdout.write("atk_pk2," + pok_a.atk1.nombre + "," + pok_a.atk2.nombre + "," + pok_a.atk3.nombre + "," + pok_a.atk4.nombre + "\n")
+            with open('projects/assets/pok.pkl', 'wb') as f:
+                pickle.dump((pok_r, pok_a), f)
+        
     else:
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, "../assets/pok.pkl")
@@ -1317,16 +1324,22 @@ def main():
             pok_r, pok_a = pickle.load(f, encoding='latin1')
     
     if(combat_type == "CvC"):
-        sys.stdout.write("Comenzando el combate..." + "\n")
+        sys.stdout.write("Comenzando el combate CvC" + "\n")
         pok_r, pok_a = combate(pok_r, pok_a, eff, combat_type)
         if pok_r.vida < 1:
             winner = pok_a
         if pok_a.vida < 1:
             winner = pok_r
 
-        sys.stdout.write("pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-        sys.stdout.write("pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
         sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
+    
+    elif(combat_type == "JvJ"):
+        sys.stdout.write("Comenzando el combate JvJ" + "\n")
+    
+    elif(combat_type == "JvC"):
+        sys.stdout.write("Comenzando el combate JvC" + "\n")
 
 if __name__ == "__main__":
     main()

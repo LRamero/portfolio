@@ -4,7 +4,7 @@ import pandas as pd
 import pickle
 
 app = Flask(__name__, template_folder="", static_folder="./assets")
-
+#probando
 
 class PokemonCombat:
     def __init__(self):

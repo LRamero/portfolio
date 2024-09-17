@@ -262,7 +262,7 @@
         const label1 = document.querySelector('label[for="pokemon1"]'); /*Etiqueta de selector pk1*/
         const label2 = document.querySelector('label[for="pokemon2"]'); /*Etiqueta de selector pk2*/
         
-        /*window.addEventListener('load', function () {
+        window.addEventListener('load', function () {
             modo.style.display = 'none';
             fetch("/pokemon_load")
                 .then((response) => {
@@ -281,7 +281,7 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
-        });*/
+        });
 
         function acciones(response) {
             const pokemon1 = document.getElementById("pokemon1").value;

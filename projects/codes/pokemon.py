@@ -1425,7 +1425,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-##### CvC - JvJ - JvC ####      ###### JvJ_c ##############
+##### CvC - JvJ - JvC ####      ###### JvJ_c ##############z
 ## sys.argv[1] combat_type      ## sys.argv[1] combat_type
 ## sys.argv[2] pk1              ## sys.argv[2] atk_p1
 ## sys.argv[3] pk2              ## sys.argv[3] atk_p2

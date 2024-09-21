@@ -1,6 +1,7 @@
 const proyectosContainer = document.querySelector('.contenedor-de-proyectos');
 const scrollLeft = document.querySelector('.scroll-left');
 const scrollRight = document.querySelector('.scroll-right');
+
 let projectCards = document.querySelectorAll('.tarjeta-de-proyectos');
 
 let initialScrollSpeed = 3; // Velocidad de scroll inicial
@@ -59,3 +60,18 @@ projectCards.forEach(card => {
         startAutoScroll();
     });
 });
+
+function startSecondApp(projectName) {
+    fetch('/start_second_app', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ projectName: projectName })
+    })
+    .then(response => response.text())
+    .then(data => {
+        // Open a new window and render the HTML page from the second app
+        window.open('http://localhost:5001/', '_blank');
+    });
+}

@@ -1,0 +1,34 @@
+2024-09-21 20:52:25,003 - INFO - Definiendo parámetros
+
+2024-09-21 20:52:25,027 - INFO - data_pk1,Pidgey,62,62
+
+2024-09-21 20:52:25,047 - INFO - data_pk2,Cyndaquil,56,56
+
+2024-09-21 20:52:25,047 - INFO - atk_pk1,Aerial Ace,Heat Wave,Aerial Ace,Aerial Ace
+
+2024-09-21 20:52:25,047 - INFO - atk_pk2,Aerial Ace,Aerial Ace,Aerial Ace,Aerial Ace
+
+2024-09-21 20:52:25,048 - INFO - Comenzando el combate JvJ
+
+2024-09-21 20:52:32,399 - INFO - Cyndaquil utiliza Aerial Ace
+
+2024-09-21 20:52:32,400 - INFO - Golpea: 33
+
+2024-09-21 20:52:32,400 - INFO - Pidgey utiliza Aerial Ace
+
+2024-09-21 20:52:32,400 - INFO - Golpea: 35
+
+2024-09-21 20:52:32,400 - INFO - data_pk1,Pidgey,62,29
+
+2024-09-21 20:52:32,400 - INFO - data_pk2,Cyndaquil,56,21
+
+2024-09-21 20:52:35,240 - INFO - Cyndaquil utiliza Aerial Ace
+
+2024-09-21 20:52:35,240 - INFO - Golpea: 31
+
+2024-09-21 20:52:35,240 - INFO - data_pk1,Pidgey,62,-2
+
+2024-09-21 20:52:35,240 - INFO - data_pk2,Cyndaquil,56,21
+
+2024-09-21 20:52:35,242 - INFO - El ganador es: Cyndaquil
+

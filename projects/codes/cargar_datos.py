@@ -53,5 +53,5 @@ def get_pds():
 
 if __name__ == "__main__":
     pk, moves, nat, eff, m_learn = get_pds()
-    with open('projects/assets/dataframes.pkl', 'wb') as f:
+    with open('assets/dataframes.pkl', 'wb') as f:
         pickle.dump((pk, moves, nat, eff, m_learn), f)

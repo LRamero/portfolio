@@ -6,7 +6,7 @@ import sys
 from time import sleep
 import pickle
 import os
-import json
+import logging
 
 global log
 
@@ -206,45 +206,53 @@ def atk_dano(att, deff, pot, acc, effi, stab, nivel, prob_c):
 
     return dano, crit, precis[0]
 
-def cambio_stats(pk_att, pk_def, atk):
+def cambio_stats(logger, pk_att, pk_def, atk):
     tmp_stg = []
     efecto = atk.efecto
     cantidad = atk.cant
     prob = atk.prob
     
     if ("MAX_ATK" in efecto):
-        sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque al máximo" + '\n')
+        #sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque al máximo" + '\n')
+        logger.info(str(pk_att.nombre) + " aumentó su ataque al máximo" + '\n')
         pk_att.stg[0] = 6
         
     if ("SWITCH" in efecto):
-        sys.stdout.write(str(pk_att.nombre) + " intenta aplicar switch...")
+        #sys.stdout.write(str(pk_att.nombre) + " intenta aplicar switch...")
+        logger.info(str(pk_att.nombre) + " intenta aplicar switch...")
         ind = efecto.index("SWITCH")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write("lo ha conseguido" + '\n')
+            #sys.stdout.write("lo ha conseguido" + '\n')
+            logger.info("lo ha conseguido" + '\n')
             tmp_stg = pk_att.stg
             pk_att.stg = pk_def.stg
             pk_def.stg = tmp_stg
         else:
-            sys.stdout.write("pero falla" + '\n')
+            #sys.stdout.write("pero falla" + '\n')
+            logger.info("pero falla" + '\n')
         
     if ("SWITCH_ST" in efecto):
         ind = efecto.index("SWITCH_ST")
         tmp = prob[ind]
-        sys.stdout.write(str(pk_att.nombre) + " intenta aplicar switch...")
+        #sys.stdout.write(str(pk_att.nombre) + " intenta aplicar switch...")
+        logger.info(str(pk_att.nombre) + " intenta aplicar switch...")
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write("lo ha conseguido" + '\n')
+            #sys.stdout.write("lo ha conseguido" + '\n')
+            logger.info("lo ha conseguido" + '\n')
             tmp_stg = pk_att.stg
             pk_att.stg = pk_def.stg
             pk_def.stg = tmp_stg
         else:
-            sys.stdout.write("pero falla" + '\n')
+            #sys.stdout.write("pero falla" + '\n')
+            logger.info("pero falla" + '\n')
     
     if "O_SPD" in efecto:
         ind = efecto.index("O_SPD")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su velocidad" + '\n')        
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su velocidad" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su velocidad" + '\n')
             i = efecto.index('O_SPD')
             cant = int(cantidad[i])
             tmp = pk_def.stg[4]
@@ -259,7 +267,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_SPD")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)): 
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su velocidad" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su velocidad" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su velocidad" + '\n')
             i = efecto.index('P_SPD')
             cant = int(cantidad[i])
             tmp = pk_att.stg[4]
@@ -274,7 +283,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_SPDEF")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su defensa especial" + '\n') 
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su defensa especial" + '\n') 
+            logger.info(str(pk_def.nombre) + " redujo su defensa especial" + '\n') 
             i = efecto.index('O_SPDEF')
             cant = int(cantidad[i])
             tmp = pk_def.stg[3]
@@ -289,7 +299,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_SPDEF")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su defensa especial" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su defensa especial" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su defensa especial" + '\n')
             i = efecto.index('P_SPDEF')
             cant = int(cantidad[i])
             tmp = pk_att.stg[3]
@@ -304,7 +315,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_DEF")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su defensa" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su defensa" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su defensa" + '\n')
             i = efecto.index('O_DEF')
             cant = int(cantidad[i])
             tmp = pk_def.stg[1]
@@ -319,7 +331,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_DEF")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su defensa" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su defensa" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su defensa" + '\n')
             i = efecto.index('P_DEF')
             cant = int(cantidad[i])
             tmp = pk_att.stg[1]
@@ -334,7 +347,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_ATK")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su ataque" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su ataque" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su ataque" + '\n')
             i = efecto.index('O_ATK')
             cant = int(cantidad[i])
             tmp = pk_def.stg[0]
@@ -349,7 +363,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_ATK")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su ataque" + '\n')
             i = efecto.index('P_ATK')
             cant = int(cantidad[i])
             tmp = pk_att.stg[0]
@@ -364,7 +379,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_SPATK")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su ataque" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su ataque" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su ataque" + '\n')
             i = efecto.index('O_SPATK')
             cant = int(cantidad[i])
             tmp = pk_def.stg[2]
@@ -379,7 +395,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_SPATK")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su ataque" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su ataque" + '\n')
             i = efecto.index('P_SPATK')
             cant = int(cantidad[i])
             tmp = pk_att.stg[2]
@@ -394,7 +411,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_ACC")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su presición" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su presición" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su presición" + '\n')
             i = efecto.index('O_ACC')
             cant = int(cantidad[i])
             tmp = pk_def.stg[5]
@@ -409,7 +427,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_ACC")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su presición" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su presición" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su presición" + '\n')
             i = efecto.index('P_ACC')
             cant = int(cantidad[i])
             tmp = pk_att.stg[5]
@@ -424,7 +443,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_EV")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo su evasión" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo su evasión" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo su evasión" + '\n')
             i = efecto.index('O_EV')
             cant = int(cantidad[i])
             tmp = pk_def.stg[6]
@@ -439,7 +459,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_EV")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó su evasión" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó su evasión" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó su evasión" + '\n')
             i = efecto.index('P_EV')
             cant = int(cantidad[i])
             tmp = pk_att.stg[6]
@@ -454,7 +475,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_RND")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo una estadísitca aleatoria" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo una estadísitca aleatoria" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo una estadísitca aleatoria" + '\n')
             st = rd.randrange(0, 6, 1)
             i = efecto.index('O_RND')
             cant = int(cantidad[i])
@@ -470,7 +492,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_RND")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó una estadística aleatoria" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó una estadística aleatoria" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó una estadística aleatoria" + '\n')
             st = rd.randrange(0, 6, 1)
             i = efecto.index('P_RND')
             cant = int(cantidad[i])
@@ -486,7 +509,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_ALL")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " redujo todas sus estadísiticas" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " redujo todas sus estadísiticas" + '\n')
+            logger.info(str(pk_def.nombre) + " redujo todas sus estadísiticas" + '\n')
             i = efecto.index('O_ALL')
             cant = int(cantidad[i])
             for st in range(0,7):
@@ -502,7 +526,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("P_ALL")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " aumentó todas sus estadísticas" + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " aumentó todas sus estadísticas" + '\n')
+            logger.info(str(pk_att.nombre) + " aumentó todas sus estadísticas" + '\n')
             i = efecto.index('P_ALL')
             cant = int(cantidad[i])
             for st in range(0,7):
@@ -518,7 +543,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("RESET")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write("Se eliminaron los cambios de estadísiticas de ambos pk" + '\n')
+            #sys.stdout.write("Se eliminaron los cambios de estadísiticas de ambos pk" + '\n')
+            logger.info("Se eliminaron los cambios de estadísiticas de ambos pk" + '\n')
             for st in range(0,7):
                 pk_att.stg[st] = 0
             for st in range(0,7):
@@ -528,7 +554,8 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("O_STATES_DEL")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_def.nombre) + " eliminó su cambios de estadística" + '\n')
+            #sys.stdout.write(str(pk_def.nombre) + " eliminó su cambios de estadística" + '\n')
+            logger.info(str(pk_def.nombre) + " eliminó su cambios de estadística" + '\n')
             for st in range(0,7):
                 pk_def.stg[st] = 0
             
@@ -536,23 +563,26 @@ def cambio_stats(pk_att, pk_def, atk):
         ind = efecto.index("COP_STATS")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(str(pk_att.nombre) + " copió todos los cambios de estadísticas de " + str(pk_def.nombre) + '\n')
+            #sys.stdout.write(str(pk_att.nombre) + " copió todos los cambios de estadísticas de " + str(pk_def.nombre) + '\n')
+            logger.info(str(pk_att.nombre) + " copió todos los cambios de estadísticas de " + str(pk_def.nombre) + '\n')
             for st in range(0,7):
                 if pk_def.stg[st] > 0:
                     pk_att.stg[st] = pk_def.stg[st]
             
-def dano_estado(pk):
+def dano_estado(logger, pk):
     estado = pk.estado
     tmp = 1
     pego = 0
     
     if "POIS" in estado:
-        sys.stdout.write(str(pk.nombre) + " está envenenado" + '\n')
+        #sys.stdout.write(str(pk.nombre) + " está envenenado" + '\n')
+        logger.info(str(pk.nombre) + " está envenenado" + '\n')
         pk.vida -= (pk.vida_inicial)/8
         pego = 1
     
     if "BAD_POIS" in estado:
-        sys.stdout.write(str(pk.nombre) + " está gravemente envenenado" + '\n')
+        #sys.stdout.write(str(pk.nombre) + " está gravemente envenenado" + '\n')
+        logger.info(str(pk.nombre) + " está gravemente envenenado" + '\n')
         if ~("bd_po" in pk.var_respaldo):
             pk.var_respaldo.append("bd_po")
             pk.var_respaldo.append(1)
@@ -564,14 +594,16 @@ def dano_estado(pk):
         pego = 1
     
     if "BURN" in estado:
-        sys.stdout.write(str(pk.nombre) + " está quemado" + '\n')
+        #sys.stdout.write(str(pk.nombre) + " está quemado" + '\n')
+        logger.info(str(pk.nombre) + " está quemado" + '\n')
         pk.vida -= (pk.vida_inicial)/16
         pego = 1
     
     if pego:
-        sys.stdout.write("Daño por estado: " + ' '.join(map(str, pk.estado)) + '\n')
+        #sys.stdout.write("Daño por estado: " + ' '.join(map(str, pk.estado)) + '\n')
+        logger.info("Daño por estado: " + ' '.join(map(str, pk.estado)) + '\n')
     
-def cambio_estado(pk_att, pk_def, atk):
+def cambio_estado(logger, pk_att, pk_def, atk):
     o_estados = ["POIS", "BAD_POIS", "BURN", "FREEZ", "RETRO", "PARAL", "CONF"]
     p_estados = ["HEALING", "ATK_RED", "SPATK_RED"]
     efecto = atk.efecto
@@ -595,7 +627,8 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("AATK_RED")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_def.nombre + " tendrá ataque reducido" + '\n')
+            #sys.stdout.write(pk_def.nombre + " tendrá ataque reducido" + '\n')
+            logger.info(pk_def.nombre + " tendrá ataque reducido" + '\n')
             pk_def.estado.append("AATK_RED")
             pk_def.var_respaldo.append("atkred_count")
             pk_def.var_respaldo.append(5)
@@ -604,7 +637,8 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("SLEEP")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_def.nombre + " se ha dormido" + '\n')
+            #sys.stdout.write(pk_def.nombre + " se ha dormido" + '\n')
+            logger.info(pk_def.nombre + " se ha dormido" + '\n')
             pk_def.estado.append("SLEEP")
             pk_def.var_respaldo.append("sl_count")
             pk_def.var_respaldo.append(rd.randrange(1, 3, 1))
@@ -613,19 +647,22 @@ def cambio_estado(pk_att, pk_def, atk):
         ind = efecto.index("A_BURN")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att.nombre + " se ha quemado" + '\n')
+            #sys.stdout.write(pk_att.nombre + " se ha quemado" + '\n')
+            logger.info(pk_att.nombre + " se ha quemado" + '\n')
             pk_att.estado.append("BURN")
     if "A_RETRO" in efecto:
         ind = efecto.index("A_RETRO")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att.nombre + " ha retrocedido" + '\n')
+            #sys.stdout.write(pk_att.nombre + " ha retrocedido" + '\n')
+            logger.info(pk_att.nombre + " ha retrocedido" + '\n')
             pk_att.estado.append("RETRO")
     if "A_SLEEP" in efecto:
         ind = efecto.index("A_SLEEP")
         tmp = prob[ind]
         if(rd.choices([1, 0], weights=(int(tmp), (100 - int(tmp))), k=1)):
-            sys.stdout.write(pk_att.nombre + " se ha dormido" + '\n')
+            #sys.stdout.write(pk_att.nombre + " se ha dormido" + '\n')
+            logger.info(pk_att.nombre + " se ha dormido" + '\n')
             pk_att.estado.append("SLEEP")
         
     if "CURE" in efecto:
@@ -660,8 +697,9 @@ def cambio_estado(pk_att, pk_def, atk):
     if "N_PROB" in efecto:
         pk_att.estado.append("N_PROB")
         
-def ataque(pk_att, pk_def, atk, eff, pr):
-    sys.stdout.write(str(pk_att.nombre) + " utiliza " + str(atk.nombre) + '\n')
+def ataque(logger, pk_att, pk_def, atk, eff, pr):
+    #sys.stdout.write(str(pk_att.nombre) + " utiliza " + str(atk.nombre) + '\n')
+    logger.info(str(pk_att.nombre) + " utiliza " + str(atk.nombre) + '\n')
     rpt = 0
     dano = 0
     if "NO_CRIT" in pk_def.estado:
@@ -730,10 +768,11 @@ def ataque(pk_att, pk_def, atk, eff, pr):
                                               atk.potencia, acc, eff, stab, pk_att.nivel, prob_c)
             dano += dano1
             
-            cambio_estado(pk_att, pk_def, atk)
+            cambio_estado(logger, pk_att, pk_def, atk)
 
             if("ABSORB" in atk.efecto):
-                sys.stdout.write(pk_att + " ha drenado vida" + '\n')
+                #sys.stdout.write(pk_att + " ha drenado vida" + '\n')
+                logger.info(pk_att + " ha drenado vida" + '\n')
                 if ((pk_att.vida + dano/2) >= pk_att.vida_inicial):
                     pk_att.vida = pk_att.vida_inicial
                 else:
@@ -742,7 +781,8 @@ def ataque(pk_att, pk_def, atk, eff, pr):
             if("HEAL" in atk.efecto):
                 ind = atk.efecto.index("HEAL")
                 tmp = atk.cant[ind]
-                sys.stdout.write(str(pk_att.nombre) + " se curó " + str(pk_att.vida_inicial*(tmp/100)) + '\n')
+                #sys.stdout.write(str(pk_att.nombre) + " se curó " + str(pk_att.vida_inicial*(tmp/100)) + '\n')
+                logger.info(str(pk_att.nombre) + " se curó " + str(pk_att.vida_inicial*(tmp/100)) + '\n')
                 if ((pk_att.vida + pk_att.vida_inicial*(tmp/100)) >= pk_att.vida_inicial):
                     pk_att.vida = pk_att.vida_inicial
                 else:
@@ -752,19 +792,22 @@ def ataque(pk_att, pk_def, atk, eff, pr):
                 ind = atk.efecto.index("RECOIL")
                 tmp = atk.cant[ind]
                 if (pk_def.vida - dano > 0):
-                    sys.stdout.write("Se daña: " + str(dano) + 'por retroceso\n')
+                    #sys.stdout.write("Se daña: " + str(dano) + 'por retroceso\n')
+                    logger.info("Se daña: " + str(dano) + 'por retroceso\n')
                     pk_att.vida -= dano*tmp
 
             if ("RECOIL_HP" in atk.efecto):
                 ind = atk.efecto.index("RECOIL_HP")
                 tmp = atk.cant[ind]
                 if (pk_def.vida - dano > 0):
-                    sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*tmp) + 'por retroceso\n')
+                    #sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*tmp) + 'por retroceso\n')
+                    logger.info("Se daña: " + str(pk_att.vida_inicial*tmp) + 'por retroceso\n')
                     pk_att.vida -= pk_att.vida_inicial*tmp
 
             if ("AUT_DANO" in atk.efecto):
                 if (pk_def.vida - dano > 0):
-                    sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*0.5) + '\n')
+                    #sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*0.5) + '\n')
+                    logger.info("Se daña: " + str(pk_att.vida_inicial*0.5) + '\n')
                     pk_att.vida -= pk_att.vida_inicial*0.5
 
             if ("SAME_HP" in atk.efecto):
@@ -774,23 +817,28 @@ def ataque(pk_att, pk_def, atk, eff, pr):
             if ("SACRIFICIO" in atk.efecto):
                 dano = pk_att.vida
                 if (pk_def.vida - dano > 0):
-                    sys.stdout.write("Se sacrificia\n")
+                    #sys.stdout.write("Se sacrificia\n")
+                    logger.info("Se sacrificia\n")
                     pk_att.vida = 0
 
             if ("HP_HALF" in atk.efecto):
                 dano = round((pk_def.vida/2)+0.1, 0)
+                logger.info("Pierde la mitad de su vida\n")
 
             if ("DMG_LVL" in atk.efecto):
                 tmp = rd.randrange(5, 15)
                 dano = pk_att.nivel*(tmp/10)
+                logger.info("Se daña: " + str(dano) + '\n')
 
             if ("ATK_RED" in pk_def.estado) & (atk.clase == "Physical"):
-                pk_def.estado.remove("ATK_RED")            
+                pk_def.estado.remove("ATK_RED")
+                logger.info('Su daño es reducido\n')           
                 dano = dano * 0.5
 
             if ("SPATK_RED" in pk_def.estado) & (atk.clase == "Special"):
                 pk_def.estado.remove("SPATK_RED")            
                 dano = dano * 0.5
+                logger.info('Su daño es reducido\n')
 
             if ("AATK_RED" in pk_def.estado):
                 ind = pk_def.var_respaldo.index("atkred_count")
@@ -800,6 +848,7 @@ def ataque(pk_att, pk_def, atk, eff, pr):
                     pk_def.var_respaldo.pop(ind+1)
                     pk_def.var_respaldo.pop(ind)           
                 dano = dano * 0.5
+                logger.info('Su daño es reducido\n')
             
             if ("ATK_SEGURO" in atk.efecto):
                 dano = atk.potencia
@@ -810,6 +859,7 @@ def ataque(pk_att, pk_def, atk, eff, pr):
                     if st > 0:
                         mejora += st
                 dano = 20*mejora
+                logger.info('Ataque mejorado!\n')
             
             if ("RND_DMG" in atk.efecto):
                 pp = [10, 30, 50, 70, 90, 110, 150]
@@ -869,7 +919,7 @@ def ataque(pk_att, pk_def, atk, eff, pr):
         
         rpt += 1
 
-    cambio_stats(pk_att, pk_def, atk)
+    cambio_stats(logger, pk_att, pk_def, atk)
 
     return dano, crit, precis
 
@@ -913,10 +963,10 @@ def check_estado(pk_r, atk_r, pk_a, atk_a):
         pr_a = 1
 
     if ("CURE" in atk_a.efecto):
-        cambio_estado(pk_a, pk_r, atk_a)
+        cambio_estado(logger, pk_a, pk_r, atk_a)
 
     if ("CURE" in atk_r.efecto):
-        cambio_estado(pk_r, pk_a, atk_r)
+        cambio_estado(logger, pk_r, pk_a, atk_r)
 
     if ("PARAL" in pk_r.estado):
         par_r = 0.5
@@ -933,16 +983,18 @@ def check_estado(pk_r, atk_r, pk_a, atk_a):
     
     return par_r, pr_r, par_a, pr_a
 
-def enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2):
+def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
     if("HEALING" in pk_a.estado):
-        sys.stdout.write(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
+        #sys.stdout.write(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
+        logger.info(pk_a.nombre + " se curó " + str(pk_a.vida_inicial/16) + '\n')
         if ((pk_a.vida + pk_a.vida_inicial/16) >= pk_a.vida_inicial):
             pk_a.vida = pk_a.vida_inicial
         else:
             pk_a.vida += pk_a.vida_inicial/16
             
     if("HEALING" in pk_r.estado):
-        sys.stdout.write(pk_r.nombre + " se curó " + str(pk_r.vida_inicial/16) + '\n')
+        #sys.stdout.write(pk_r.nombre + " se curó " + str(pk_r.vida_inicial/16) + '\n')
+        logger.info(pk_r.nombre + " se curó " + str(pk_r.vida_inicial/16) + '\n')
         if ((pk_r.vida + pk_r.vida_inicial/16) >= pk_r.vida_inicial):
             pk_r.vida = pk_r.vida_inicial
         else:
@@ -998,199 +1050,229 @@ def enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2):
     
     spd_r = (pk_r.velocidad * spd_stg1 * par_r)
     spd_a = (pk_a.velocidad * spd_stg2 * par_a)
-    conf1 = 0
-    conf2 = 0
         
     if ("CONF" in pk_r.estado):
         values2 = [1, 0]
         conf1 = rd.choices(values2, weights=(33, 67), k=1)
-        sys.stdout.write(pk_r.nombre + "está confundido!" + '\n')
-        if conf1:
+        #sys.stdout.write(pk_r.nombre + "está confundido!" + '\n')
+        logger.info(pk_r.nombre + "está confundido!" + '\n')
+        if conf1 == 1:
             p_d = Atk("Pay Day")
-            dano, crit, precis = ataque(pk_r, pk_r, p_d, 1, 1)
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Crítico! Se daña: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Se daña: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            pr_r = 0
-            if pk_r.vida < 1:
-                return pk_r, pk_a 
+            dano, crit, precis = ataque(logger, pk_r, pk_r, p_d, 1, 1)
+        else:
+            dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if precis == 0 | conf1 == 1:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Crítico! Se daña: " + str(dano) + '\n')
+            logger.info("Crítico! Se daña: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Se daña: " + str(dano) + '\n')
+            logger.info("Se daña: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        pr_r = 0
+        if pk_r.vida < 1:
+            return pk_r, pk_a 
 
     if ("CONF" in pk_a.estado):
         values2 = [1, 0]
         conf2 = rd.choices(values2, weights=(33, 67), k=1)
-        sys.stdout.write(pk_a.nombre + "está confundido!" + '\n')
-        if conf2:
+        #sys.stdout.write(pk_a.nombre + "está confundido!" + '\n')
+        logger.info(pk_a.nombre + "está confundido!" + '\n')
+        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        if conf2 == 1:
             p_d = Atk("Pay Day")
-            dano, crit, precis = ataque(pk_a, pk_a, p_d, 1, 1)
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Crítico! Se daña: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Se daña: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            pr_a = 0
-            if pk_a.vida < 1:
-                return pk_r, pk_a  
+            dano, crit, precis = ataque(logger, pk_a, pk_a, p_d, 1, 1)
+        else:
+            dano, crit, precis = ataque(logger, pk_a, pk_a, atk_a, effi_a, pr_a)
+        if precis == 0 | conf2 == 1:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Crítico! Se daña: " + str(dano) + '\n')
+            logger.info("Crítico! Se daña: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Se daña: " + str(dano) + '\n')
+            logger.info("Se daña: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        pr_a = 0
+        if pk_a.vida < 1:
+            return pk_r, pk_a 
     
     if (("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)) and not(
         ("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)):
         if ("D_PRIOR" in pk_r.estado):
             pk_r.estado.remove("D_PRIOR")
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+            
         if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
+            dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
             if ("DOB_ATK" in atk_a.efecto):
                 dano += dano
             if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
+                #sys.stdout.write("El ataque falla" + '\n')
+                logger.info("El ataque falla" + '\n')
             elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+                #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+                logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
             else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
+                #sys.stdout.write("Golpea: " + str(dano) + '\n')
+                logger.info("Golpea: " + str(dano) + '\n')
             pk_r.vida -= dano
             if pk_r.vida < 1:
                 return pk_r, pk_a
-            dano_estado(pk_a)
+            dano_estado(logger, pk_a)
             if pk_a.vida < 1:
                 return pk_r, pk_a
-            sleep(1)
+            
     
     elif (("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)) and not(
         ("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)):
         if ("D_PRIOR" in pk_a.estado):
             pk_a.estado.remove("D_PRIOR")
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
-        if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
+
+        dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+            
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+            
     
     elif ("M_DPRIOR" in atk_r.efecto):
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
-        if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
-        
+
+        dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+            
+
     elif ("M_DPRIOR" in atk_a.efecto):
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
 
-        if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        
+        dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+            
     
     elif (spd_r > spd_a):
         if ("D_PRIOR" in pk_r.estado):
@@ -1201,41 +1283,44 @@ def enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2):
             pk_a.estado.append("D_PRIOR")
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
         
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
-
-        if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        
+        dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+            
         
     else:
         if ("D_PRIOR" in pk_r.estado):
@@ -1245,71 +1330,81 @@ def enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2):
         if ("D_PRIOR" in atk_a.efecto):
             pk_a.estado.append("D_PRIOR")
         par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
-        
-        if conf2 == 0:
-            dano, crit, precis = ataque(pk_a, pk_r, atk_a, effi_a, pr_a)
-            if ("DOB_ATK" in atk_a.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_r.vida -= dano
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_a)
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
 
-        if conf1 == 0:
-            dano, crit, precis = ataque(pk_r, pk_a, atk_r, effi_r, pr_r)
-            if ("DOB_ATK" in atk_r.efecto):
-                dano += dano
-            if precis == 0:
-                sys.stdout.write("El ataque falla" + '\n')
-            elif crit:
-                sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
-            else:
-                sys.stdout.write("Golpea: " + str(dano) + '\n')
-            pk_a.vida -= dano
-            if pk_a.vida < 1:
-                return pk_r, pk_a
-            dano_estado(pk_r)
-            if pk_r.vida < 1:
-                return pk_r, pk_a
-            sleep(1)
+        dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
+        if ("DOB_ATK" in atk_a.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_r.vida -= dano
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_a)
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+
+        dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
+        if ("DOB_ATK" in atk_r.efecto):
+            dano += dano
+        if precis == 0:
+            #sys.stdout.write("El ataque falla" + '\n')
+            logger.info("El ataque falla" + '\n')
+        elif crit:
+            #sys.stdout.write("Golpea crítico! Golpea: " + str(dano) + '\n')
+            logger.info("Golpea crítico! Golpea: " + str(dano) + '\n')
+        else:
+            #sys.stdout.write("Golpea: " + str(dano) + '\n')
+            logger.info("Golpea: " + str(dano) + '\n')
+        pk_a.vida -= dano
+        if pk_a.vida < 1:
+            return pk_r, pk_a
+        dano_estado(logger, pk_r)
+        if pk_r.vida < 1:
+            return pk_r, pk_a
+            
 
     return pk_r, pk_a
 
-def combate(pk_r, pk_a, eff, combat_type, atk_pk1=None, atk_pk2=None):
+def combate(logger, pk_r, pk_a, eff, combat_type, atk_pk1=None, atk_pk2=None):
     if combat_type == "CvC":
         log = 0
-        sys.stdout.write("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
+        #sys.stdout.write("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
+        logger.info("Combate entre " + str(pk_r.nombre) + " y " + str(pk_a.nombre) + '\n')
         while ((pk_r.vida > 0) and (pk_a.vida) > 0):
             log += 1            
-            pk_r, pk_a = enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2)                
+            pk_r, pk_a = enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2)                
             if (log) > 500000:
                 if pk_a.vida > pk_r.vida:
                     pk_r.vida = 0
                 else:
                     pk_a.vida = 0
             
-            sys.stdout.write("data_pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
-            sys.stdout.write("data_pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
+            #sys.stdout.write("data_pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
+            logger.info("data_pk1," + pk_r.nombre + "," + str(pk_r.vida_inicial) + "," + str(pk_r.vida) + "\n")
+            #sys.stdout.write("data_pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
+            logger.info("data_pk2," + pk_a.nombre + "," + str(pk_a.vida_inicial) + "," + str(pk_a.vida) + "\n")
 
     elif combat_type == "JvC_c":
-        pk_r, pk_a = enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2)
+        pk_r, pk_a = enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2)
 
     elif combat_type == "JvJ_c":
-        pk_r, pk_a = enfrentamiento(pk_r, pk_a, eff, atk_pk1, atk_pk2)      
+        pk_r, pk_a = enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2)      
     
     return pk_r, pk_a
 
 def main():
-    combat_type = sys.argv[1]
+    id_session = sys.argv[1]
+    combat_type = sys.argv[2]
+
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
     
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "../assets/dataframes.pkl")
@@ -1317,16 +1412,27 @@ def main():
         pk, moves, nat, eff, m_learn = pickle.load(f, encoding='latin1')
     
     if ((combat_type != "JvJ_c") & (combat_type != "JvC_c")):
-        sys.stdout.write("Definiendo parámetros..." + "\n")
-        if(str(sys.argv[2]) != "Aleatorio"):
+        
+        log_file = os.path.join(my_path, '../assets/session_' + id_session + '.log')
+        if os.path.exists(log_file):
+            os.remove(log_file)        
+        file_handler = logging.FileHandler(log_file, mode='a')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+        #sys.stdout.write("Definiendo parámetros..." + "\n")
+        logger.info('Definiendo parámetros\n')
+
+        if(str(sys.argv[3]) != "Aleatorio"):
             #Elige al azar cada Pokemon, su naturaleza y los ataques que utilizará
-            pok_r = Poke(str(sys.argv[2]), pk)              
+            pok_r = Poke(str(sys.argv[3]), pk)              
             pok_r.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
             
-            atk_r1 = sys.argv[4]
-            atk_r2 = sys.argv[5]
-            atk_r3 = sys.argv[6]
-            atk_r4 = sys.argv[7]
+            atk_r1 = sys.argv[5]
+            atk_r2 = sys.argv[6]
+            atk_r3 = sys.argv[7]
+            atk_r4 = sys.argv[8]
             pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
         
         else:
@@ -1341,16 +1447,17 @@ def main():
             atk_r3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             atk_r4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             pok_r.set_atk(atk_r1, atk_r2, atk_r3, atk_r4, moves)
-        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        #sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        logger.info("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
 
-        if (str(sys.argv[3]) != "Aleatorio"):
-            pok_a = Poke(str(sys.argv[3]), pk)   
+        if (str(sys.argv[4]) != "Aleatorio"):
+            pok_a = Poke(str(sys.argv[4]), pk)   
             pok_a.set_natur(nat.loc[rd.randrange(0, len(nat)-1, 1), 'Nature'], nat)
 
-            atk_a1 = sys.argv[8]
-            atk_a2 = sys.argv[9]
-            atk_a3 = sys.argv[10]
-            atk_a4 = sys.argv[11]
+            atk_a1 = sys.argv[9]
+            atk_a2 = sys.argv[10]
+            atk_a3 = sys.argv[11]
+            atk_a4 = sys.argv[12]
             pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
         
         else:
@@ -1365,75 +1472,96 @@ def main():
             atk_a3 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             atk_a4 = abilities.loc[rd.randrange(0, len(abilities)-1, 1), 'Move']
             pok_a.set_atk(atk_a1, atk_a2, atk_a3, atk_a4, moves)
-        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        #sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        logger.info("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
 
         if (combat_type != "CvC"):
-            sys.stdout.write("atk_pk1," + pok_r.atk1.nombre + "," + pok_r.atk2.nombre + "," + pok_r.atk3.nombre + "," + pok_r.atk4.nombre + "\n") 
-            sys.stdout.write("atk_pk2," + pok_a.atk1.nombre + "," + pok_a.atk2.nombre + "," + pok_a.atk3.nombre + "," + pok_a.atk4.nombre + "\n")
-            with open('projects/assets/pok.pkl', 'wb') as f:
+            #sys.stdout.write("atk_pk1," + pok_r.atk1.nombre + "," + pok_r.atk2.nombre + "," + pok_r.atk3.nombre + "," + pok_r.atk4.nombre + "\n")
+            logger.info("atk_pk1," + pok_r.atk1.nombre + "," + pok_r.atk2.nombre + "," + pok_r.atk3.nombre + "," + pok_r.atk4.nombre + "\n") 
+            #sys.stdout.write("atk_pk2," + pok_a.atk1.nombre + "," + pok_a.atk2.nombre + "," + pok_a.atk3.nombre + "," + pok_a.atk4.nombre + "\n")
+            logger.info("atk_pk2," + pok_a.atk1.nombre + "," + pok_a.atk2.nombre + "," + pok_a.atk3.nombre + "," + pok_a.atk4.nombre + "\n")
+            with open('projects/assets/pok_' + id_session + '.pkl', 'wb') as f:
                 pickle.dump((pok_r, pok_a), f)
         
     else:
-        my_path = os.path.abspath(os.path.dirname(__file__))
-        path = os.path.join(my_path, "../assets/pok.pkl")
-        with open(path, 'rb') as f:
+        log_file = os.path.join(my_path, '../assets/session_' + id_session + '.log')        
+        file_handler = logging.FileHandler(log_file, mode='a')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+        with open('projects/assets/pok_' + id_session + '.pkl', 'rb') as f:
             pok_r, pok_a = pickle.load(f, encoding='latin1')
     
     if(combat_type == "CvC"):
-        sys.stdout.write("Comenzando el combate CvC" + "\n")
-        pok_r, pok_a = combate(pok_r, pok_a, eff, combat_type)
+        #sys.stdout.write("Comenzando el combate CvC" + "\n")
+        logger.info("Comenzando el combate CvC" + "\n")
+        pok_r, pok_a = combate(logger, pok_r, pok_a, eff, combat_type)
         if pok_r.vida < 1:
             winner = pok_a
         if pok_a.vida < 1:
             winner = pok_r
 
-        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
+        #sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        logger.info("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        #sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        logger.info("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        #sys.stdout.write("El ganador es: " + str(winner.nombre) + "\n")
+        logger.info("El ganador es: " + str(winner.nombre) + "\n")
     
     elif(combat_type == "JvJ"):
-        sys.stdout.write("Comenzando el combate JvJ" + "\n")
+        #sys.stdout.write("Comenzando el combate JvJ" + "\n")
+        logger.info("Comenzando el combate JvJ" + "\n")
     
     elif(combat_type == "JvC"):
-        sys.stdout.write("Comenzando el combate JvC" + "\n")
+        #sys.stdout.write("Comenzando el combate JvC" + "\n")
+        logger.info("Comenzando el combate JvC" + "\n")
     
     elif(combat_type == "JvJ_c"):
-        atk_p1 = sys.argv[2].replace("\"", "")
-        atk_p2 = sys.argv[3].replace("\"", "")
-        pok_r, pok_a = combate(pok_r, pok_a, eff, combat_type, atk_p1, atk_p2)
-        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        with open('projects/assets/pok.pkl', 'wb') as f:
+        atk_p1 = sys.argv[3].replace("\"", "")
+        atk_p2 = sys.argv[4].replace("\"", "")
+        pok_r, pok_a = combate(logger, pok_r, pok_a, eff, combat_type, atk_p1, atk_p2)
+        #sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        logger.info("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        #sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        logger.info("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        with open('projects/assets/pok_' + id_session + '.pkl', 'wb') as f:
                 pickle.dump((pok_r, pok_a), f)
         if pok_r.vida <= 0:
-            sys.stdout.write("El ganador es: " + str(pok_a.nombre) + "\n")
+            #sys.stdout.write("El ganador es: " + str(pok_a.nombre) + "\n")
+            logger.info("El ganador es: " + str(pok_a.nombre) + "\n")
         elif pok_a.vida <= 0:
-            sys.stdout.write("El ganador es: " + str(pok_r.nombre) + "\n")
+            #sys.stdout.write("El ganador es: " + str(pok_r.nombre) + "\n")
+            logger.info("El ganador es: " + str(pok_r.nombre) + "\n")
     
     elif(combat_type == "JvC_c"):
-        atk_p1 = sys.argv[2].replace("\"", "")
-        pok_r, pok_a = combate(pok_r, pok_a, eff, combat_type, atk_p1)
-        sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
-        sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
-        with open('projects/assets/pok.pkl', 'wb') as f:
+        atk_p1 = sys.argv[3].replace("\"", "")
+        pok_r, pok_a = combate(logger, pok_r, pok_a, eff, combat_type, atk_p1)
+        #sys.stdout.write("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        logger.info("data_pk1," + pok_r.nombre + "," + str(pok_r.vida_inicial) + "," + str(pok_r.vida) + "\n")
+        #sys.stdout.write("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        logger.info("data_pk2," + pok_a.nombre + "," + str(pok_a.vida_inicial) + "," + str(pok_a.vida) + "\n")
+        with open('projects/assets/pok_' + id_session + '.pkl', 'wb') as f:
                 pickle.dump((pok_r, pok_a), f)
         if pok_r.vida <= 0:
-            sys.stdout.write("El ganador es: " + str(pok_a.nombre) + "\n")
+            #sys.stdout.write("El ganador es: " + str(pok_a.nombre) + "\n")
+            logger.info("El ganador es: " + str(pok_a.nombre) + "\n")
         elif pok_a.vida <= 0:
-            sys.stdout.write("El ganador es: " + str(pok_r.nombre) + "\n")
+            #sys.stdout.write("El ganador es: " + str(pok_r.nombre) + "\n")
+            logger.info("El ganador es: " + str(pok_r.nombre) + "\n")
 
 if __name__ == "__main__":
     main()
 
 ##### CvC - JvJ - JvC ####      ###### JvJ_c ##############
-## sys.argv[1] combat_type      ## sys.argv[1] combat_type
-## sys.argv[2] pk1              ## sys.argv[2] atk_p1
-## sys.argv[3] pk2              ## sys.argv[3] atk_p2
-## sys.argv[4] pk1_atk1
-## sys.argv[5] pk1_atk2
-## sys.argv[6] pk1_atk3
-## sys.argv[7] pk1_atk4
-## sys.argv[8] pk2_atk1
-## sys.argv[9] pk2_atk2
-## sys.argv[10] pk2_atk3
-## sys.argv[11] pk2_atk4
+## sys.argv[1] id_session       ## sys.argv[1] id_session
+## sys.argv[2] combat_type      ## sys.argv[2] combat_type
+## sys.argv[3] pk1              ## sys.argv[3] atk_p1
+## sys.argv[4] pk2              ## sys.argv[4] atk_p2
+## sys.argv[5] pk1_atk1
+## sys.argv[6] pk1_atk2
+## sys.argv[7] pk1_atk3
+## sys.argv[8] pk1_atk4
+## sys.argv[9] pk2_atk1
+## sys.argv[10] pk2_atk2
+## sys.argv[11] pk2_atk3
+## sys.argv[12] pk2_atk4

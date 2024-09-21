@@ -55,41 +55,43 @@
                                 {% endfor %}
                             </select>
                         </ul>
-                        <div id='pk_ability1'>
-                            <ul class=pk>
-                                <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
-                                    {% for ability in abilities1 %}
+                        <div id="habilidades1">
+                            <div id='pk_ability1'>
+                                <ul class=pk>
+                                    <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
+                                        {% for ability in abilities1 %}
+                                            <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability2'>
+                                <ul class=pk>
+                                    <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
+                                        {% for ability in abilities1 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability2'>
-                            <ul class=pk>
-                                <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
-                                    {% for ability in abilities1 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability3'>
-                            <ul class=pk>
-                                <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
-                                    {% for ability in abilities1 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability4'>
-                            <ul class=pk>
-                                <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
-                                    {% for ability in abilities1 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability3'>
+                                <ul class=pk>
+                                    <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
+                                        {% for ability in abilities1 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability4'>
+                                <ul class=pk>
+                                    <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
+                                        {% for ability in abilities1 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div id="pk1_life"></div>
@@ -116,41 +118,43 @@
                                 {% endfor %}
                             </select>
                         </ul>
-                        <div id='pk_ability1'>
-                            <ul class=pk>
-                                <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
-                                    {% for ability in abilities2 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability2'>
-                            <ul class=pk>
-                                <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
-                                    {% for ability in abilities2 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability3'>
-                            <ul class=pk>
-                                <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
-                                    {% for ability in abilities2 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
-                        </div>
-                        <div id='pk_ability4'>
-                            <ul class=pk>
-                                <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
-                                    {% for ability in abilities2 %}
-                                    <option value="{{ ability }}">{{ ability }}</option>
-                                    {% endfor %}
-                                </select>
-                            </ul>
+                        <div id="habilidades2">
+                            <div id='pk_ability1'>
+                                <ul class=pk>
+                                    <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
+                                        {% for ability in abilities2 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability2'>
+                                <ul class=pk>
+                                    <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
+                                        {% for ability in abilities2 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability3'>
+                                <ul class=pk>
+                                    <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
+                                        {% for ability in abilities2 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
+                            <div id='pk_ability4'>
+                                <ul class=pk>
+                                    <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
+                                        {% for ability in abilities2 %}
+                                        <option value="{{ ability }}">{{ ability }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div id="pk2_life"></div>
@@ -169,26 +173,18 @@
                             <form>
                                 <button id="ataque3_pk1" secondary atk3_p1>Ataque 3</button>
                             </form>
-                            <form></form>
+                            <form>
                                 <button id="ataque4_pk1" secondary atk4_p1>Ataque 4</button>
                             </form>
                         </ul>
                     </div>
                 </section>
-                <section>
-                    <div id="ataque_pk1_seleccionado">
-
-                    </div>
-                </section>
-                <section>
-                    <form>
-                        <button id="atacar" secondary atk1_p2>Ataquen!</button>
-                    </form>
-                </section>
-                <section>
-                    <div id="ataque_pk2_seleccionado">
-                        
-                    </div>
+                <section class="pk">
+                    <ul>
+                        <form>
+                            <button id="atacar">Ataquen!</button>
+                        </form>
+                    </ul>
                 </section>
                 <section>
                     <div id='ataques_pk2'>
@@ -202,15 +198,71 @@
                             <form>
                                 <button id="ataque3_pk2" secondary atk3_p2>Ataque 3</button>
                             </form>
-                            <form></form>
+                            <form>
                                 <button id="ataque4_pk2" secondary atk4_p2>Ataque 4</button>
                             </form>
                         </ul>
                     </div>
                 </section>
             </section>
-        <section id="resultado" class="resultado">
+            <section id="info" class="pk-life-container">
+                <div id="info_pk1">
+                    <div id="pk1_name"></div>
+                    <div id="pk1_tipo1"></div>
+                    <div id="pk1_tipo2"></div>
+                    <div id="pk1_hp"></div>
+                    <div id="pk1_atk"></div>
+                    <div id="pk1_def"></div>
+                    <div id="pk1_spatk"></div>
+                    <div id="pk1_spdef"></div>
+                    <div id="pk1_speed"></div>
+                    <div id="pk1_img"></div>
+                </div>
+                <form id="JvC">
+                    <button type="button" secondary seleccionar_pk>Seleccionar estos Pokemons</button>
+                </form>
+                <div id="info_pk2">
+                    <div id="pk2_name"></div>
+                    <div id="pk2_tipo1"></div>
+                    <div id="pk2_tipo2"></div>
+                    <div id="pk2_hp"></div>
+                    <div id="pk2_atk"></div>
+                    <div id="pk2_def"></div>
+                    <div id="pk2_spatk"></div>
+                    <div id="pk2_spdef"></div>
+                    <div id="pk2_speed"></div>
+                    <div id="pk2_img"></div>
+                </div>
+            </section>
+            <section class="pk-life-container" secondary attack-selected>
+                <section class="pk">
+                    <div id="ataque_pk1_seleccionado">
+                        <ul id="atk1_name"></ul>
+                        <ul id="atk1_tipo"></ul>
+                        <ul id="atk1_pow"></ul>
+                        <ul id="atk1_acc"></ul>
+                        <ul id="atk1_class"></ul>
+                        <ul id="atk1_eff"></ul>
+                    </div>
+                </section>
+                <section class="pk">
+                    <div id="ataque_pk2_seleccionado">
+                        <ul id="atk2_name"></ul>
+                        <ul id="atk2_tipo"></ul>
+                        <ul id="atk2_pow"></ul>
+                        <ul id="atk2_acc"></ul>
+                        <ul id="atk2_class"></ul>
+                        <ul id="atk2_eff"></ul>
+                    </div>
+                </section>
+            </section>
+            <section id="resultado" class="resultado">
+            </section>
         </section>
+    </section>
+    <section>
+        <h6>id: <h6 id="id">{{random_id}}</h6><h6 id="actualizacion"></h6></h6>
+        <h6 id="prueba"></h6>
     </section>
     <script>
         const encabezado = document.getElementById("encabezado_msj"); /*Mensaje de encabezado*/
@@ -220,6 +272,7 @@
         const resultado = document.getElementById("resultado"); /*Mensaje con los resultados*/
         const pk1_life = document.getElementById("pk1_life"); /*Barra de vida de pk1*/
         const pk2_life = document.getElementById("pk2_life"); /*Barra de vida de pk2*/
+
         const boton_peleas = document.getElementById("boton"); /*Grupo de botones de inicio de combate*/
         const button_inicio_JvJ = form_JvJ.querySelector("button[secondary][inicio_JvJ]"); /*Botón inicio JvJ*/
         const button_inicio_JvC = form_JvC.querySelector("button[secondary][inicio_JvC]"); /*Botón inicio JvC*/
@@ -230,11 +283,11 @@
         const button_atras = document.querySelector('button[secondary][atras_modo]'); /*Botón atrás para selección de modo*/
         const button_combate = document.querySelector('button[secondary][atras_combate]'); /*Botón para volver a combatir*/
         /*const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');*/
+
         const pk1_select = document.getElementById("pk1_select"); /*Div de pk1*/
         const pokemon1Select = document.getElementById("pokemon1"); /*Selector pk1*/
         const pkLifeContainer = document.querySelector('.pk-life-container[secondary][selector]');  /*Sección de selección de pks y habilidades*/
         const pkbuttonContainer = document.querySelector('.pk-life-container[secondary][buttons]');  /*Sección de botones de pks y habilidades*/
-        const pk2button = document.getElementById("ataques_pk2"); /*Botones de ataque pk2*/
         const pk1_ability1Select = document.getElementById("pk1_ability1"); /*Selector habilidad 1 pk1*/
         const pk1_ability2Select = document.getElementById("pk1_ability2"); /*Selector habilidad 2 pk1*/
         const pk1_ability3Select = document.getElementById("pk1_ability3"); /*Selector habilidad 3 pk1*/
@@ -243,6 +296,7 @@
         const pk1_ability2Button = document.getElementById("ataque2_pk1"); /*Botón habilidad 2 pk1*/
         const pk1_ability3Button = document.getElementById("ataque3_pk1"); /*Botón habilidad 3 pk1*/
         const pk1_ability4Button = document.getElementById("ataque4_pk1"); /*Botón habilidad 4 pk1*/
+
         const pk2_select = document.getElementById("pk2_select"); /*Div de pk2*/
         const pokemon2Select = document.getElementById("pokemon2"); /*Selector pk2*/
         const pk2_ability1Select = document.getElementById("pk2_ability1"); /*Selector habilidad 1 pk2*/
@@ -253,29 +307,66 @@
         const pk2_ability2Button = document.getElementById("ataque2_pk2"); /*Botón habilidad 2 pk2*/
         const pk2_ability3Button = document.getElementById("ataque3_pk2"); /*Botón habilidad 3 pk2*/
         const pk2_ability4Button = document.getElementById("ataque4_pk2"); /*Botón habilidad 4 pk2*/
+
+        const habilidades1 = document.getElementById("habilidades1"); /*Habilidades*/
+        const habilidades2 = document.getElementById("habilidades2"); /*Habilidades*/
+
         const atacar = document.getElementById("atacar"); /*Botón para iniciar ataque JvJ y JvC*/
         const atk1_sel = document.getElementById("ataque_pk1_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 1*/
         const atk2_sel = document.getElementById("ataque_pk2_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 2*/
+        const atkselected = document.querySelector(".pk-life-container[secondary][attack-selected]"); /*Contenedor de las etiquetas de ataque seleccionado*/
         const modo = document.querySelector('.modo'); /*Sección de selección de modo de combate*/
         const atras = document.querySelector('.atras'); /*Sección de botones de atrás*/
         const barra_datos = document.getElementById('carga_datos'); /*Barra de carga de datos inicial*/
         const label1 = document.querySelector('label[for="pokemon1"]'); /*Etiqueta de selector pk1*/
         const label2 = document.querySelector('label[for="pokemon2"]'); /*Etiqueta de selector pk2*/
+        const id = document.getElementById("id"); /*id de ejecución*/
+        const actualizacion = document.getElementById("actualizacion"); /*Última actualización*/
+        const prueba = document.getElementById('prueba'); /*Seccion para pruebas*/
+
+        const info_pk = document.getElementById("info"); /*Contenedor de información*/
+        const select_pk = document.querySelector('button[secondary][seleccionar_pk]'); /*Botón de selección de pks*/
+
+        const info_pk1 = document.getElementById('info_pk1'); /*Contenedor con info del pk1 seleccionado*/
+        const pk1_nombre = document.getElementById('pk1_name'); /*Nombre del pk1 seleccionado*/
+        const pk1_tipo1 = document.getElementById('pk1_tipo1'); /*Tipo1 del pk1 seleccionado*/
+        const pk1_tipo2 = document.getElementById('pk1_tipo2'); /*Tipo2 del pk1 seleccionado*/
+        const pk1_hp = document.getElementById('pk1_hp'); /*Vida del pk1 seleccionado*/
+        const pk1_atk = document.getElementById('pk1_atk'); /*Ataque del pk1 seleccionado*/
+        const pk1_def = document.getElementById('pk1_def'); /*Defensa del pk1 seleccionado*/
+        const pk1_spatk = document.getElementById('pk1_spatk'); /*SpAtaque del pk1 seleccionado*/
+        const pk1_spdef = document.getElementById('pk1_spdef'); /*SpDefensa del pk1 seleccionado*/
+        const pk1_spd = document.getElementById('pk1_speed'); /*Velocidad del pk1 seleccionado*/
+        const pk1_img = document.getElementById('pk1_img'); /*Imagen del pk1 seleccionado*/
+
+        const info_pk2 = document.getElementById('info_pk2'); /*Contenedor con info del pk2 seleccionado*/
+        const pk2_nombre = document.getElementById('pk2_name'); /*Nombre del pk2 seleccionado*/
+        const pk2_tipo1 = document.getElementById('pk2_tipo1'); /*Tipo1 del pk2 seleccionado*/
+        const pk2_tipo2 = document.getElementById('pk2_tipo2'); /*Tipo2 del pk2 seleccionado*/
+        const pk2_hp = document.getElementById('pk2_hp'); /*Vida del pk2 seleccionado*/
+        const pk2_atk = document.getElementById('pk2_atk'); /*Ataque del pk2 seleccionado*/
+        const pk2_def = document.getElementById('pk2_def'); /*Defensa del pk2 seleccionado*/
+        const pk2_spatk = document.getElementById('pk2_spatk'); /*SpAtaque del pk2 seleccionado*/
+        const pk2_spdef = document.getElementById('pk2_spdef'); /*SpDefensa del pk2 seleccionado*/
+        const pk2_spd = document.getElementById('pk2_speed'); /*Velocidad del pk2 seleccionado*/
+        const pk2_img = document.getElementById('pk2_img'); /*Imagen del pk2 seleccionado*/
         
         window.addEventListener('load', function () {
             modo.style.display = 'none';
             fetch("/pokemon_load")
                 .then((response) => {
                     if (response.ok) {
-                        const eventSource = new EventSource("/pokemon_load_stream");
+                        /*const eventSource = new EventSource("/pokemon_load_stream");
                         eventSource.onmessage = (event) => {
-                            barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando datos...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
+                            /*barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando datos...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
                                 event.data.substring(0, 3) + " max=100></progress></div>\n";
                             if (Number(event.data.substring(0, 3)).toString() == 100) {
                                 modo.style.display = "block";
                                 barra_datos.style.display = "none"
                             }
-                        };
+                        };*/
+                        barra_datos.style.display = "none"
+                        modo.style.display = "block";
                     };
                 })
                 .catch((error) => {
@@ -283,11 +374,113 @@
                 });
         });
 
-        function acciones(response) {
+        function mostrar() {
+            const [hours_d, minutes_d, seconds_d] = actualizacion.innerText.split(':');
+            const id_s = document.getElementById("id").innerText;
+            desiredTimeThreshold = parseInt(hours_d) * 3600 + parseInt(minutes_d) * 60 + parseInt(seconds_d);
+            fetch('/pksession.log', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({id_s})
+            })
+                .then(response => response.text())
+                .then(data => {
+                    const parsedLog = data.split('\n').filter(line => line.trim() !== '').map(line => {
+                        const [datetime, , message] = line.trim().split(' - ');
+                        const [date, time] = datetime.trim().split(' ');
+                        return {
+                            date,
+                            time,
+                            message
+                        };
+                        }).filter(entry => {
+                            const [hours, minutes, seconds] = entry.time.split(':');
+                            const timeInSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
+                        return timeInSeconds > desiredTimeThreshold;
+                        });
+                        for (let i = 0; i < parsedLog.length; i++) {
+                            (function(index) {
+                                setTimeout(function() {
+                                    const logMsg = parsedLog[index].message;
+                                    const partes = logMsg.split(',');
+                                    if (logMsg.includes("data_pk1")) {
+                                        const v_max = partes[partes.length - 2];
+                                        const vida = partes[partes.length - 1];
+                                        porcentaje = Math.round((vida / v_max) * 100).toString()
+                                        pk1_life.innerHTML = "<ul id=pk1_life class=pk><div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div></ul>";
+                                    }
+                                    else if (logMsg.includes("data_pk2")) {
+                                        const v_max = partes[partes.length - 2];
+                                        const vida = partes[partes.length - 1];
+                                        porcentaje = Math.round((vida / v_max) * 100).toString();
+                                        pk2_life.innerHTML = "<ul id=pk2_life class=pk><div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div></ul>";
+                                    }
+                                    else if (logMsg.includes("atk_pk1")) {
+                                        pk1_ability1Button.innerText = partes[1];
+                                        pk1_ability2Button.innerText = partes[2];
+                                        pk1_ability3Button.innerText = partes[3];
+                                        pk1_ability4Button.innerText = partes[4];
+                                    }
+                                    else if (logMsg.includes("atk_pk2")) {
+                                        pk2_ability1Button.innerText = partes[1];
+                                        pk2_ability2Button.innerText = partes[2];
+                                        pk2_ability3Button.innerText = partes[3];
+                                        pk2_ability4Button.innerText = partes[4];
+                                    }
+                                    else if ((logMsg == "Definiendo parámetros...") | (logMsg.includes("Comenzando el combate"))) {
+                                        encabezado.innerHTML += logMsg + "<br>";
+                                    }
+                                    else if (logMsg.includes("El ganador")) {
+                                        encabezado.innerHTML += "Combate finalizado. " + logMsg + "<br>";
+                                        atras.style.display = "block";
+                                        clearInterval(intervalId);
+                                    }
+                                    else if (logMsg.includes("Error!!")) {
+                                        if (!(encabezado.innerHTML.includes("El ganador")) & !(encabezado.innerHTML.includes("JvJ")) & !(encabezado.innerHTML.includes("JvC"))) {
+                                            resultado.innerHTML = "";
+                                            encabezado.innerHTML += "Hubo un error!! Por favor vuelva a intentarlo.<br>";
+                                            pk1_life.innerHTML = '';
+                                            pk2_life.innerHTML = '';
+                                            atras.style.display = "block";
+                                            clearInterval(intervalId);
+                                        }
+                                    }
+                                    else {
+                                        resultado.innerHTML += logMsg + "<br>";
+                                    }
+                                }, index * 100);
+                            })(i);
+                        }
+                        actualizacion.innerText = parsedLog[parsedLog.length-1].time;
+                })
+            .catch(error => console.log("Error al leer el archivo session.log", error));
+        }
+
+        function acciones(response, modo) {
             const pokemon1 = document.getElementById("pokemon1").value;
             const pokemon2 = document.getElementById("pokemon2").value;
+
+            let intervalId = null;
+            if (!(encabezado.innerHTML.includes("JvJ") | encabezado.innerHTML.includes("JvC"))){
+                actualizacion.innerText = "00:00:00"
+            }
+
             if (response.ok) {
-                const eventSource = new EventSource("/pokemon_combat_stream");
+                const startTime = new Date().getTime();
+                while (new Date().getTime() - startTime < 1000) {
+                // No hacer nada, solo esperar
+                }
+                if (modo == 'CvC'){
+                    intervalId = setInterval(mostrar(), 2500);
+                }
+                else {
+                    mostrar();
+                }
+                /*const eventSource = new EventSource("/pokemon_combat_stream");
                 eventSource.onmessage = (event) => {
                     if (event.data.includes("data_pk1")) {
                         const partes = event.data.split(',');
@@ -344,7 +537,7 @@
                 };
                 eventSource.onopen = () => {
                     console.log("Conexión establecida con el servidor");
-                };
+                };*/
             } else {
                 console.log("Error al iniciar la ejecución del script");
             }
@@ -364,6 +557,7 @@
             const pk2_ability2 = document.getElementById("pk2_ability2").value; 
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
+            const id_s = document.getElementById("id").innerText;
             boton_peleas.style.display = "none";
             pk1_select.style.display = "none";
             pk2_select.style.display = "none";
@@ -373,10 +567,10 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({modo_combate: "CvC", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
+                body: JSON.stringify({id_s, modo_combate: "CvC", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
             })
                 .then((response) => {
-                    acciones(response);
+                    acciones(response, 'CvC');
                 })
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
@@ -398,6 +592,7 @@
             const pk2_ability2 = document.getElementById("pk2_ability2").value; 
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
+            const id_s = document.getElementById("id").innerText;
             boton_peleas.style.display = "none";
             pk1_select.style.display = "none";
             pk2_select.style.display = "none";
@@ -406,12 +601,11 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({modo_combate: "JvJ", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
+                body: JSON.stringify({id_s, modo_combate: "JvJ", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
             })
                 .then((response) => {
+                    acciones(response, 'JvJ');
                     pkbuttonContainer.style.display = "flex";
-                    pk2button.style.display = "block";
-                    acciones(response);
                 })
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
@@ -433,6 +627,7 @@
             const pk2_ability2 = document.getElementById("pk2_ability2").value; 
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
+            const id_s = document.getElementById("id").innerText;
             boton_peleas.style.display = "none";
             pk1_select.style.display = "none";
             pk2_select.style.display = "none";
@@ -441,12 +636,11 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({modo_combate: "JvC", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
+                body: JSON.stringify({id_s, modo_combate: "JvC", pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4})
             })
                 .then((response) => {
+                    acciones(response, 'JvC');
                     pkbuttonContainer.style.display = "flex";
-                    pk2button.style.display = "none";
-                    acciones(response);
                 })
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
@@ -454,14 +648,33 @@
         });
 
         pokemon1Select.addEventListener("change", async () => {
+            info_pk.style.display = "flex";
             const pokemon1Value = pokemon1Select.value;
             barra_datos.innerHTML = pokemon1Value;
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pokemon1Value})
+            });
+            const info = await resp_info.json();
+            pk1_nombre.innerHTML = "Nombre: " + pokemon1Value;
+            pk1_tipo1.innerHTML = "Tipo 1: " + info.tipo1;
+            pk1_tipo2.innerHTML = "Tipo 2: " + info.tipo2;
+            pk1_hp.innerHTML = "Vida: " + info.hp;
+            pk1_atk.innerHTML = "Ataque: " + info.atk;
+            pk1_def.innerHTML = "Defensa: " + info.deff;
+            pk1_spatk.innerHTML = "Ataque Esp.: " + info.sp_atk;
+            pk1_spdef.innerHTML = "Defensa Esp.: " + info.sp_def;
+            pk1_spd.innerHTML = "Velocidad: " + info.speed;
+            pk1_img.innerHTML = '<img src=' + info.img + ' alt=Imagen style="width: 50%; height: 50%";>';
             const response =  await fetch("/get_abilities", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ pokemon: pokemon1Value })
+                body: JSON.stringify({pokemon: pokemon1Value})
             });
             const abilities1 = await response.json();
             pk1_ability1Select.innerHTML = "";
@@ -492,17 +705,38 @@
                 option.text = ability;
                 pk1_ability4Select.appendChild(option);
             });
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
         });
         
         pokemon2Select.addEventListener("change", async () => {
+            info_pk.style.display = "flex";
             const pokemon2Value = pokemon2Select.value;
             barra_datos.innerHTML = pokemon2Value;
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pokemon2Value})
+            });
+            const info = await resp_info.json();
+            pk2_nombre.innerHTML = "Nombre: " + pokemon2Value;
+            pk2_tipo1.innerHTML = "Tipo 1: " + info.tipo1;
+            pk2_tipo2.innerHTML = "Tipo 2: " + info.tipo2;
+            pk2_hp.innerHTML = "Vida: " + info.hp;
+            pk2_atk.innerHTML = "Ataque: " + info.atk;
+            pk2_def.innerHTML = "Defensa: " + info.deff;
+            pk2_spatk.innerHTML = "Ataque Esp.: " + info.sp_atk;
+            pk2_spdef.innerHTML = "Defensa Esp.: " + info.sp_def;
+            pk2_spd.innerHTML = "Velocidad: " + info.speed;
+            pk2_img.innerHTML = '<img src=' + info.img + ' alt=Imagen style="width: 50%; height: 50%";>';
             const response = await fetch("/get_abilities", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ pokemon: pokemon2Value })
+                body: JSON.stringify({pokemon: pokemon2Value})
             });
             const abilities2 = await response.json();
             pk2_ability1Select.innerHTML = "";
@@ -533,6 +767,15 @@
                 option.text = ability;
                 pk2_ability4Select.appendChild(option);
             });
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
+        });
+
+        select_pk.addEventListener("click", (e) => {
+            e.preventDefault();
+            info_pk.style.display = "none";
+            habilidades1.style.display = "block";
+            habilidades2.style.display = "block";
         });
 
         button_CvC.addEventListener('click', (e) => {
@@ -568,6 +811,8 @@
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block";
+                habilidades1.style.display = "none";
+                habilidades2.style.display = "none";
         });
 
         button_JvJ.addEventListener('click', (e) => {
@@ -603,6 +848,8 @@
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block";
+                habilidades1.style.display = "none";
+                habilidades2.style.display = "none";
         });
 
         button_JvC.addEventListener('click', (e) => {
@@ -638,6 +885,8 @@
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block"; 
+                habilidades1.style.display = "none";
+                habilidades2.style.display = "none";
         });
 
         button_atras.addEventListener("click", (e) => {
@@ -656,6 +905,29 @@
             pkbuttonContainer.style.display = "none";
             atk1_sel.innerHTML = "";
             atk2_sel.innerHTML = "";
+            atkselected.style.display = "none";
+
+            info_pk.style.display = "none";
+            pk1_nombre.innerHTML = "";
+            pk1_tipo1.innerHTML = "";
+            pk1_tipo2.innerHTML = "";
+            pk1_hp.innerHTML = "";
+            pk1_atk.innerHTML = "";
+            pk1_def.innerHTML = "";
+            pk1_spatk.innerHTML = "";
+            pk1_spdef.innerHTML = "";
+            pk1_spd.innerHTML = "";
+            pk1_img.innerHTML = "";
+            pk2_nombre.innerHTML = "";
+            pk2_tipo1.innerHTML = "";
+            pk2_tipo2.innerHTML = "";
+            pk2_hp.innerHTML = "";
+            pk2_atk.innerHTML = "";
+            pk2_def.innerHTML = "";
+            pk2_spatk.innerHTML = "";
+            pk2_spdef.innerHTML = "";
+            pk2_spd.innerHTML = "";
+            pk2_img.innerHTML = "";
         });
         
         button_combate.addEventListener("click", (e) => {
@@ -668,56 +940,89 @@
             pk2_life.innerHTML = "";
             encabezado.innerHTML = "";
             resultado.innerHTML = "";
-            atk1_sel.innerHTML = "";
-            atk2_sel.innerHTML = "";
+            atk1_sel.innerText = "";
+            atk2_sel.innerText = "";
+            atkselected.style.display = "none";
+            info_pk.style.display = "none";
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
         });
         
         pk1_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
+            atkselected.style.display = "flex";
             const ab1 = pk1_ability1Button.innerText;
-            atk1_sel.innerHTML = ab1;
+            atk1_sel.innerText = ab1;
         });
         pk1_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
+            atkselected.style.display = "flex";
             const ab2 = pk1_ability2Button.innerText;
-            atk1_sel.innerHTML = ab2;
+            atk1_sel.innerText = ab2;
         });
         pk1_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
+            atkselected.style.display = "flex";
             const ab3 = pk1_ability3Button.innerText;
-            atk1_sel.innerHTML = ab3;
+            atk1_sel.innerText = ab3;
         });
         pk1_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
+            atkselected.style.display = "flex";
             const ab4 = pk1_ability4Button.innerText;
-            atk1_sel.innerHTML = ab4;
+            atk1_sel.innerText = ab4;
         });
 
         pk2_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
-            const ab1 = pk2_ability1Button.innerText;
-            atk2_sel.innerHTML = ab1;
+            atkselected.style.display = "flex";
+            if(encabezado.innerHTML.includes("JvC")) {
+                atk2_sel.innerText = "La computadora elegirá el ataque!"
+            }
+            else {
+                const ab1 = pk2_ability1Button.innerText;
+                atk2_sel.innerText = ab1;
+            }
         });
         pk2_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
-            const ab2 = pk2_ability2Button.innerText;
-            atk2_sel.innerHTML = ab2;
+            atkselected.style.display = "flex";
+            if(encabezado.innerHTML.includes("JvC")) {
+                atk2_sel.innerText = "La computadora elegirá el ataque!"
+            }
+            else {
+                const ab2 = pk2_ability2Button.innerText;
+                atk2_sel.innerText = ab2;
+            }
         });
         pk2_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
-            const ab3 = pk2_ability3Button.innerText;
-            atk2_sel.innerHTML = ab3;
+            atkselected.style.display = "flex";
+            if(encabezado.innerHTML.includes("JvC")) {
+                atk2_sel.innerText = "La computadora elegirá el ataque!"
+            }
+            else {
+                const ab3 = pk2_ability3Button.innerText;
+                atk2_sel.innerText = ab3;
+            }
         });
         pk2_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
-            const ab4 = pk2_ability4Button.innerText;
-            atk2_sel.innerHTML = ab4;
+            atkselected.style.display = "flex";
+            if(encabezado.innerHTML.includes("JvC")) {
+                atk2_sel.innerText = "La computadora elegirá el ataque!"
+            }
+            else {
+                const ab4 = pk2_ability4Button.innerText;
+                atk2_sel.innerText = ab4;
+            }
         });
         
         atacar.addEventListener("click", (e) => {
             e.preventDefault();
             atk_pk1 = atk1_sel.innerHTML;
             atk_pk2 = atk2_sel.innerHTML;
+            id_s = document.getElementById("id").innerText;
             if (encabezado.innerHTML.includes("JvJ")) {
                 modo_combate = "JvJ_c";
             }
@@ -729,7 +1034,7 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({modo_combate, atk_pk1, atk_pk2})
+                body: JSON.stringify({id_s, modo_combate, atk_pk1, atk_pk2})
             })
                 .then((response) => {
                     acciones(response);

@@ -1,0 +1,28 @@
+2024-09-21 20:31:38,352 - INFO - Definiendo parámetros
+
+2024-09-21 20:31:38,388 - INFO - data_pk1,Swanna,104,104
+
+2024-09-21 20:31:38,406 - INFO - data_pk2,Charizard,93,93
+
+2024-09-21 20:31:38,406 - INFO - Comenzando el combate CvC
+
+2024-09-21 20:31:38,406 - INFO - Combate entre Swanna y Charizard
+
+2024-09-21 20:31:38,409 - INFO - Swanna utiliza Swagger
+
+2024-09-21 20:31:38,409 - INFO - Charizard redujo su ataque
+
+2024-09-21 20:31:38,409 - INFO - Golpea: 1
+
+2024-09-21 20:31:38,409 - INFO - Charizard utiliza Acrobatics
+
+2024-09-21 20:31:38,409 - INFO - Golpea: 40
+
+2024-09-21 20:31:38,409 - INFO - data_pk1,Swanna,104,64
+
+2024-09-21 20:31:38,410 - INFO - data_pk2,Charizard,93,92
+
+2024-09-21 20:31:38,411 - INFO - Charizardestá confundido!
+
+2024-09-21 20:31:38,411 - INFO - Charizard utiliza Hurricane
+

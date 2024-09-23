@@ -1,0 +1,11 @@
+#Ignora entornos virtuale
+.portfolio/
+.env/
+.venv/
+*.pyc
+__pycache__/
+
+#Ignora los archivos de sesión
+*pok_*
+*session_*
+

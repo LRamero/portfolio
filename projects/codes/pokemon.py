@@ -54,15 +54,15 @@ class Poke:
         self.iv = get_iv()
         self.ev = get_ev()
         self.natur = 'NONE'
-        self.vida = get_hp_eff(int(pk[pk["Nombre"] == name]["Vida"].values), self.iv[0], self.ev[0], self.nivel)
-        self.vida_inicial = get_hp_eff(int(pk[pk["Nombre"] == name]["Vida"].values), self.iv[0], self.ev[0], self.nivel)
-        self.ataque = get_stat_eff(int(pk[pk["Nombre"] == name]["Ataque"].values), self.iv[1], self.ev[1], self.nivel, 1)
-        self.defensa = get_stat_eff(int(pk[pk["Nombre"] == name]["Defensa"].values), self.iv[2], self.ev[2], self.nivel, 1)
-        self.ataqueesp = get_stat_eff(int(pk[pk["Nombre"] == name]["Ataque esp"].values), self.iv[3], self.ev[3], self.nivel, 1)
-        self.defensaesp = get_stat_eff(int(pk[pk["Nombre"] == name]["Defensa esp"].values), self.iv[4], self.ev[4], self.nivel, 1)
-        self.velocidad = get_stat_eff(int(pk[pk["Nombre"] == name]["Velocidad"].values), self.iv[5], self.ev[5], self.nivel, 1)
-        self.tipo1 = (pk[pk["Nombre"] == name]["Tipo1"].values)[0]
-        self.tipo2 = (pk[pk["Nombre"] == name]["Tipo2"].values)[0]
+        self.vida = get_hp_eff(int(pk[pk["Nombre"] == name]["Vida"].values[0]), self.iv[0], self.ev[0], self.nivel)
+        self.vida_inicial = get_hp_eff(int(pk[pk["Nombre"] == name]["Vida"].values[0]), self.iv[0], self.ev[0], self.nivel)
+        self.ataque = get_stat_eff(int(pk[pk["Nombre"] == name]["Ataque"].values[0]), self.iv[1], self.ev[1], self.nivel, 1)
+        self.defensa = get_stat_eff(int(pk[pk["Nombre"] == name]["Defensa"].values[0]), self.iv[2], self.ev[2], self.nivel, 1)
+        self.ataqueesp = get_stat_eff(int(pk[pk["Nombre"] == name]["Ataque esp"].values[0]), self.iv[3], self.ev[3], self.nivel, 1)
+        self.defensaesp = get_stat_eff(int(pk[pk["Nombre"] == name]["Defensa esp"].values[0]), self.iv[4], self.ev[4], self.nivel, 1)
+        self.velocidad = get_stat_eff(int(pk[pk["Nombre"] == name]["Velocidad"].values[0]), self.iv[5], self.ev[5], self.nivel, 1)
+        self.tipo1 = (pk[pk["Nombre"] == name]["Tipo1"].values[0])
+        self.tipo2 = (pk[pk["Nombre"] == name]["Tipo2"].values[0])
         self.atk1 = None
         self.atk2 = None
         self.atk3 = None
@@ -144,12 +144,12 @@ class Poke:
 class Atk:
     def __init__(self, name, moves):
         self.nombre = name
-        self.potencia = int((moves[moves["Name"] == name]["Power"].values)[0])
-        self.pp = int((moves[moves["Name"] == name]["PP"].values)[0])
-        self.clase = (moves[moves["Name"] == name]["Damage_class"].values)[0]
-        self.tipo = (moves[moves["Name"] == name]["Type"].values)[0]
-        self.precision = 100 if (pd.isna((moves[moves["Name"] == name]["Acc."].values)[0]) or 
-                                 (moves[moves["Name"] == name]["Acc."].values)[0] == '∞') else int((moves[moves["Name"] == name]["Acc."].values)[0])
+        self.potencia = int((moves[moves["Name"] == name]["Power"].values[0]))
+        self.pp = int((moves[moves["Name"] == name]["PP"].values[0]))
+        self.clase = (moves[moves["Name"] == name]["Damage_class"].values[0])
+        self.tipo = (moves[moves["Name"] == name]["Type"].values[0])
+        self.precision = 100 if (pd.isna((moves[moves["Name"] == name]["Acc."].values[0])) or 
+                                 (moves[moves["Name"] == name]["Acc."].values[0]) == '∞') else int((moves[moves["Name"] == name]["Acc."].values[0]))
         self.efecto = moves[moves["Name"] == name]["Effect"].values[0].replace(' ', '').split(",")
         if type(moves[moves["Name"] == name]["Prob. (%)"].values[0]) == str: 
             self.prob = moves[moves["Name"] == name]["Prob. (%)"].values[0].replace(' ', '').split("%") 
@@ -753,7 +753,7 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
         else:
             ind = atk.efecto.index("MULTIPLE")
         rep = atk.cant[ind]
-        cant_golpe = rd.randrange(1, rep)
+        cant_golpe = rd.randrange(1, int(rep))
     else:
         cant_golpe = 1
         
@@ -772,7 +772,7 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
 
             if("ABSORB" in atk.efecto):
                 #sys.stdout.write(pk_att + " ha drenado vida" + '\n')
-                logger.info(pk_att + " ha drenado vida" + '\n')
+                logger.info(pk_att.nombre + " ha drenado vida" + '\n')
                 if ((pk_att.vida + dano/2) >= pk_att.vida_inicial):
                     pk_att.vida = pk_att.vida_inicial
                 else:
@@ -923,7 +923,7 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
 
     return dano, crit, precis
 
-def check_estado(pk_r, atk_r, pk_a, atk_a):
+def check_estado(logger, pk_r, atk_r, pk_a, atk_a):
     if (("PROTECT" in atk_a.efecto) | ("FREEZ" in pk_r.estado) | ("RECARGA" in pk_r.estado) | 
         ("RETRO" in pk_r.estado) | ("SLEEP" in pk_r.estado) | ("ESPERA" in pk_r.estado)):
         if ("RECARGA" in pk_r.estado):
@@ -1031,7 +1031,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
     eff1 = eff[eff["Atk. Move Type"] == atk_r.tipo]
     eff2 = eff[eff["Atk. Move Type"] == atk_a.tipo]
     
-    par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+    par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
 
     if pk_a.tipo2 == 'Nada':
         effi_r = float((eff1[eff1["Def. Pokemon Type"] == pk_a.tipo1])["Effectiveness"].values[0])
@@ -1050,6 +1050,9 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
     
     spd_r = (pk_r.velocidad * spd_stg1 * par_r)
     spd_a = (pk_a.velocidad * spd_stg2 * par_a)
+
+    conf1 = 0
+    conf2 = 0
         
     if ("CONF" in pk_r.estado):
         values2 = [1, 0]
@@ -1061,7 +1064,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             dano, crit, precis = ataque(logger, pk_r, pk_r, p_d, 1, 1)
         else:
             dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
-        if precis == 0 | conf1 == 1:
+        if ((precis == 0) | (conf1 == 1)):
             #sys.stdout.write("El ataque falla" + '\n')
             logger.info("El ataque falla" + '\n')
         elif crit:
@@ -1080,13 +1083,13 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
         conf2 = rd.choices(values2, weights=(33, 67), k=1)
         #sys.stdout.write(pk_a.nombre + "está confundido!" + '\n')
         logger.info(pk_a.nombre + "está confundido!" + '\n')
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
         if conf2 == 1:
             p_d = Atk("Pay Day")
             dano, crit, precis = ataque(logger, pk_a, pk_a, p_d, 1, 1)
         else:
             dano, crit, precis = ataque(logger, pk_a, pk_a, atk_a, effi_a, pr_a)
-        if precis == 0 | conf2 == 1:
+        if ((precis == 0) | (conf2 == 1)):
             #sys.stdout.write("El ataque falla" + '\n')
             logger.info("El ataque falla" + '\n')
         elif crit:
@@ -1104,7 +1107,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
         ("M_PRIOR" in atk_a.efecto) or ("D_PRIOR" in pk_a.estado)):
         if ("D_PRIOR" in pk_r.estado):
             pk_r.estado.remove("D_PRIOR")
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
         dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
         if ("DOB_ATK" in atk_r.efecto):
             dano += dano
@@ -1149,7 +1152,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
         ("M_PRIOR" in atk_r.efecto) or ("D_PRIOR" in pk_r.estado)):
         if ("D_PRIOR" in pk_a.estado):
             pk_a.estado.remove("D_PRIOR")
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
 
         dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
         if ("DOB_ATK" in atk_a.efecto):
@@ -1191,7 +1194,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             
     
     elif ("M_DPRIOR" in atk_r.efecto):
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
 
         dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
         if ("DOB_ATK" in atk_a.efecto):
@@ -1233,7 +1236,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             
 
     elif ("M_DPRIOR" in atk_a.efecto):
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
 
         dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
         if ("DOB_ATK" in atk_r.efecto):
@@ -1281,7 +1284,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             pk_r.estado.append("D_PRIOR")
         if ("D_PRIOR" in atk_a.efecto):
             pk_a.estado.append("D_PRIOR")
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
         
         dano, crit, precis = ataque(logger, pk_r, pk_a, atk_r, effi_r, pr_r)
         if ("DOB_ATK" in atk_r.efecto):
@@ -1329,7 +1332,7 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             pk_r.estado.append("D_PRIOR")
         if ("D_PRIOR" in atk_a.efecto):
             pk_a.estado.append("D_PRIOR")
-        par_r, pr_r, par_a, pr_a = check_estado(pk_r, atk_r, pk_a, atk_a)
+        par_r, pr_r, par_a, pr_a = check_estado(logger, pk_r, atk_r, pk_a, atk_a)
 
         dano, crit, precis = ataque(logger, pk_a, pk_r, atk_a, effi_a, pr_a)
         if ("DOB_ATK" in atk_a.efecto):
@@ -1406,17 +1409,13 @@ def main():
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
     
-    my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, "../assets/dataframes.pkl")
-    with open(path, 'rb') as f:
+    with open("projects/assets/dataframes.pkl", 'rb') as f:
         pk, moves, nat, eff, m_learn = pickle.load(f, encoding='latin1')
     
     if ((combat_type != "JvJ_c") & (combat_type != "JvC_c")):
-        
-        log_file = os.path.join(my_path, '../assets/session_' + id_session + '.log')
-        if os.path.exists(log_file):
-            os.remove(log_file)        
-        file_handler = logging.FileHandler(log_file, mode='a')
+        if os.path.exists('projects/assets/session_' + id_session + '.log'):
+            os.remove('projects/assets/session_' + id_session + '.log')        
+        file_handler = logging.FileHandler('projects/assets/session_' + id_session + '.log', mode='a')
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
@@ -1483,9 +1482,8 @@ def main():
             with open('projects/assets/pok_' + id_session + '.pkl', 'wb') as f:
                 pickle.dump((pok_r, pok_a), f)
         
-    else:
-        log_file = os.path.join(my_path, '../assets/session_' + id_session + '.log')        
-        file_handler = logging.FileHandler(log_file, mode='a')
+    else:       
+        file_handler = logging.FileHandler('projects/assets/session_' + id_session + '.log', mode='a')
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)

@@ -2637,7 +2637,7 @@ h1{
 
 .pk-life-container {
     display: flex;
-    max-width: 100%;
+    max-width: 80vh;
     max-height: 120%;
     justify-content: space-between;
     display: none;
@@ -2662,4 +2662,27 @@ h1{
 
 .resultado::-webkit-scrollbar {
     display: none;
+}
+
+.button-gallery {
+    font-size: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 1px;
+}
+
+.button-gallery button {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-gallery button:hover {
+    background-color: #d0d0d0;
+}
+
+.button-gallery button.active {
+    background-color: #007bff;
+    color: white;
 }

@@ -49,12 +49,9 @@
                 <div id='pk_life1'>
                     <div id="pk1_select">
                         <ul id="pk1" class=pk>
-                            <label for="pokemon1"></label><select name="pokemon1" id="pokemon1">
-                                {% for valor in pk_list %}
-                                    <option value="{{valor}}">{{valor}}</option>
-                                {% endfor %}
-                            </select>
                         </ul>
+                        <button id="prevButton1">←</button>
+                        <button id="nextButton1">→</button>
                         <div id="habilidades1">
                             <div id='pk_ability1'>
                                 <ul class=pk>
@@ -112,12 +109,9 @@
                 <div id='pk_life2'>
                     <div id="pk2_select">
                         <ul id="pk2" class=pk>
-                            <label for="pokemon2"></label><select name="pokemon2" id="pokemon2">
-                                {% for valor in pk_list %}
-                                    <option value="{{valor}}">{{valor}}</option>
-                                {% endfor %}
-                            </select>
                         </ul>
+                        <button id="prevButton2">←</button>
+                        <button id="nextButton2">→</button>
                         <div id="habilidades2">
                             <div id='pk_ability1'>
                                 <ul class=pk>
@@ -285,7 +279,6 @@
         /*const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');*/
 
         const pk1_select = document.getElementById("pk1_select"); /*Div de pk1*/
-        const pokemon1Select = document.getElementById("pokemon1"); /*Selector pk1*/
         const pkLifeContainer = document.querySelector('.pk-life-container[secondary][selector]');  /*Sección de selección de pks y habilidades*/
         const pkbuttonContainer = document.querySelector('.pk-life-container[secondary][buttons]');  /*Sección de botones de pks y habilidades*/
         const pk1_ability1Select = document.getElementById("pk1_ability1"); /*Selector habilidad 1 pk1*/
@@ -298,7 +291,6 @@
         const pk1_ability4Button = document.getElementById("ataque4_pk1"); /*Botón habilidad 4 pk1*/
 
         const pk2_select = document.getElementById("pk2_select"); /*Div de pk2*/
-        const pokemon2Select = document.getElementById("pokemon2"); /*Selector pk2*/
         const pk2_ability1Select = document.getElementById("pk2_ability1"); /*Selector habilidad 1 pk2*/
         const pk2_ability2Select = document.getElementById("pk2_ability2"); /*Selector habilidad 2 pk2*/
         const pk2_ability3Select = document.getElementById("pk2_ability3"); /*Selector habilidad 3 pk2*/
@@ -318,8 +310,6 @@
         const modo = document.querySelector('.modo'); /*Sección de selección de modo de combate*/
         const atras = document.querySelector('.atras'); /*Sección de botones de atrás*/
         const barra_datos = document.getElementById('carga_datos'); /*Barra de carga de datos inicial*/
-        const label1 = document.querySelector('label[for="pokemon1"]'); /*Etiqueta de selector pk1*/
-        const label2 = document.querySelector('label[for="pokemon2"]'); /*Etiqueta de selector pk2*/
         const id = document.getElementById("id"); /*id de ejecución*/
         const actualizacion = document.getElementById("actualizacion"); /*Última actualización*/
         const prueba = document.getElementById('prueba'); /*Seccion para pruebas*/
@@ -351,6 +341,16 @@
         const pk2_spd = document.getElementById('pk2_speed'); /*Velocidad del pk2 seleccionado*/
         const pk2_img = document.getElementById('pk2_img'); /*Imagen del pk2 seleccionado*/
         
+        const tarjetero1 = document.getElementById("pk1");
+        const tarjetero2 = document.getElementById("pk2");
+        const prevButton1 = document.getElementById("prevButton1");
+        const nextButton1 = document.getElementById("nextButton1");
+        const prevButton2 = document.getElementById("prevButton2");
+        const nextButton2 = document.getElementById("nextButton2");
+        let currentIndex1 = 0;
+        let currentIndex2 = 0;
+        let pk_lista = [];
+
         window.addEventListener('load', function () {
             modo.style.display = 'none';
             fetch("/pokemon_load")
@@ -458,7 +458,7 @@
                         actualizacion.innerText = parsedLog[parsedLog.length-1].time;
                 })
             .catch(error => console.log("Error al leer el archivo session.log", error));
-        }
+        };
 
         function acciones(response, modo) {
             const pokemon1 = document.getElementById("pokemon1").value;
@@ -541,7 +541,33 @@
             } else {
                 console.log("Error al iniciar la ejecución del script");
             }
-        }
+        };
+
+        // Función para mostrar la tarjeta actual
+        function mostrarTarjeta(pk, index, info) {
+            const tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta";
+            tarjeta.innerHTML = "Nombre: " + pk_lista[index] + "<br>";
+            if (info){
+                tarjeta.innerHTML += "Tipo 1: " + info.tipo1 + "<br>";
+                tarjeta.innerHTML += "Tipo 2: " + info.tipo2 + "<br>";
+                tarjeta.innerHTML += "Vida: " + info.hp + "<br>";
+                tarjeta.innerHTML += "Ataque: " + info.atk + "<br>";
+                tarjeta.innerHTML += "Defensa: " + info.deff + "<br>";
+                tarjeta.innerHTML += "Ataque Esp.: " + info.sp_atk + "<br>";
+                tarjeta.innerHTML += "Defensa Esp.: " + info.sp_def + "<br>";
+                tarjeta.innerHTML += "Velocidad: " + info.speed + "<br>";
+                tarjeta.innerHTML += '<img src=' + info.img + ' alt=Imagen style="width: 50%; height: 50%";>';
+            }
+            if (pk == 1){
+                tarjetero1.innerHTML = ""; // Limpiar el contenido
+                tarjetero1.appendChild(tarjeta);
+            }
+            else {
+                tarjetero2.innerHTML = ""; // Limpiar el contenido
+                tarjetero2.appendChild(tarjeta)
+            }
+        };
 
         button_inicio_CvC.addEventListener("click", (e) => {
             encabezado.innerHTML = "";
@@ -647,7 +673,7 @@
                 });
         });
 
-        pokemon1Select.addEventListener("change", async () => {
+        /*pokemon1Select.addEventListener("change", async () => {
             info_pk.style.display = "flex";
             const pokemon1Value = pokemon1Select.value;
             barra_datos.innerHTML = pokemon1Value;
@@ -707,9 +733,9 @@
             });
             habilidades1.style.display = "none";
             habilidades2.style.display = "none";
-        });
+        });*/
         
-        pokemon2Select.addEventListener("change", async () => {
+        /*pokemon2Select.addEventListener("change", async () => {
             info_pk.style.display = "flex";
             const pokemon2Value = pokemon2Select.value;
             barra_datos.innerHTML = pokemon2Value;
@@ -769,13 +795,88 @@
             });
             habilidades1.style.display = "none";
             habilidades2.style.display = "none";
-        });
+        });*/
 
         select_pk.addEventListener("click", (e) => {
             e.preventDefault();
             info_pk.style.display = "none";
             habilidades1.style.display = "block";
             habilidades2.style.display = "block";
+        });
+
+        // Navegar hacia adelante
+        nextButton1.addEventListener('click', async () => {
+            if (currentIndex1 < pk_lista.length - 1) {
+                currentIndex1++;
+            }
+            else {
+                currentIndex1 = 0;
+                
+            }
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex1]})
+            });
+            const info = await resp_info.json();
+            mostrarTarjeta(1, currentIndex1, info);
+        });
+
+        nextButton2.addEventListener('click', async () => {
+            if (currentIndex2 < pk_lista.length - 1) {
+                currentIndex2++;
+            }
+            else {
+                currentIndex2 = 0;
+            }
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex2]})
+            });
+            const info = await resp_info.json();
+            mostrarTarjeta(2, currentIndex2, info);
+        });
+
+        // Navegar hacia atrás
+        prevButton1.addEventListener('click', async () => {
+            if (currentIndex1 > 0) {
+                currentIndex1--;
+            }
+            else {
+                currentIndex1 = pk_lista.length - 1;
+            }
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex1]})
+            });
+            const info = await resp_info.json();
+            mostrarTarjeta(1, currentIndex1, info);
+        });
+
+        prevButton2.addEventListener('click', async () => {
+            if (currentIndex2 > 0) {
+                currentIndex2--;
+            }
+            else {
+                currentIndex2 = pk_lista.length - 1;
+            }
+            const resp_info = await fetch("/get_info", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex2]})
+            });
+            const info = await resp_info.json();
+            mostrarTarjeta(2, currentIndex2, info);
         });
 
         button_CvC.addEventListener('click', (e) => {
@@ -785,29 +886,16 @@
                     response => response.json()
                 )
                 .then(pk_list => {
-                    pokemon1Select.innerHTML = "";
-                    pokemon2Select.innerHTML = "";
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon1Select.appendChild(option);
-                    });
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon2Select.appendChild(option);
-                    });
-                    pokemon1Select.selectedIndex = 0;
-                    pokemon2Select.selectedIndex = 0;
+                    pk_lista = pk_list; // Guardar la lista de Pokémon
+                    currentIndex1 = 0; // Reiniciar el índice
+                    currentIndex2 = 0; // Reiniciar el índice
+                    mostrarTarjeta(1, currentIndex1);
+                    mostrarTarjeta(2, currentIndex2);
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
                     atras.style.display = "block";
                     form_JvC.style.display = "none";
                     form_JvJ.style.display = "none";
-                    label1.textContent = "Pokemon 1: ";
-                    label2.textContent = "Pokemon 2: ";
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block";
@@ -822,29 +910,15 @@
                     response => response.json()
                 )
                 .then(pk_list => {
-                    pokemon1Select.innerHTML = "";
-                    pokemon2Select.innerHTML = "";
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon1Select.appendChild(option);
-                    });
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon2Select.appendChild(option);
-                    });
-                    pokemon1Select.selectedIndex = 0;
-                    pokemon2Select.selectedIndex = 0;
+                    pk_lista = pk_list; // Guardar la lista de Pokémon
+                    currentIndex = 0; // Reiniciar el índice
+                    mostrarTarjeta(1, currentIndex);
+                    mostrarTarjeta(2, currentIndex);
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
                     atras.style.display = "block";
                     form_JvC.style.display = "none";
                     form_CvC.style.display = "none";
-                    label1.textContent = "Jugador 1: ";
-                    label2.textContent = "Jugador 2: ";
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block";
@@ -859,29 +933,15 @@
                     response => response.json()
                 )
                 .then(pk_list => {
-                    pokemon1Select.innerHTML = "";
-                    pokemon2Select.innerHTML = "";
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon1Select.appendChild(option);
-                    });
-                    pk_list.forEach((pk) => {
-                        const option = document.createElement("option");
-                        option.value = pk;
-                        option.text = pk;
-                        pokemon2Select.appendChild(option);
-                    });
-                    pokemon1Select.selectedIndex = 0;
-                    pokemon2Select.selectedIndex = 0;
+                    pk_lista = pk_list; // Guardar la lista de Pokémon
+                    currentIndex = 0; // Reiniciar el índice
+                    mostrarTarjeta(1, currentIndex);
+                    mostrarTarjeta(2, currentIndex);
                     pkLifeContainer.style.display = "flex";
                     modo.style.display = "none";
                     atras.style.display = "block";
                     form_CvC.style.display = "none";
                     form_JvJ.style.display = "none";
-                    label1.textContent = "Jugador: ";
-                    label2.textContent = "Computadora: ";
                 });
                 pk1_select.style.display = "block";
                 pk2_select.style.display = "block"; 
@@ -1042,6 +1102,7 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
-        });</script>
+        });
+        </script>
 </body>
 </html>

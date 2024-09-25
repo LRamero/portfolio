@@ -45,14 +45,14 @@
                 </div>
             </div>
         </section>
+        <section>
             <section class="pk-life-container" secondary selector>
-                <div id='pk_life1'>
+                <div id='pk_life1' class="elementos-container">
                     <div id="pk1_select" class="pk-life-container">
-                        <ul id="pk1" class=pk>
-                        </ul>
-                        <div id="button-container1" class="button-gallery"></div>
-                        <button id="prevButton1">←</button>
-                        <button id="nextButton1">→</button>
+                        <div class=pk>
+                            <div id="pk1"></div>
+                            <div id="pokemon-container1" class="button-gallery"></div>
+                        </div>
                         <div id="habilidades1">
                             <div id='pk_ability1'>
                                 <ul class=pk>
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div id='boton'>
+                <div id='boton' class="elementos-container">
                     <ul class=pk>
                         <form id="ejecutar-JvC" action="/pokemon_combatJvC" method="post">
                             <button secondary inicio_JvC>Iniciar J1vsCOM</button>
@@ -106,13 +106,12 @@
                         </form>
                     </ul>
                 </div>
-                <div id='pk_life2'>
+                <div id='pk_life2' class="elementos-container">
                     <div id="pk2_select" class="pk-life-container">
-                        <ul id="pk2" class=pk>
-                        </ul>
-                        <div id="button-container2" class="button-gallery"></div>
-                        <button id="prevButton2">←</button>
-                        <button id="nextButton2">→</button>
+                        <div class=pk>
+                            <div id="pk2"></div>
+                            <div id="pokemon-container2" class="button-gallery"></div>
+                        </div>
                         <div id="habilidades2">
                             <div id='pk_ability1'>
                                 <ul class=pk>
@@ -155,7 +154,7 @@
                 </div>
             </section>
             <section class="pk-life-container" secondary buttons>
-                <section>
+                <section class="elementos-container">
                     <div id='ataques_pk1'>
                         <ul class=pk>
                             <form>
@@ -180,7 +179,7 @@
                         </form>
                     </ul>
                 </section>
-                <section>
+                <section class="elementos-container">
                     <div id='ataques_pk2'>
                         <ul class=pk>
                             <form>
@@ -227,7 +226,6 @@
     </section>
     <section>
         <h6>id: <h6 id="id">{{random_id}}</h6><h6 id="actualizacion"></h6></h6>
-        <h6 id="prueba"></h6>
     </section>
     <script>
         const encabezado = document.getElementById("encabezado_msj"); /*Mensaje de encabezado*/
@@ -285,10 +283,8 @@
         
         const pokemon1 = document.getElementById("pk1");
         const pokemon2 = document.getElementById("pk2");
-        const prevButton1 = document.getElementById("prevButton1");
-        const nextButton1 = document.getElementById("nextButton1");
-        const prevButton2 = document.getElementById("prevButton2");
-        const nextButton2 = document.getElementById("nextButton2");
+        const pokemon1_container = document.getElementById("pokemon-container1");
+        const pokemon2_container = document.getElementById("pokemon-container2");
         let currentIndex1 = 0;
         let currentIndex2 = 0;
         let pk_lista = [];
@@ -593,129 +589,6 @@
             });
         }
 
-        // Navegar hacia adelante
-        nextButton1.addEventListener('click', async () => {
-            if (currentIndex1 < pk_lista.length - 1) {
-                currentIndex1++;
-            }
-            else {
-                currentIndex1 = 0;
-                
-            }
-            const resp_info = await fetch("/get_info", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex1]})
-            });
-            const info = await resp_info.json();
-            mostrarTarjeta(1, currentIndex1, info);
-            const response = await fetch("/get_abilities", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ pokemon: pk_lista[currentIndex1] })
-            });
-            const abilities1 = await response.json();
-            habilidades_posibles(pk1_ability1Select, abilities1);
-            habilidades_posibles(pk1_ability2Select, abilities1);
-            habilidades_posibles(pk1_ability3Select, abilities1);
-            habilidades_posibles(pk1_ability4Select, abilities1);
-        });
-
-        nextButton2.addEventListener('click', async () => {
-            if (currentIndex2 < pk_lista.length - 1) {
-                currentIndex2++;
-            }
-            else {
-                currentIndex2 = 0;
-            }
-            const resp_info = await fetch("/get_info", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex2]})
-            });
-            const info = await resp_info.json();
-            mostrarTarjeta(2, currentIndex2, info);
-            const response = await fetch("/get_abilities", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ pokemon: pk_lista[currentIndex2] })
-            });
-            const abilities2 = await response.json();
-            habilidades_posibles(pk2_ability1Select, abilities2);
-            habilidades_posibles(pk2_ability2Select, abilities2);
-            habilidades_posibles(pk2_ability3Select, abilities2);
-            habilidades_posibles(pk2_ability4Select, abilities2);
-        });
-
-        // Navegar hacia atrás
-        prevButton1.addEventListener('click', async () => {
-            if (currentIndex1 > 0) {
-                currentIndex1--;
-            }
-            else {
-                currentIndex1 = pk_lista.length - 1;
-            }
-            const resp_info = await fetch("/get_info", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex1]})
-            });
-            const info = await resp_info.json();
-            mostrarTarjeta(1, currentIndex1, info);
-            const response = await fetch("/get_abilities", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ pokemon: pk_lista[currentIndex1] })
-            });
-            const abilities1 = await response.json();
-            habilidades_posibles(pk1_ability1Select, abilities1);
-            habilidades_posibles(pk1_ability2Select, abilities1);
-            habilidades_posibles(pk1_ability3Select, abilities1);
-            habilidades_posibles(pk1_ability4Select, abilities1);
-        });
-
-        prevButton2.addEventListener('click', async () => {
-            if (currentIndex2 > 0) {
-                currentIndex2--;
-            }
-            else {
-                currentIndex2 = pk_lista.length - 1;
-            }
-            const resp_info = await fetch("/get_info", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({tipo: 'pk', nombre: pk_lista[currentIndex2]})
-            });
-            const info = await resp_info.json();
-            mostrarTarjeta(2, currentIndex2, info);
-            const response = await fetch("/get_abilities", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ pokemon: pk_lista[currentIndex2] })
-            });
-            const abilities2 = await response.json();
-            habilidades_posibles(pk2_ability1Select, abilities2);
-            habilidades_posibles(pk2_ability2Select, abilities2);
-            habilidades_posibles(pk2_ability3Select, abilities2);
-            habilidades_posibles(pk2_ability4Select, abilities2);
-        });
-
         button_CvC.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
             fetch("/get_pokemon")
@@ -934,18 +807,16 @@
                 });
         });
 
-        const buttonContainer1 = document.getElementById('button-container1');
-        const buttonContainer2 = document.getElementById('button-container2');
         function createButtons() {
-            buttonContainer1.innerHTML = ''; // Limpiar contenedor
-            buttonContainer2.innerHTML = ''; // Limpiar contenedor
+            pokemon1_container.innerHTML = ''; // Limpiar contenedor
+            pokemon2_container.innerHTML = ''; // Limpiar contenedor
             pk_lista.forEach((value, index) => {
                 const button = document.createElement('button');
                 button.textContent = value;
                 button.addEventListener('click', () => {
                     updateSelectedValue(1, index);
                 });
-                buttonContainer1.appendChild(button);
+                pokemon1_container.appendChild(button);
             })
             pk_lista.forEach((value, index) => {
                 const button = document.createElement('button');
@@ -953,7 +824,7 @@
                 button.addEventListener('click', () => {
                     updateSelectedValue(2, index);
                 });
-                buttonContainer2.appendChild(button);
+                pokemon2_container.appendChild(button);
             });
             
         }
@@ -973,7 +844,7 @@
                 .then(info => {
                     mostrarTarjeta(1, currentIndex1, info);
                 });
-                cfetch("/get_abilities", {
+                fetch("/get_abilities", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -1001,7 +872,7 @@
                     .then(info => {
                         mostrarTarjeta(2, currentIndex2, info);
                     });
-                cfetch("/get_abilities", {
+                fetch("/get_abilities", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

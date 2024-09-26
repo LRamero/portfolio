@@ -3,6 +3,7 @@ import subprocess
 import pandas as pd
 import pickle
 import random as rd
+import numpy as np
 
 app = Flask(__name__, template_folder="", static_folder="./assets")
 
@@ -18,21 +19,13 @@ def index():
 def send_static(path):
     return send_from_directory("assets", path)
 
-@app.route("/projects/assets/pk/<path:path>")
+@app.route("/projects/pokemon/assets/<path:path>")
 def send_static_pk(path):
-    return send_from_directory("projects/assets/pk", path)
+    return send_from_directory("projects/pokemon/assets", path)
 
-@app.route("/projects/assets/<path:path>")
-def send_static_pr(path):
-    return send_from_directory("projects/assets", path)
-
-@app.route("/assets/images/<path:path>")
-def send_image(path):
-    return send_from_directory("assets/images", path)
-
-@app.route("/projects/assets/images/<path:path>")
+@app.route("/projects/pokemon/assets/images/<path:path>")
 def send_image_pk(path):
-    return send_from_directory("projects/assets/images", path)
+    return send_from_directory("projects/pokemon/assets/images", path)
 
 ########################################################
 #           Funciones para página Pokemon              #
@@ -43,16 +36,16 @@ class PokemonCombat:
         self.proceso = None
 
     def iniciar_combate(self, id, modo, pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4):
-        script = "projects/codes/pokemon.py"
-        self.proceso = subprocess.Popen(["python", "-u", script, id, modo, pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4], stdout=subprocess.PIPE, universal_newlines=True)
+        script = "projects/pokemon/codes/pokemon.py"
+        self.proceso = subprocess.Popen(["python", "-u", script, id, modo, pokemon1, pokemon2, pk1_ability1, pk1_ability2, pk1_ability3, pk1_ability4, pk2_ability1, pk2_ability2, pk2_ability3, pk2_ability4], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         return Response("Iniciado", mimetype="text/event-stream", headers={
             "Cache-Control": "no-cache",
             "Content-Type": "text/event-stream"
         })
 
     def continuar_combate(self, id, modo, pk1_ability, pk2_ability):   
-        script = "projects/codes/pokemon.py"
-        self.proceso = subprocess.Popen(["python", "-u", script, id, modo, pk1_ability, pk2_ability], stdout=subprocess.PIPE, universal_newlines=True)
+        script = "projects/pokemon/codes/pokemon.py"
+        self.proceso = subprocess.Popen(["python", "-u", script, id, modo, pk1_ability, pk2_ability], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         return Response("Iniciado", mimetype="text/event-stream", headers={
             "Cache-Control": "no-cache",
             "Content-Type": "text/event-stream"
@@ -89,7 +82,7 @@ class PokemonLoad:
     def load_data(self):
         # script = "projects/codes/cargar_datos.py"
         # self.carga_dato = subprocess.Popen(['python', script], stdout=subprocess.PIPE, universal_newlines=True)
-        with open('projects/assets/dataframes.pkl', 'rb') as f:
+        with open('projects/pokemon/assets/dataframes.pkl', 'rb') as f:
             self.pk, self.moves, self.nat, self.eff, self.m_learn = pickle.load(f, encoding='latin1')
         return Response("Iniciado", mimetype="text/event-stream", headers={
         "Cache-Control": "no-cache",
@@ -103,7 +96,7 @@ class PokemonLoad:
                 if linea:
                     yield "data: " + linea + "\n\n"
                 else:
-                    with open('projects/assets/dataframes.pkl', 'rb') as f:
+                    with open('projects/pokemon/assets/dataframes.pkl', 'rb') as f:
                         self.pk, self.moves, self.nat, self.eff, self.m_learn = pickle.load(f, encoding='latin1')
                     self.carga_dato.kill()
                     self.carga_dato = None
@@ -119,7 +112,7 @@ pokemon_load = PokemonLoad()
 @app.route("/projects/<path:path>")
 def pokemon(path):
     id = rd.randint(1, 999)
-    return render_template("projects/pokemon.html", random_id=id)
+    return render_template("projects/pokemon/pokemon.html", random_id=id)
 
 @app.route('/pokemon_load')
 def cargar_df():
@@ -172,7 +165,13 @@ def get_abilities():
 @app.route('/pksession.log', methods=["POST"])
 def pk_session_log():
     id_s = request.json["id_s"]
-    return send_file('projects\\assets\\session_' + id_s + '.log', mimetype='text/plain')
+    if pokemon_combat.proceso.stderr:
+                for linea in iter(pokemon_combat.proceso.stderr.readline, ''):
+                    print( f"data: ERROR: {linea}\n\n")
+    if pokemon_combat.proceso.stdout:
+                for linea in iter(pokemon_combat.proceso.stderr.readline, ''):
+                    print (f"data: Mensaje: {linea}\n\n")
+    return send_file('projects\\pokemon\\assets\\session_' + id_s + '.log', mimetype='text/plain')
 
 @app.route('/get_info', methods=["POST"])
 def get_info():
@@ -214,11 +213,11 @@ def get_info():
             }
         return jsonify(data)
     else:
-        tipo1 = pokemon_load.moves[pokemon_load.moves['Name'] == nombre]['Type'].values[0]
-        pow = pokemon_load.moves[pokemon_load.moves['Name'] == nombre]['Power'].values[0]
-        acc = pokemon_load.moves[pokemon_load.moves['Name'] == nombre]['Acc.'].values[0]
-        clase = pokemon_load.moves[pokemon_load.moves['Name'] == nombre]['Damage_class'].values[0]
-        eff = pokemon_load.moves[pokemon_load.moves['Name'] == nombre]['Effect'].values[0]
+        tipo1 = pokemon_load.moves[pokemon_load.moves['Name'] == nombre.title()]['Type'].values[0]
+        pow = int(pokemon_load.moves[pokemon_load.moves['Name'] == nombre.title()]['Power'].values[0])
+        acc = int(pokemon_load.moves[pokemon_load.moves['Name'] == nombre.title()]['Acc.'].values[0])
+        clase = pokemon_load.moves[pokemon_load.moves['Name'] == nombre.title()]['Damage_class'].values[0]
+        eff = pokemon_load.moves[pokemon_load.moves['Name'] == nombre.title()]['Effect'].values[0]
         data = {
             'tipo1': tipo1,
             'pow': pow,
@@ -226,6 +225,7 @@ def get_info():
             'clase': clase,
             'eff': eff
         }
+        print(data)
         return jsonify(data)
 
 #################################################

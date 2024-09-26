@@ -2,4 +2,3 @@ pandas
 flask
 numpy
 logging
-pickle

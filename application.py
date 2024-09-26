@@ -171,7 +171,7 @@ def pk_session_log():
     if pokemon_combat.proceso.stdout:
                 for linea in iter(pokemon_combat.proceso.stderr.readline, ''):
                     print (f"data: Mensaje: {linea}\n\n")
-    return send_file('projects\\pokemon\\assets\\session_' + id_s + '.log', mimetype='text/plain')
+    return send_file('projects/pokemon/assets/session_' + id_s + '.log', mimetype='text/plain')
 
 @app.route('/get_info', methods=["POST"])
 def get_info():

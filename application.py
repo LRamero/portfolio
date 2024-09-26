@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_from_directory, request, Response, jsonify, send_file
-from werkzeug.contrib.fixers import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
 import subprocess
 import pandas as pd
 import pickle

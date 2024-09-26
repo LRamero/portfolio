@@ -1,5 +1,4 @@
 from flask import Flask, render_template, send_from_directory, request, Response, jsonify, send_file
-from werkzeug.middleware.proxy_fix import ProxyFix
 import subprocess
 import pandas as pd
 import pickle
@@ -7,7 +6,6 @@ import random as rd
 import numpy as np
 
 app = Flask(__name__, template_folder="", static_folder="./assets")
-app.wsgi_app = ProxyFix(app.wsgi_app)
 
 #########################################################
 #              Fuciones para página principal           #

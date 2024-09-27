@@ -65,29 +65,39 @@ const timelineItems = document.querySelectorAll('.timeline-item .content');
 
 timelineItems.forEach(item => {
     item.addEventListener('mousemove', (e) => {
+        item.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
         const rect = item.getBoundingClientRect();   // Obtener el tamaño y posición de la tarjeta
         const x = e.clientX - rect.left;             // Coordenada X del mouse dentro de la tarjeta
         const y = e.clientY - rect.top;              // Coordenada Y del mouse dentro de la tarjeta
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 15;          // Inclinación en el eje X
-        const rotateY = (centerX - x) / 15;          // Inclinación en el eje Y
+        const centerX = rect.width/2;
+        const centerY = rect.height/2;
+        const rotateX = (y - centerY)/10;          // Inclinación en el eje X
+        const rotateY = (centerX - x)/10;          // Inclinación en el eje Y
 
-        // Aplicar la transformación 3D
         item.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
         // Calcular el desplazamiento de la sombra según la inclinación
-        const shadowX = (centerX + x) / 10;
-        const shadowY = (y + centerY) / 10;
+        const shadowX = (centerX + x)/10;
+        const shadowY = (y + centerY)/10;
 
         // Aplicar la sombra dinámica
         item.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.5)`;
+
+        // Calcula el ángulo en radianes
+        let radians = Math.atan2((centerY - y)/rect.height, (centerX - x)/rect.width);
+
+        // Convierte a grados
+        let degrees = radians * (180 / Math.PI);
+
+        // Ajustar el degradado según la posición del mouse
+        item.style.background = `linear-gradient(${degrees}deg, #0b243c5e, #8491a962)`;
     });
 
     // Restaurar la posición de la tarjeta y la sombra cuando el mouse salga
     item.addEventListener('mouseleave', () => {
         item.style.transform = 'rotateX(0) rotateY(0)';
-        item.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.3)';  // Sombra original
-        item.style.transition = 'transform 0.3s ease-out, box-shadow 0.3s ease-out';
+        item.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.3)';
+        item.style.background = '#86a4e694;';
+        item.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
     });
 });

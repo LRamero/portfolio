@@ -2,3 +2,4 @@ pandas
 Flask
 numpy
 logging
+gunicorn

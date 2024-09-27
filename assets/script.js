@@ -60,3 +60,34 @@ projectCards.forEach(card => {
         startAutoScroll();
     });
 });
+
+const timelineItems = document.querySelectorAll('.timeline-item .content');
+
+timelineItems.forEach(item => {
+    item.addEventListener('mousemove', (e) => {
+        const rect = item.getBoundingClientRect();   // Obtener el tamaño y posición de la tarjeta
+        const x = e.clientX - rect.left;             // Coordenada X del mouse dentro de la tarjeta
+        const y = e.clientY - rect.top;              // Coordenada Y del mouse dentro de la tarjeta
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 15;          // Inclinación en el eje X
+        const rotateY = (centerX - x) / 15;          // Inclinación en el eje Y
+
+        // Aplicar la transformación 3D
+        item.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        // Calcular el desplazamiento de la sombra según la inclinación
+        const shadowX = (centerX + x) / 10;
+        const shadowY = (y + centerY) / 10;
+
+        // Aplicar la sombra dinámica
+        item.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.5)`;
+    });
+
+    // Restaurar la posición de la tarjeta y la sombra cuando el mouse salga
+    item.addEventListener('mouseleave', () => {
+        item.style.transform = 'rotateX(0) rotateY(0)';
+        item.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.3)';  // Sombra original
+        item.style.transition = 'transform 0.3s ease-out, box-shadow 0.3s ease-out';
+    });
+});

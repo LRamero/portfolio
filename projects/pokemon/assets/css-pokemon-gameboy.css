@@ -29,7 +29,7 @@ h1,h2,h3,h4,h5,h6{
 .framed.neutral{
     background:#f8f3f89c;
     color:#181010;
-    height: 90vh;
+    height: 88vh;
     overflow-x: hidden;
 }
 
@@ -2696,38 +2696,28 @@ h1{
 /* Scrollbar personalizado */
 .button-gallery::-webkit-scrollbar {
     width: 4px;
-    /* Hacer el scrollbar delgado como una línea */
 }
 
 /* Fondo de la pista del scrollbar */
 .button-gallery::-webkit-scrollbar-track {
     background: transparent;
-    /* Fondo transparente para solo ver la línea */
 }
 
 /* Thumb personalizado como un "bullet" negro */
 .button-gallery::-webkit-scrollbar-thumb {
     background-color: black;
-    /* Color negro para el thumb */
     border-radius: 50%;
-    /* Hacer el thumb redondeado */
     height: 20px;
-    /* Darle un tamaño parecido a un bullet */
     width: 4px;
 }
 
-/* Aumentar el tamaño del thumb al hacer hover */
 .button-gallery::-webkit-scrollbar-thumb:hover {
     background-color: #333;
-    /* Cambiar a un negro más claro al pasar el cursor */
 }
 
-/* Aplicar también a Firefox */
 .button-gallery {
     scrollbar-width: thin;
-    /* Hacer el scrollbar delgado */
     scrollbar-color: black transparent;
-    /* Color negro para el thumb, fondo transparente */
 }
 
 /* Contenido para que se vea el efecto del scrollbar */

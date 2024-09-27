@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                     <div class="atras">
-                        <h3>Elige a los combatientes!</h3>
+                        <h3>Elige a los combatientes y sus ataques!</h3>
                         <ul>
                             <form id="atras_modo">
                                 <button type="button" secondary atras_modo>Atrás</button>
@@ -540,6 +540,12 @@
             const tarjeta = document.createElement("div");
             tarjeta.className = "tarjeta";
             if (info === null || index == 0) {
+                if (pk==1){
+                    img1 = "/projects/pokemon/assets/images/pk_aleatorio.png"
+                }
+                else if (pk==2){
+                    img2 = "/projects/pokemon/assets/images/pk_aleatorio.png"
+                }
                 tarjeta.innerHTML = `
                     <h3>${pk_lista[index]}</h3>
                     <h5>Tipo 1: Aleatorio</h5>
@@ -554,6 +560,12 @@
                 `  
             }
             else {
+                if (pk == 1) {
+                    img1 = info.img
+                }
+                else if (pk == 2) {
+                    img2 = info.img
+                }
                 tarjeta.innerHTML = `
                     <h3>${pk_lista[index]}</h3>
                     <h5>Tipo 1: ${info.tipo1}</h5>
@@ -570,22 +582,10 @@
             if (pk == 1) {
                 pokemon1.innerHTML = ""; // Limpiar el contenido
                 pokemon1.appendChild(tarjeta);
-                if (info === null){
-                    img1 = "/projects/pokemon/assets/images/pk_aleatorio.png"
-                }
-                else{
-                    img1 = info.img;
-                }
             }
             else {
                 pokemon2.innerHTML = ""; // Limpiar el contenido
                 pokemon2.appendChild(tarjeta)
-                if (info === null) {
-                    img2 = "/projects/pokemon/assets/images/pk_aleatorio.png"
-                }
-                else {
-                    img2 = info.img;
-                }
             }
         };
 
@@ -742,8 +742,8 @@
                     pk_lista = pk_list; // Guardar la lista de Pokémon
                     currentIndex1 = 0; // Reiniciar el índice
                     currentIndex2 = 0; // Reiniciar el índice
-                    mostrarTarjeta(1, currentIndex1);
-                    mostrarTarjeta(2, currentIndex2);
+                    updateSelectedValue(1, currentIndex1)
+                    updateSelectedValue(2, currentIndex2)
                 });
             pk1_select.style.display = "block";
             pk2_select.style.display = "block";
@@ -923,19 +923,21 @@
             else if (encabezado.innerHTML.includes("JvC")) {
                 modo_combate = "JvC_c";
             }
-            fetch("/pokemon_combat_c", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({id_s, modo_combate, atk_pk1, atk_pk2})
-            })
+            if(!(encabezado.innerHTML.includes("ganador"))) {
+                fetch("/pokemon_combat_c", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({id_s, modo_combate, atk_pk1, atk_pk2})
+                })
                 .then((response) => {
                     acciones(response);
                 })
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
+            }
         });
 
         function createButtons() {

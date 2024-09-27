@@ -583,7 +583,7 @@ def dano_estado(logger, pk):
     if "BAD_POIS" in estado:
         #sys.stdout.write(str(pk.nombre) + " está gravemente envenenado" + '\n')
         logger.info(str(pk.nombre) + " está gravemente envenenado" + '\n')
-        if ~("bd_po" in pk.var_respaldo):
+        if not("bd_po" in pk.var_respaldo):
             pk.var_respaldo.append("bd_po")
             pk.var_respaldo.append(1)
         else:
@@ -715,7 +715,7 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
     else:
         stab = 1
     
-    if ~("ST_IGN" in atk.efecto):
+    if not("ST_IGN" in atk.efecto):
         if atk.clase == "Physical":
             att_type = "Phy"
 
@@ -878,21 +878,21 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
                     precis = 0
             
             if ("PETALO" in atk.efecto):
-                if ~("CARGA" in pk_att.estado):
+                if not("CARGA" in pk_att.estado):
                     pk_att.estado.append("CARGA")
                     pk_att.var_respaldo.append("carga")
                     pk_att.var_respaldo.append(dano)
                     pk_att.var_respaldo.append(2)
                 
             if ("DOBLE_CONF" in atk.efecto):
-                if ~("CARGA_C" in pk_att.estado):
+                if not("CARGA_C" in pk_att.estado):
                     pk_att.estado.append("CARGA_C")
                     pk_att.var_respaldo.append("carga")
                     pk_att.var_respaldo.append(dano)
                     pk_att.var_respaldo.append(2)
             
             if ("CARGA" in atk.efecto):
-                if ~("CARGA" in pk_att.estado):
+                if not("CARGA" in pk_att.estado):
                     pk_att.estado.append("CARGA")
                     pk_att.var_respaldo.append("carga")
                     pk_att.var_respaldo.append(dano)

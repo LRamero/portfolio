@@ -65,26 +65,29 @@ const timelineItems = document.querySelectorAll('.timeline-item .content');
 
 timelineItems.forEach(item => {
     item.addEventListener('mousemove', (e) => {
-        item.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        item.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease, scale 0.5s ease';
         const rect = item.getBoundingClientRect();   // Obtener el tamaño y posición de la tarjeta
         const x = e.clientX - rect.left;             // Coordenada X del mouse dentro de la tarjeta
         const y = e.clientY - rect.top;              // Coordenada Y del mouse dentro de la tarjeta
         const centerX = rect.width/2;
         const centerY = rect.height/2;
-        const rotateX = (y - centerY)/10;          // Inclinación en el eje X
-        const rotateY = (centerX - x)/10;          // Inclinación en el eje Y
+        const maxRotation = 20;
+        const rotationX = (x/rect.height) * maxRotation;
+        const rotationY = (y/rect.width) * -maxRotation;
 
-        item.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        item.style.transform = `rotate3d(${rotationX}, ${rotationY}, 0, ${maxRotation}deg) scale(1.05)`;
 
         // Calcular el desplazamiento de la sombra según la inclinación
-        const shadowX = (centerX + x)/10;
-        const shadowY = (y + centerY)/10;
+        const shadowX = (x - centerX)/10;
+        const shadowY = (y - centerY)/10;
 
         // Aplicar la sombra dinámica
-        item.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.5)`;
+        const shadowColor = isDarkMode ? 'var(--shadow-dark)' : 'var(--shadow-light)';
+        item.style.boxShadow = `${shadowX}px ${shadowY}px 15px ${shadowColor}`;
 
         // Calcula el ángulo en radianes
-        let radians = Math.atan2((centerY - y)/rect.height, (centerX - x)/rect.width);
+        let radians = Math.atan2((y - centerY), (x - centerX));
 
         // Convierte a grados
         let degrees = radians * (180 / Math.PI);
@@ -95,9 +98,33 @@ timelineItems.forEach(item => {
 
     // Restaurar la posición de la tarjeta y la sombra cuando el mouse salga
     item.addEventListener('mouseleave', () => {
-        item.style.transform = 'rotateX(0) rotateY(0)';
-        item.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.3)';
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        item.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+        const shadowColor = isDarkMode ? 'var(--shadow-dark)' : 'var(--shadow-light)';
+        item.style.boxShadow = `0px 0px 10px ${shadowColor}`;
         item.style.background = '#86a4e694;';
-        item.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
+        item.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out, scale 0.5s ease-out';
     });
+});
+
+// Seleccionamos el botón y el body
+const toggleModeBtn = document.getElementById('toggle-mode');
+const body = document.body;
+
+// Evento para cambiar entre el modo claro y el modo oscuro
+toggleModeBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    
+    // Cambiar todos los elementos a dark mode
+    document.querySelectorAll('.titulo-de-proyectos').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.tarjeta-de-proyectos').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.contenedor-de-proyectos').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.exp-prof').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.timeline-item .content').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.redes').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.txt-cv').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.detalle-de-proyectos').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.snap-container').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.scroll-right').forEach(el => el.classList.toggle('dark-mode'));
+    document.querySelectorAll('.scroll-left').forEach(el => el.classList.toggle('dark-mode'));
 });

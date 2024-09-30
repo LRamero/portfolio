@@ -135,7 +135,7 @@ toggleModeBtn.addEventListener('click', () => {
     
     // Selecciona todos los elementos que necesitan cambiar su modo
     const elementsToToggle = document.querySelectorAll(
-        '.titulo-de-proyectos, .tarjeta-de-proyectos, .contenedor-de-proyectos, .exp-prof, .timeline-item, .timeline-item .content, .timeline, .redes, .txt-cv, .detalle-de-proyectos, .snap-container, .scroll-right, .scroll-left, .encabezado'
+        '.titulo-de-proyectos, .tarjeta-de-proyectos, .contenedor-de-proyectos, .exp-prof, .timeline-item, .timeline-item .content, .timeline, .redes, .txt-cv, .detalle-de-proyectos, .snap-container, .scroll-right, .scroll-left, .encabezado, .mensaje-bienvenida'
     );
 
     // Agrega o quita la clase 'dark-mode' a cada uno
@@ -145,4 +145,26 @@ toggleModeBtn.addEventListener('click', () => {
     timelineItems.forEach(item => {
         resetCardStyle(item);
     });
+});
+
+window.addEventListener('load', () => {
+    const presentacion = document.querySelector(".presentacion");
+    const snapContainer = document.querySelector(".snap-container");
+    const h2 = presentacion.querySelector("h2");
+    const h3 = presentacion.querySelector("h3");
+    const mensajeBienvenida = document.getElementById("mensaje-bienvenida");
+
+    setTimeout(() => {
+        mensajeBienvenida.classList.add("visible");
+    }, 400);
+
+    setTimeout(() => {
+        presentacion.style.height = "20vh";
+        h2.style.fontSize = "5vh";
+        h2.style.transform = "translateY(-75vh)";
+        h3.style.fontSize = "4vh";
+        h3.style.transform = "translateY(-78vh)";
+        snapContainer.style.height = "80vh";
+        mensajeBienvenida.style.fontSize = "0";
+    }, 3000);
 });

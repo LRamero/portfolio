@@ -566,12 +566,11 @@ body.dark-mode .mode-toggle::before {
 }
 
 .mensaje-bienvenida {
-    width: 50vw;
     height: 10vh;
     opacity: 0;
     font-size: 8vh;
     color: var(--text-light);
-    transform: translate(50%, 350%);
+    transform: translate(23%, 350%);
     transition: opacity 1s ease-in-out, font-size 0.3s ease-in-out;
 }
 

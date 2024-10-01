@@ -187,7 +187,7 @@ def get_info():
             sp_atk = pokemon_load.pk[pokemon_load.pk['Nombre'] == nombre]['Ataque esp'].values[0]
             sp_def = pokemon_load.pk[pokemon_load.pk['Nombre'] == nombre]['Defensa esp'].values[0]
             speed = pokemon_load.pk[pokemon_load.pk['Nombre'] == nombre]['Velocidad'].values[0]
-            img = pokemon_load.pk[pokemon_load.pk['Nombre'] == nombre]['image_url'].values[0]
+            img = "/projects/pokemon/assets/images/" + nombre + ".png"
             data = {
                 'tipo1': tipo1,
                 'tipo2': tipo2,
@@ -225,7 +225,6 @@ def get_info():
             'clase': clase,
             'eff': eff
         }
-        print(data)
         return jsonify(data)
 
 #################################################

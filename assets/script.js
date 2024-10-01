@@ -147,7 +147,90 @@ toggleModeBtn.addEventListener('click', () => {
     });
 });
 
+// Configuración del IntersectionObserver para detectar cuando los elementos son visibles
+function crearObservadorParaCambioDeFuente() {
+    const opcionesObserver = {
+        root: null, // El viewport es la raíz
+        threshold: 0.1 // El 10% del elemento debe ser visible para activar el observer
+    };
+
+    const observer = new IntersectionObserver((entradas, observer) => {
+        entradas.forEach(entrada => {
+            const elemento = entrada.target;
+
+            if (entrada.isIntersecting) {
+                // El elemento es visible, cambiar la fuente
+                cambiarFuenteAleatorioConEfecto(elemento);
+            } else {
+                // El elemento ya no es visible, restablecer fuente
+                restablecerFuente(elemento);
+            }
+        });
+    }, opcionesObserver);
+
+    // Seleccionamos todos los elementos a observar
+    const elementos = document.querySelectorAll('.proyectos h3, .mensaje-bienvenida, .detalle-de-proyectos, .presentacion h2, .presentacion h3, .content h3, .content h4, .content p, .titulo-de-proyectos');
+    elementos.forEach(elemento => observer.observe(elemento));
+}
+
+// Función para barajar los índices (sin cambios)
+function barajarArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Función para cambiar la fuente de cada letra a modo programación
+function cambiarFuenteAleatorioConEfecto(element) {
+    const texto = element.innerText;
+    const length = texto.length; // Longitud del texto
+
+    const indices = Array.from(Array(length).keys()); // Crea un array de índices
+    const indicesBarajados = barajarArray(indices); // Baraja los índices
+
+    // Añadir el retraso de 1 segundo antes de comenzar a cambiar las letras
+    setTimeout(() => {
+        element.innerHTML = ''; // Vacía el contenido
+        for (let i = 0; i < length; i++) {
+            const letra = document.createElement('span');
+            letra.innerText = texto[i];
+            letra.style.transition = 'font-family 0.2s ease';
+            element.appendChild(letra);
+        }
+
+        // Calcular el tiempo total para el cambio de todas las letras
+        const totalDuration = 2000; // Duración total en milisegundos (1 segundo)
+        const delayPerLetter = totalDuration / length; // Retraso por letra
+
+        // Aplicar el cambio de fuente a cada letra en orden aleatorio
+        indicesBarajados.forEach((index, i) => {
+            setTimeout(() => {
+                // Cambia siempre a "Courier New", monospace (modo programación)
+                element.children[index].style.fontFamily = '"Courier New", monospace';
+                element.classList.add('programming-font');
+            }, i * delayPerLetter); // Cambia la letra con un retraso calculado
+        });
+    }, 1000); // Retraso de 1 segundo antes de comenzar a cambiar las letras
+}
+
+// Función para restablecer la fuente original
+function restablecerFuente(element) {
+    const texto = element.innerText;
+    element.innerHTML = ''; // Vacía el contenido
+
+    // Restauramos el texto original
+    for (let i = 0; i < texto.length; i++) {
+        const letra = document.createElement('span');
+        letra.innerText = texto[i];
+        letra.style.fontFamily = '"Dancing Script", cursive'; // Vuelve al estilo original
+        element.appendChild(letra);
+    }
+}
+
 window.addEventListener('load', () => {
+    crearObservadorParaCambioDeFuente();
     const presentacion = document.querySelector(".presentacion");
     const snapContainer = document.querySelector(".snap-container");
     const h2 = presentacion.querySelector("h2");
@@ -161,9 +244,9 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         presentacion.style.height = "20vh";
         h2.style.fontSize = "5vh";
-        h2.style.transform = "translateY(-75vh)";
+        h2.style.transform = "translateY(-73vh)";
         h3.style.fontSize = "4vh";
-        h3.style.transform = "translateY(-78vh)";
+        h3.style.transform = "translateY(-76vh)";
         snapContainer.style.height = "80vh";
         mensajeBienvenida.style.fontSize = "0";
     }, 3000);

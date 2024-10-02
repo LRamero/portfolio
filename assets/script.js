@@ -201,7 +201,7 @@ function cambiarFuenteAleatorioConEfecto(element) {
         }
 
         // Calcular el tiempo total para el cambio de todas las letras
-        const totalDuration = 2000; // Duración total en milisegundos (1 segundo)
+        const totalDuration = 1500; // Duración total en milisegundos (1 segundo)
         const delayPerLetter = totalDuration / length; // Retraso por letra
 
         // Aplicar el cambio de fuente a cada letra en orden aleatorio
@@ -212,7 +212,7 @@ function cambiarFuenteAleatorioConEfecto(element) {
                 element.classList.add('programming-font');
             }, i * delayPerLetter); // Cambia la letra con un retraso calculado
         });
-    }, 1000); // Retraso de 1 segundo antes de comenzar a cambiar las letras
+    }, 400); // Retraso de 1 segundo antes de comenzar a cambiar las letras
 }
 
 // Función para restablecer la fuente original
@@ -238,8 +238,8 @@ window.addEventListener('load', () => {
     const mensajeBienvenida = document.getElementById("mensaje-bienvenida");
 
     setTimeout(() => {
-        mensajeBienvenida.classList.add("visible");
-    }, 400);
+        presentacion.classList.add("visible");
+    }, 150);
 
     setTimeout(() => {
         presentacion.style.height = "20vh";

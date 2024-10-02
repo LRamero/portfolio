@@ -7,44 +7,42 @@
 </head>
 <body>
     <section class="framed neutral">
-        <a href="/">
-            <button style="position: absolute;right: 10px;font-size: 12px;padding: 5px 10px;">Portfolio</button>
-        </a>
         <section>
-            <h1>Simulador de combates Pokemon</h1>
-            <div class="framed secondary">
-                <div class=progress-bar-container id="carga_datos">Cargando datos</div>
-                <div id="encabezado">
-                    <div class="modo">
-                        <h3>Selecciona modo de juego</h3>
+            <section>
+                <div class="atras">
+                    <a href="/">
+                        <button
+                            style="position: absolute;right: 400px;font-size: 12px;padding: 5px 10px;background-color: rgba(153, 132, 64, 0.6);"
+                            id="atras_modo" type="button" secondary atras_modo>Atrás</button>
+                        <button
+                            style="position: absolute;right: 160px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);"
+                            id="atras_combate" type="button" secondary atras_combate>Volver a combatir</button>
+                        <button
+                            style="position: absolute;right: 10px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);">Portfolio</button>
+                    </a>
+                </div>
+                <h2 id="mensajes_generales" style="font-size: 12px;padding: 5px 10px;"></h2>
+            </section>
+            <div class="framed secondary" id="encabezado" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
+                <div class=progress-bar-container>
+                    <div class="modo" style="width: 100%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
+                        <h3 style="font-size: 5vh;">Selecciona modo de juego</h3>
                         <ul>
                             <form id="JvC">
-                                <button type="button" secondary JvC>Jugador contra Computadora</button>
+                                <button style="font-size: 3vh;" type="button" secondary JvC>Jugador contra Computadora</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="JvJ">
-                                <button type="button" secondary JvJ>Jugador contra Jugador</button>
+                                <button style="font-size: 3vh;" type="button" secondary JvJ>Jugador contra Jugador</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="CvC">
-                                <button type="button" secondary CvC>Computadora contra Computadora</button>
+                                <button style="font-size: 3vh;" type="button" secondary CvC>Computadora contra Computadora</button>
                             </form>
                         </ul>
                     </div>
-                    <div class="atras">
-                        <h3>Elige a los combatientes y sus ataques!</h3>
-                        <ul>
-                            <form id="atras_modo">
-                                <button type="button" secondary atras_modo>Atrás</button>
-                            </form>
-                            <form id="atras_combate"></form>
-                                <button type="button" secondary atras_combate>Volver a combatir</button>
-                            </form>
-                        </ul>
-                    </div>
-                    <div id="encabezado_msj"></div>
                 </div>
             </div>
         </section>
@@ -57,35 +55,29 @@
                             <div id="pokemon-container1" class="button-gallery"></div>
                         </div>
                         <div id="habilidades1">
-                            <div id='pk_ability1'>
-                                <ul class=pk>
+                            <div class=pk>
+                                <ul id='pk_ability1'>
                                     <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
                                         {% for ability in abilities1 %}
                                             <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability2'>
-                                <ul class=pk>
+                                <ul id='pk_ability2'>
                                     <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
                                         {% for ability in abilities1 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability3'>
-                                <ul class=pk>
+                                <ul id='pk_ability3'>
                                     <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
                                         {% for ability in abilities1 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability4'>
-                                <ul class=pk>
+                                <ul id='pk_ability4'>
                                     <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
                                         {% for ability in abilities1 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
@@ -116,35 +108,29 @@
                             <div id="pokemon-container2" class="button-gallery"></div>
                         </div>
                         <div id="habilidades2">
-                            <div id='pk_ability1'>
-                                <ul class=pk>
+                            <div class=pk>
+                                <ul id='pk_ability1'>
                                     <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
                                         {% for ability in abilities2 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability2'>
-                                <ul class=pk>
+                                <ul id='pk_ability2'>
                                     <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
                                         {% for ability in abilities2 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability3'>
-                                <ul class=pk>
+                                <ul id='pk_ability3'>
                                     <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
                                         {% for ability in abilities2 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
                                         {% endfor %}
                                     </select>
                                 </ul>
-                            </div>
-                            <div id='pk_ability4'>
-                                <ul class=pk>
+                                <ul id='pk_ability4'>
                                     <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
                                         {% for ability in abilities2 %}
                                         <option value="{{ ability }}">{{ ability }}</option>
@@ -201,41 +187,39 @@
                     </div>
                 </section>
             </section>
-            <section class="pk-life-container" secondary attack-selected>
-                <section class="pk">
-                    <div id="ataque_pk1_seleccionado">
-                        <ul id="atk1_name"></ul>
-                        <ul id="atk1_tipo"></ul>
-                        <ul id="atk1_pow"></ul>
-                        <ul id="atk1_acc"></ul>
-                        <ul id="atk1_class"></ul>
-                        <ul id="atk1_eff"></ul>
-                    </div>
-                </section>
-                <section class="pk">
-                    <div id="ataque_pk2_seleccionado">
-                        <ul id="atk2_name"></ul>
-                        <ul id="atk2_tipo"></ul>
-                        <ul id="atk2_pow"></ul>
-                        <ul id="atk2_acc"></ul>
-                        <ul id="atk2_class"></ul>
-                        <ul id="atk2_eff"></ul>
-                    </div>
-                </section>
+            <section style="max-height: 20vh;overflow: hidden;width: 100%;" class="pk-life-container" secondary attack-selected>
+                <div class="pk" style="position: relative;" id="ataque_pk1_seleccionado">
+                    <ul id="atk1_name"></ul>
+                    <ul id="atk1_tipo"></ul>
+                    <ul id="atk1_pow"></ul>
+                    <ul id="atk1_acc"></ul>
+                    <ul id="atk1_class"></ul>
+                    <ul id="atk1_eff"></ul>
+                </div>
+                <div id="resultado_j" class="resultado" style="width: 50%;position: relative;left: 50%;"></div>
+                <div class="pk" style="position: relative;right: 0%;" id="ataque_pk2_seleccionado">
+                    <ul id="atk2_name"></ul>
+                    <ul id="atk2_tipo"></ul>
+                    <ul id="atk2_pow"></ul>
+                    <ul id="atk2_acc"></ul>
+                    <ul id="atk2_class"></ul>
+                    <ul id="atk2_eff"></ul>
+                </div>
             </section>
-            <section id="resultado" class="resultado">
             </section>
+            <div id="resultado_cvc" class="resultado"></div>
         </section>
     </section>
-    <section>
+    <section style="display: none;">
         <h6>id: <h6 id="id">{{random_id}}</h6><h6 id="actualizacion"></h6></h6>
     </section>
     <script>
-        const encabezado = document.getElementById("encabezado_msj"); /*Mensaje de encabezado*/
+        const modo = document.getElementById("encabezado");
+        const mensajes_gr = document.getElementById("mensajes_generales"); /*Mensaje general de ejecución*/
         const form_JvC = document.getElementById("ejecutar-JvC"); /*Botón de selección JvC*/
         const form_JvJ = document.getElementById("ejecutar-JvJ"); /*Botón de selección JvJ*/
         const form_CvC = document.getElementById("ejecutar-CvC"); /*Botón de selección CvC*/
-        const resultado = document.getElementById("resultado"); /*Mensaje con los resultados*/
+        const resultado = document.querySelectorAll(".resultado"); /*Mensaje con los resultados*/
 
         const boton_peleas = document.getElementById("boton"); /*Grupo de botones de inicio de combate*/
         const button_inicio_JvJ = form_JvJ.querySelector("button[secondary][inicio_JvJ]"); /*Botón inicio JvJ*/
@@ -277,9 +261,7 @@
         const atk1_sel = document.getElementById("ataque_pk1_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 1*/
         const atk2_sel = document.getElementById("ataque_pk2_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 2*/
         const atkselected = document.querySelector(".pk-life-container[secondary][attack-selected]"); /*Contenedor de las etiquetas de ataque seleccionado*/
-        const modo = document.querySelector('.modo'); /*Sección de selección de modo de combate*/
         const atras = document.querySelector('.atras'); /*Sección de botones de atrás*/
-        const barra_datos = document.getElementById('carga_datos'); /*Barra de carga de datos inicial*/
         const id = document.getElementById("id"); /*id de ejecución*/
         const actualizacion = document.getElementById("actualizacion"); /*Última actualización*/
         
@@ -297,19 +279,9 @@
 
         window.addEventListener('load', function () {
             modo.style.display = 'none';
-            barra_datos.style.display = "none"
             fetch("/pokemon_load")
                 .then((response) => {
                     if (response.ok) {
-                        /*const eventSource = new EventSource("/pokemon_load_stream");
-                        eventSource.onmessage = (event) => {
-                            /*barra_datos.innerHTML = "<div class=progress-bar-container><label for=carga>Cargando datos...</label><progress id=cargar class=p" + Number(event.data.substring(0, 3)).toString() + " value=" +
-                                event.data.substring(0, 3) + " max=100></progress></div>\n";
-                            if (Number(event.data.substring(0, 3)).toString() == 100) {
-                                modo.style.display = "block";
-                                barra_datos.style.display = "none"
-                            }
-                        };*/
                         modo.style.display = "block";
                     };
                 })
@@ -331,8 +303,6 @@
             })
                 .then(response => response.text())
                 .then(data => {
-                    pokemon1.innerHTML = "";
-                    pokemon2.innerHTML = "";
                     const parsedLog = data.split('\n').filter(line => line.trim() !== '').map(line => {
                         const [datetime, , message] = line.trim().split(' - ');
                         const [date, time] = datetime.trim().split(' ');
@@ -355,6 +325,7 @@
                                         const v_max = partes[partes.length - 2];
                                         const vida = partes[partes.length - 1];
                                         porcentaje = Math.round((vida / v_max) * 100).toString()
+                                        pokemon1.innerHTML = "";
                                         pokemon1.innerHTML = "<div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
                                             vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img1 + ' alt=Imagen style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
                                     }
@@ -362,6 +333,7 @@
                                         const v_max = partes[partes.length - 2];
                                         const vida = partes[partes.length - 1];
                                         porcentaje = Math.round((vida / v_max) * 100).toString();
+                                        pokemon2.innerHTML = "";
                                         pokemon2.innerHTML = "<div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
                                             vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img2 + ' alt=Imagen style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
                                     }
@@ -378,23 +350,27 @@
                                         pk2_ability4Button.innerText = partes[4];
                                     }
                                     else if ((logMsg == "Definiendo parámetros...") | (logMsg.includes("Comenzando el combate"))) {
-                                        encabezado.innerHTML += logMsg + "<br>";
+                                        mensajes_gr.innerHTML = logMsg;
                                     }
                                     else if (logMsg.includes("El ganador")) {
-                                        encabezado.innerHTML += "Combate finalizado. " + logMsg + "<br>";
+                                        mensajes_gr.innerHTML = "Combate finalizado. " + logMsg;
                                         atras.style.display = "block";
                                         clearInterval(intervalId);
                                     }
                                     else if (logMsg.includes("Error!!")) {
-                                        if (!(encabezado.innerHTML.includes("El ganador")) & !(encabezado.innerHTML.includes("JvJ")) & !(encabezado.innerHTML.includes("JvC"))) {
-                                            resultado.innerHTML = "";
-                                            encabezado.innerHTML += "Hubo un error!! Por favor vuelva a intentarlo.<br>";
+                                        if (!(mensajes_gr.innerHTML.includes("El ganador")) & !(mensajes_gr.innerHTML.includes("JvJ")) & !(mensajes_gr.innerHTML.includes("JvC"))) {
+                                            resultado.forEach((resultado) => {
+                                                resultado.innerHTML = ""
+                                            });
+                                            mensajes_gr.innerHTML = "Hubo un error!! Por favor vuelva a intentarlo.";
                                             atras.style.display = "block";
                                             clearInterval(intervalId);
                                         }
                                     }
                                     else {
-                                        resultado.innerHTML += logMsg + "<br>";
+                                        resultado.forEach((resultado) => {
+                                            resultado.innerHTML += logMsg + "<br>";
+                                        });
                                     }
                                 }, index * 100);
                             })(i);
@@ -406,7 +382,7 @@
 
         function acciones(response, modo) {
             let intervalId = null;
-            if (!(encabezado.innerHTML.includes("JvJ") | encabezado.innerHTML.includes("JvC"))){
+            if (!(mensajes_gr.innerHTML.includes("JvJ") | mensajes_gr.innerHTML.includes("JvC"))){
                 actualizacion.innerText = "00:00:00"
             }
 
@@ -427,9 +403,17 @@
 
         button_inicio_CvC.addEventListener("click", (e) => {
             e.preventDefault();
-            encabezado.innerHTML = "";
-            resultado.innerHTML = "";
             atras.style.display = "none";
+            pokemon1_container.style.display = "none";
+            pokemon2_container.style.display = "none";
+            boton_peleas.style.display = "none";
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
+            mensajes_gr.innerHTML = "";
+            resultado.forEach((resultado) => {
+                resultado.innerHTML = ""
+            });
+            
             const pokemon1_value = pk_lista[currentIndex1];
             const pokemon2_value = pk_lista[currentIndex2];
             const pk1_ability1 = document.getElementById("pk1_ability1").value;
@@ -441,11 +425,7 @@
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
             const id_s = document.getElementById("id").innerText;
-            pokemon1_container.style.display = "none";
-            pokemon2_container.style.display = "none";
-            boton_peleas.style.display = "none";
-            habilidades1.style.display = "none";
-            habilidades2.style.display = "none";
+            
             fetch("/pokemon_combat", {
                 method: "POST",
                 headers: {
@@ -463,9 +443,15 @@
 
         button_inicio_JvJ.addEventListener("click", (e) => {
             e.preventDefault();
-            encabezado.innerHTML = "";
-            resultado.innerHTML = "";
-            atras.style.display = "block";
+            pokemon1_container.style.display = "none";
+            pokemon2_container.style.display = "none";
+            boton_peleas.style.display = "none";
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
+            mensajes_gr.innerHTML = "";
+            resultado.forEach((resultado) => {
+                resultado.innerHTML = ""
+            });
             const pokemon1_value = pk_lista[currentIndex1];
             const pokemon2_value = pk_lista[currentIndex2];
             const pk1_ability1 = document.getElementById("pk1_ability1").value;
@@ -477,11 +463,6 @@
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
             const id_s = document.getElementById("id").innerText;
-            pokemon1_container.style.display = "none";
-            pokemon2_container.style.display = "none";
-            boton_peleas.style.display = "none";
-            habilidades1.style.display = "none";
-            habilidades2.style.display = "none";
             fetch("/pokemon_combat", {
                 method: "POST",
                 headers: {
@@ -496,13 +477,20 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
+            atras.style.display = "block";
         });
 
         button_inicio_JvC.addEventListener("click", (e) => {
             e.preventDefault();
-            encabezado.innerHTML = "";
-            resultado.innerHTML = "";
-            atras.style.display = "block";
+            mensajes_gr.innerHTML = "";
+            resultado.forEach((resultado) => {
+                resultado.innerHTML = ""
+            });
+            pokemon1_container.style.display = "none";
+            pokemon2_container.style.display = "none";
+            boton_peleas.style.display = "none";
+            habilidades1.style.display = "none";
+            habilidades2.style.display = "none";
             const pokemon1_value = pk_lista[currentIndex1];
             const pokemon2_value = pk_lista[currentIndex2];
             const pk1_ability1 = document.getElementById("pk1_ability1").value;
@@ -514,11 +502,6 @@
             const pk2_ability3 = document.getElementById("pk2_ability3").value; 
             const pk2_ability4 = document.getElementById("pk2_ability4").value;
             const id_s = document.getElementById("id").innerText;
-            pokemon1_container.style.display = "none";
-            pokemon2_container.style.display = "none";
-            boton_peleas.style.display = "none";
-            habilidades1.style.display = "none";
-            habilidades2.style.display = "none";
             fetch("/pokemon_combat", {
                 method: "POST",
                 headers: {
@@ -533,6 +516,7 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
+            atras.style.display = "block";
         });
 
         // Función para mostrar la tarjeta actual
@@ -635,136 +619,145 @@
         button_CvC.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
             fetch("/get_pokemon")
-                .then(
-                    response => response.json()
-                )
-                .then(pk_list => {
-                    pk_lista = pk_list; // Guardar la lista de Pokémon
-                    currentIndex1 = 0; // Reiniciar el índice
-                    currentIndex2 = 0; // Reiniciar el índice
-                    mostrarTarjeta(1, currentIndex1);
-                    mostrarTarjeta(2, currentIndex2);
-                    createButtons();
-                });
-                pkLifeContainer.style.display = "flex";
-                modo.style.display = "none";
-                atras.style.display = "block";
-                form_CvC.style.display = "block";
-                form_JvC.style.display = "none";
-                form_JvJ.style.display = "none";
-                boton_peleas.style.display = "block";
-                pk1_select.style.display = "block";
-                pk2_select.style.display = "block";
+            .then(
+                response => response.json()
+            )
+            .then(pk_list => {
+                pk_lista = pk_list; // Guardar la lista de Pokémon
+                currentIndex1 = 0; // Reiniciar el índice
+                currentIndex2 = 0; // Reiniciar el índice
+                mostrarTarjeta(1, currentIndex1);
+                mostrarTarjeta(2, currentIndex2);
+                createButtons();
+            });
+            document.getElementById("resultado_cvc").style.display = "block";
+            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            form_JvC.style.display = "none";
+            form_JvJ.style.display = "none";
+            modo.style.display = "none";
+            pkLifeContainer.style.display = "flex";
+            atras.style.display = "block";
+            form_CvC.style.display = "block";
+            boton_peleas.style.display = "block";
+            pk1_select.style.display = "block";
+            pk2_select.style.display = "block";
         });
 
         button_JvJ.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
             fetch("/get_pokemon")
-                .then(
-                    response => response.json()
-                )
-                .then(pk_list => {
-                    pk_lista = pk_list; // Guardar la lista de Pokémon
-                    currentIndex1 = 0; // Reiniciar el índice
-                    currentIndex2 = 0; // Reiniciar el índice
-                    mostrarTarjeta(1, currentIndex1);
-                    mostrarTarjeta(2, currentIndex2);
-                    createButtons();
-                });
-                pkLifeContainer.style.display = "flex";
-                modo.style.display = "none";
-                atras.style.display = "block";
-                form_JvJ.style.display = "block";
-                form_JvC.style.display = "none";
-                form_CvC.style.display = "none";
-                boton_peleas.style.display = "block";
-                pk1_select.style.display = "block";
-                pk2_select.style.display = "block";
+            .then(
+                response => response.json()
+            )
+            .then(pk_list => {
+                pk_lista = pk_list; // Guardar la lista de Pokémon
+                currentIndex1 = 0; // Reiniciar el índice
+                currentIndex2 = 0; // Reiniciar el índice
+                mostrarTarjeta(1, currentIndex1);
+                mostrarTarjeta(2, currentIndex2);
+                createButtons();
+            });
+            document.getElementById("resultado_cvc").style.display = "none";
+            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            modo.style.display = "none";
+            form_JvC.style.display = "none";
+            form_CvC.style.display = "none";
+            boton_peleas.style.display = "block";
+            pk1_select.style.display = "block";
+            pk2_select.style.display = "block";
+            pkLifeContainer.style.display = "flex";
+            atras.style.display = "block";
+            form_JvJ.style.display = "block";
         });
 
         button_JvC.addEventListener('click', (e) => {
             e.preventDefault(); // previene el comportamiento predeterminado del botón
             fetch("/get_pokemon")
-                .then(
-                    response => response.json()
-                )
-                .then(pk_list => {
-                    pk_lista = pk_list; // Guardar la lista de Pokémon
-                    currentIndex1 = 0; // Reiniciar el índice
-                    currentIndex2 = 0; // Reiniciar el índice
-                    mostrarTarjeta(1, currentIndex1);
-                    mostrarTarjeta(2, currentIndex2);
-                    createButtons();
-                });
-                pkLifeContainer.style.display = "flex";
-                modo.style.display = "none";
-                atras.style.display = "block";
-                form_JvC.style.display = "block";
-                form_CvC.style.display = "none";
-                form_JvJ.style.display = "none";
-                boton_peleas.style.display = "block";
-                pk1_select.style.display = "block";
-                pk2_select.style.display = "block"; 
+            .then(
+                response => response.json()
+            )
+            .then(pk_list => {
+                pk_lista = pk_list; // Guardar la lista de Pokémon
+                currentIndex1 = 0; // Reiniciar el índice
+                currentIndex2 = 0; // Reiniciar el índice
+                mostrarTarjeta(1, currentIndex1);
+                mostrarTarjeta(2, currentIndex2);
+                createButtons();
+            });
+            document.getElementById("resultado_cvc").style.display = "none";
+            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            modo.style.display = "none";
+            form_CvC.style.display = "none";
+            form_JvJ.style.display = "none";
+            boton_peleas.style.display = "block";
+            pk1_select.style.display = "block";
+            pk2_select.style.display = "block"; 
+            pkLifeContainer.style.display = "flex";
+            atras.style.display = "block";
+            form_JvC.style.display = "block";
         });
 
         button_atras.addEventListener("click", (e) => {
             e.preventDefault();
-            modo.style.display = "block";
             atras.style.display = "none";
+            pkLifeContainer.style.display = "none";
+            boton_peleas.style.display = "none";
+            pkbuttonContainer.style.display = "none";
+            atkselected.style.display = "none";
             pokemon1.innerHTML = "";
             pokemon2.innerHTML = "";
-            pkLifeContainer.style.display = "none";
-            encabezado.innerHTML = "";
-            resultado.innerHTML = "";
-            boton_peleas.style.display = "none";
-            form_JvC.style.display = "block";
-            form_JvJ.style.display = "block";
-            form_CvC.style.display = "block";
-            pkbuttonContainer.style.display = "none";
+            mensajes_gr.innerHTML = "";
+            resultado.forEach((resultado) => {
+                resultado.innerHTML = ""
+            });
             atk1_sel.innerHTML = "";
             atk2_sel.innerHTML = "";
             atk1 = "";
             atk2 = "";
-            atkselected.style.display = "none";
             habilidades1.style.display = "block";
             habilidades2.style.display = "block";
             pokemon1_container.style.display = "flex";
             pokemon2_container.style.display = "flex";
+            modo.style.display = "block";
+            form_JvC.style.display = "block";
+            form_JvJ.style.display = "block";
+            form_CvC.style.display = "block";
         });
         
         button_combate.addEventListener("click", (e) => {
             e.preventDefault();
             fetch("/get_pokemon")
-                .then(
-                    response => response.json()
-                )
-                .then(pk_list => {
-                    pk_lista = pk_list; // Guardar la lista de Pokémon
-                    currentIndex1 = 0; // Reiniciar el índice
-                    currentIndex2 = 0; // Reiniciar el índice
-                    updateSelectedValue(1, currentIndex1)
-                    updateSelectedValue(2, currentIndex2)
-                });
-            pk1_select.style.display = "block";
-            pk2_select.style.display = "block";
-            boton_peleas.style.display = "block";
+            .then(
+                response => response.json()
+            )
+            .then(pk_list => {
+                pk_lista = pk_list; // Guardar la lista de Pokémon
+                currentIndex1 = 0; // Reiniciar el índice
+                currentIndex2 = 0; // Reiniciar el índice
+                updateSelectedValue(1, currentIndex1)
+                updateSelectedValue(2, currentIndex2)
+            });
             pkbuttonContainer.style.display = "none";
-            encabezado.innerHTML = "";
-            resultado.innerHTML = "";
+            atkselected.style.display = "none";
+            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            resultado.forEach((resultado) => {
+                resultado.innerHTML = ""
+            });
             atk1_sel.innerText = "";
             atk2_sel.innerText = "";
             atk1 = "";
             atk2 = "";
-            atkselected.style.display = "none";
             habilidades1.style.display = "block";
             habilidades2.style.display = "block";
             pokemon1_container.style.display = "flex";
             pokemon2_container.style.display = "flex";
+            pk1_select.style.display = "block";
+            pk2_select.style.display = "block";
+            boton_peleas.style.display = "block";
         });
         
         pk1_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
             atk1 = pk1_ability1Button.innerText;
             fetch("/get_info", {
                 method: "POST",
@@ -777,10 +770,10 @@
             .then(info => {
                 mostrarTarjeta_atk(1, atk1, info);
             });
+            atkselected.style.display = "flex";
         });
         pk1_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
             atk1 = pk1_ability2Button.innerText;
             fetch("/get_info", {
                 method: "POST",
@@ -793,10 +786,10 @@
             .then(info => {
                 mostrarTarjeta_atk(1, atk1, info);
             });
+            atkselected.style.display = "flex";
         });
         pk1_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
             atk1 = pk1_ability3Button.innerText;
             fetch("/get_info", {
                 method: "POST",
@@ -809,10 +802,10 @@
             .then(info => {
                 mostrarTarjeta_atk(1, atk1, info);
             });
+            atkselected.style.display = "flex";
         });
         pk1_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
             atk1 = pk1_ability4Button.innerText;
             fetch("/get_info", {
                 method: "POST",
@@ -825,12 +818,12 @@
             .then(info => {
                 mostrarTarjeta_atk(1, atk1, info);
             });
+            atkselected.style.display = "flex";
         });
 
         pk2_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
-            if(encabezado.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerHTML.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -846,12 +839,12 @@
                 .then(info => {
                     mostrarTarjeta_atk(2, atk2, info);
                 });
-            }
+            };
+            atkselected.style.display = "flex";
         });
         pk2_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
-            if(encabezado.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerHTML.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -867,12 +860,12 @@
                 .then(info => {
                     mostrarTarjeta_atk(2, atk2, info);
                 });
-            }
+            };
+            atkselected.style.display = "flex";
         });
         pk2_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
-            if(encabezado.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerHTML.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -888,12 +881,12 @@
                 .then(info => {
                     mostrarTarjeta_atk(2, atk2, info);
                 });
-            }
+            };
+            atkselected.style.display = "flex";
         });
         pk2_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
-            atkselected.style.display = "flex";
-            if(encabezado.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerHTML.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!"
             }
             else {
@@ -909,7 +902,8 @@
                 .then(info => {
                     mostrarTarjeta_atk(2, atk2, info);
                 });
-            }
+            };
+            atkselected.style.display = "flex";
         });
         
         atacar.addEventListener("click", (e) => {
@@ -917,13 +911,13 @@
             atk_pk1 = atk1;
             atk_pk2 = atk2;
             id_s = document.getElementById("id").innerText;
-            if (encabezado.innerHTML.includes("JvJ")) {
+            if (mensajes_gr.innerHTML.includes("JvJ")) {
                 modo_combate = "JvJ_c";
             }
-            else if (encabezado.innerHTML.includes("JvC")) {
+            else if (mensajes_gr.innerHTML.includes("JvC")) {
                 modo_combate = "JvC_c";
             }
-            if(!(encabezado.innerHTML.includes("ganador"))) {
+            if(!(mensajes_gr.innerHTML.includes("ganador"))) {
                 fetch("/pokemon_combat_c", {
                     method: "POST",
                     headers: {

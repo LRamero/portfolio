@@ -16,14 +16,10 @@ h1,h2,h3,h4,h5,h6{
     border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAMAAAAPdrEwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAABgQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMM8PuMAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4xLjVkR1hSAAAA5UlEQVRoQ+3MQQrDMBBD0fb+h06N/2A+MTHdTtBbKRpHn0u+UtUf6oepqinTQ1VT62kfyNgbuHcGTaYXmqbT9XXEU6vDUaZvWk/XHxtfn/KOa6YXrk2n/UGGG7K5J8NNpgc3rafBAW7I5p4MGmR6oMFrpvf8xG+ckemV0XraB+czv3RGpldG62n47PzEb5yR6ZXxmmm4IZt7MmiQ6YEGrad9IGNv4N4ZNJleaJpO19cRT60OR5m+aT1df2x8fco7rpleuDad9gcZbsjmngw3mR7ctJ4GB1T1h/phqmrK9FDV1HH6un4ss9jsFZtJkQAAAABJRU5ErkJggg==) 42 round;
     border-width:21px;
     border-style:solid;
+    width: 100%;
     max-width:100%;
     max-height: 100%;
     overflow-x: hidden;
-}
-
-.framed.no-hd{
-    border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNWRHWFIAAAB7SURBVDhPhYxBDgRBCALnCXPc/3/UCZ3QKQ1mDxUR0KeqDr/3LeE9MTvX9JyaO33pViIKTcrF/TjLaZJzbEHT09Cnbp9SkTs7IhbskZSvwWQ9prk9+Hu8PaDPbA2tudOXbiWi0KRc3I+znCY5xxY0PQ196vaJhUTv1PMB8FbyoeIa680AAAAASUVORK5CYII=) 7 round;
-    border-width:7px
 }
 
 .framed.neutral{
@@ -33,21 +29,8 @@ h1,h2,h3,h4,h5,h6{
     overflow-x: hidden;
 }
 
-.framed.neutral.exclude-border{
-    background-clip:padding-box
-}
-
-.framed.primary{
-    background:#48a058;
-    color:#f8f3f8;
-    text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010
-}
-
-.framed.primary.exclude-border{
-    background-clip:padding-box
-}
-
 .framed.secondary{
+    height: 26rem;
     background:#3a38367e;
     color:#f8f3f8;
     text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010
@@ -57,45 +40,8 @@ h1,h2,h3,h4,h5,h6{
     background-clip:padding-box
 }
 
-.framed.danger{
-    background:#b3181c;
-    color:#f8f3f8;
-    text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010
-}
-
-.framed.danger.exclude-border{
-    background-clip:padding-box
-}
-
 .framed::-webkit-scrollbar{
     display: none
-}
-
-.stats{
-    position:relative;
-    border:4px solid #181010;
-    border-top:none;
-    border-right:none;
-    padding:1em
-}
-
-.stats:after{
-    position:absolute;
-    right:0;bottom:0;
-    display:inline-block;
-    content:"";
-    width:2px;
-    height:2px;
-    font-size:2px;
-    color:#181010;
-    box-shadow:-4em -1em #181010,-5em -1em #181010,-4em 0 #181010,-5em 0 #181010,-3em 0 #181010,-2em 0 #181010,1em 2em #181010,1em 2em #181010,2em 2em #181010,2em 2em #181010
-}
-
-.stats h2{
-    background-color:#f8f3f8;
-    margin-left:-1em;
-    margin-top:-1em;
-    padding:1em 1em 1em 0
 }
 
 a.button, a.button:hover, a.button:active{
@@ -2638,7 +2584,7 @@ h1{
 .pk-life-container {
     display: flex;
     flex-wrap: nowrap;
-    max-height: 120%;
+    max-height: 40%;
     justify-content: space-between;
     width: 100%;
     display: none;

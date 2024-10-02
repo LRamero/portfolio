@@ -276,36 +276,6 @@ section {
     height: 100%;
 }
 
-.presentacion {
-    width: 100%;
-    height: 100vh;
-    transition: height 0.5s ease, font-family 0.5s ease;
-}
-
-.presentacion h2 {
-    position: absolute;
-    top: 75vh;
-    left: 0;
-    padding-left: 1vw;
-    font-size: 7vh;
-    margin: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    transition: font-size 0.5s ease, transform 0.5s ease;
-}
-
-.presentacion h3 {
-    position: absolute;
-    top: 85vh;
-    left: 0;
-    padding-left: 1vw;
-    font-size: 4vh;
-    margin: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    transition: font-size 0.5s ease, transform 0.5s ease;
-}
-
 .exp-prof {
     width: 70%;
     height: 100%;
@@ -356,6 +326,9 @@ section {
     width: 30%;
     background: var(--element-light);
     padding: 20px;
+    display: flex;
+    justify-content: justify;
+    align-items: center;
 }
 
 .txt-cv.dark-mode {
@@ -578,23 +551,54 @@ body.dark-mode .mode-toggle::before {
     background-color: #fff;
 }
 
+.presentacion {
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, height 0.5s ease, font-family 0.5s ease;
+}
+
+.presentacion h2 {
+    position: absolute;
+    top: 75vh;
+    left: 0;
+    padding-left: 1vw;
+    font-size: 7vh;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: font-size 0.5s ease, transform 0.5s ease;
+}
+
+.presentacion h3 {
+    position: absolute;
+    top: 85vh;
+    left: 0;
+    padding-left: 1vw;
+    font-size: 4vh;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: font-size 0.5s ease, transform 0.5s ease;
+}
+
+.presentacion.visible {
+    opacity: 1;
+}
+
 .mensaje-bienvenida {
     height: 10vh;
     text-align: center;
     width: 100vw;
-    opacity: 0;
-    font-size: 8vh;
+    font-weight: bolder;
+    font-size: 12vh;
     color: var(--text-light);
     transform: translate(0, 350%);
-    transition: opacity 1s ease-in-out, font-size 0.3s ease-in-out;
+    transition: font-size 0.3s ease-in-out;
 }
 
 .mensaje-bienvenida.dark-mode {
     color: var(--text-dark);
-}
-
-.mensaje-bienvenida.visible {
-    opacity: 1;
 }
 
 .mensaje-bienvenida.ocultar {

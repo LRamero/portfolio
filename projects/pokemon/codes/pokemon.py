@@ -578,6 +578,8 @@ def dano_estado(logger, pk):
         #sys.stdout.write(str(pk.nombre) + " está envenenado" + '\n')
         logger.info(str(pk.nombre) + " está envenenado" + '\n')
         pk.vida -= (pk.vida_inicial)/8
+        if pk.vida < 0:
+            pk.vida = 0
         pego = 1
     
     if "BAD_POIS" in estado:
@@ -591,12 +593,16 @@ def dano_estado(logger, pk):
             tmp = pk.var_respaldo[ind+1]
             pk.var_respaldo[ind+1] = tmp+1
         pk.vida -= round(tmp*((pk.vida_inicial)/16))
+        if pk.vida < 0:
+            pk.vida = 0
         pego = 1
     
     if "BURN" in estado:
         #sys.stdout.write(str(pk.nombre) + " está quemado" + '\n')
         logger.info(str(pk.nombre) + " está quemado" + '\n')
         pk.vida -= round((pk.vida_inicial)/16)
+        if pk.vida < 0:
+            pk.vida = 0
         pego = 1
     
     if pego:
@@ -795,6 +801,8 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
                     #sys.stdout.write("Se daña: " + str(dano) + 'por retroceso\n')
                     logger.info("Se daña: " + str(dano) + 'por retroceso\n')
                     pk_att.vida -= round(dano*tmp)
+                    if pk_att.vida < 0:
+                        pk_att.vida = 0
 
             if ("RECOIL_HP" in atk.efecto):
                 ind = atk.efecto.index("RECOIL_HP")
@@ -803,12 +811,16 @@ def ataque(logger, pk_att, pk_def, atk, eff, pr):
                     #sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*tmp) + 'por retroceso\n')
                     logger.info("Se daña: " + str(pk_att.vida_inicial*tmp) + 'por retroceso\n')
                     pk_att.vida -= round(pk_att.vida_inicial*tmp)
+                    if pk_att.vida < 0:
+                        pk_att.vida = 0
 
             if ("AUT_DANO" in atk.efecto):
                 if (pk_def.vida - dano > 0):
                     #sys.stdout.write("Se daña: " + str(pk_att.vida_inicial*0.5) + '\n')
                     logger.info("Se daña: " + str(pk_att.vida_inicial*0.5) + '\n')
                     pk_att.vida -= round(pk_att.vida_inicial*0.5)
+                    if pk_att.vida < 0:
+                        pk_att.vida = 0
 
             if ("SAME_HP" in atk.efecto):
                 if pk_def.vida > pk_att.vida:
@@ -1074,6 +1086,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Se daña: " + str(dano) + '\n')
             logger.info("Se daña: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         pr_r = 0
         if pk_r.vida < 1:
             return pk_r, pk_a 
@@ -1099,6 +1113,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Se daña: " + str(dano) + '\n')
             logger.info("Se daña: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         pr_a = 0
         if pk_a.vida < 1:
             return pk_r, pk_a 
@@ -1121,6 +1137,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)
@@ -1141,6 +1159,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
                 #sys.stdout.write("Golpea: " + str(dano) + '\n')
                 logger.info("Golpea: " + str(dano) + '\n')
             pk_r.vida -= round(dano)
+            if pk_r.vida < 0:
+                pk_r.vida = 0
             if pk_r.vida < 1:
                 return pk_r, pk_a
             dano_estado(logger, pk_a)
@@ -1167,6 +1187,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         if pk_r.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_a)
@@ -1186,6 +1208,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)
@@ -1209,6 +1233,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         if pk_r.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_a)
@@ -1228,6 +1254,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)
@@ -1251,6 +1279,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)
@@ -1270,6 +1300,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         if pk_r.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_a)
@@ -1299,6 +1331,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= dano
+        if pk_a.vida < 0:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)
@@ -1318,6 +1352,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         if pk_r.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_a)
@@ -1347,6 +1383,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_r.vida -= round(dano)
+        if pk_r.vida < 0:
+            pk_r.vida = 0
         if pk_r.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_a)
@@ -1366,6 +1404,8 @@ def enfrentamiento(logger, pk_r, pk_a, eff, atk_pk1, atk_pk2):
             #sys.stdout.write("Golpea: " + str(dano) + '\n')
             logger.info("Golpea: " + str(dano) + '\n')
         pk_a.vida -= round(dano)
+        if pk_a.vida < 1:
+            pk_a.vida = 0
         if pk_a.vida < 1:
             return pk_r, pk_a
         dano_estado(logger, pk_r)

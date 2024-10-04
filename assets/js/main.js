@@ -136,14 +136,35 @@
 
 	
 	$(function(){
-		// contentWayPoint();
-		// goToTop();
+		contentWayPoint();
+		goToTop();
 		loaderPage();
-		//fullHeight();
-		// parallax();
-		// pieChart();
-		// skillsWayPoint();
+		fullHeight();
+		parallax();
+		pieChart();
+		skillsWayPoint();
 	});
 
 
 }());
+
+const toggleModeBtn = document.getElementById('toggle-mode');
+const body = document.body;
+
+// Evento para cambiar entre el modo claro y el modo oscuro
+toggleModeBtn.addEventListener('click', () => {
+	//body.classList.toggle('dark-mode');
+
+	// Selecciona todos los elementos que necesitan cambiar su modo
+	const elementsToToggle = document.querySelectorAll(
+		'.overlay, .mode-toggle, .sun, .moon'
+	);
+
+	// Agrega o quita la clase 'dark-mode' a cada uno
+	elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
+
+	// Recalcular el degradado dinámico en todos los items
+	/*timelineItems.forEach(item => {
+		resetCardStyle(item);
+	});*/
+});

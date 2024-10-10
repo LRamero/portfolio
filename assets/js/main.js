@@ -104,15 +104,28 @@
 	};
 
 	var pieChart = function() {
-		$('.chart').easyPieChart({
-			scaleColor: false,
-			lineWidth: 4,
-			lineCap: 'butt',
-			barColor: '#FF9000',
-			trackColor:	"#f5f5f5",
-			size: 160,
-			animate: 1000
-		});
+		if (document.body.classList.contains('dark-mode')){
+			$('.chart').easyPieChart({
+				scaleColor: false,
+				lineWidth: 4,
+				lineCap: 'butt',
+				barColor: '#FF9000',
+				trackColor:	"#f5f5f5",
+				size: 160,
+				animate: 1000
+			});
+		}
+		else {
+			$('.chart').easyPieChart({
+				scaleColor: false,
+				lineWidth: 4,
+				lineCap: 'butt',
+				barColor: '#00bd5e',
+				trackColor: "#f5f5f5",
+				size: 160,
+				animate: 1000
+			});
+		}
 	};
 
 	var skillsWayPoint = function() {
@@ -168,13 +181,13 @@
 			// Agrega o quita la clase 'dark-mode' a cada uno
 			elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
 		}
+		pieChart('dark');
 		changeDark();
 		contentWayPoint();
 		goToTop();
 		loaderPage();
 		fullHeight();
 		parallax();
-		pieChart();
 		skillsWayPoint();
 	});
 }());

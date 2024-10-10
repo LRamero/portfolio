@@ -162,7 +162,7 @@
 		if (detectSystemTheme() === 'dark'){
 			// Selecciona todos los elementos que necesitan cambiar su modo
 			const elementsToToggle = document.querySelectorAll(
-				'.overlay, .mode-toggle, .sun, .moon, #fh5co-about, .fh5co-about, body, .gototop, h1, h2, h3, h4, h5, h6, figure'
+				'.mode-toggle, .sun, .moon, body'
 			);
 
 			// Agrega o quita la clase 'dark-mode' a cada uno

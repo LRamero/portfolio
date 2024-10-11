@@ -103,29 +103,40 @@
 	
 	};
 
+	// Nueva función para detectar si está en modo oscuro
+	var isDarkModeEnabled = function() {
+		return document.body.classList.contains('dark-mode');
+	};
+
+	// Modificar función pieChart para cambiar el color dinámicamente
 	var pieChart = function() {
-		if (document.body.classList.contains('dark-mode')){
-			$('.chart').easyPieChart({
+		$('.chart').each(function() {
+		var $this = $(this);				
+			// Crear el gráfico con el nuevo color
+			$this.easyPieChart({
 				scaleColor: false,
 				lineWidth: 4,
 				lineCap: 'butt',
-				barColor: '#FF9000',
-				trackColor:	"#f5f5f5",
+				barColor: isDarkModeEnabled() ? '#00bd5e' : '#FF9000', // Cambia el color según el modo
+				trackColor: isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF',
 				size: 160,
 				animate: 1000
 			});
-		}
-		else {
-			$('.chart').easyPieChart({
-				scaleColor: false,
-				lineWidth: 4,
-				lineCap: 'butt',
-				barColor: '#00bd5e',
-				trackColor: "#f5f5f5",
-				size: 160,
-				animate: 1000
-			});
-		}
+		});
+	};
+
+	var updatePieChartColor = function() {
+		$('.chart').each(function() {
+	
+			// Acceder a la instancia de easyPieChart
+			var chartInstance = $(this).data('easyPieChart');
+			var currentPercentage = $(this).data('percent');
+	
+			// Actualizar el barColor y redibujar
+			chartInstance.options.barColor = isDarkModeEnabled() ? '#00bd5e' : '#FF9000';
+			chartInstance.options.trackColor = isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF', 
+			chartInstance.update(currentPercentage); // Redibuja el gráfico con los nuevos colores
+		});
 	};
 
 	var skillsWayPoint = function() {
@@ -141,7 +152,6 @@
 
 	};
 
-
 	// Loading page
 	var loaderPage = function() {
 		$(".fh5co-loader").fadeOut("slow");
@@ -149,20 +159,16 @@
 
 	var changeDark = function() {
 	// Evento para cambiar entre el modo claro y el modo oscuro
-		$('.mode-toggle').on('click', function(event){
+		$('.mode-toggle').on('click', function(){
 
 			// Selecciona todos los elementos que necesitan cambiar su modo
 			const elementsToToggle = document.querySelectorAll(
-				'.overlay, .mode-toggle, .sun, .moon, #fh5co-about, .fh5co-about, body, .gototop, h1, h2, h3, h4, h5, h6, figure'
+				'.mode-toggle, .sun, .moon, body'
 			);
 
 			// Agrega o quita la clase 'dark-mode' a cada uno
 			elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
-
-			// Recalcular el degradado dinámico en todos los items
-			/*timelineItems.forEach(item => {
-				resetCardStyle(item);
-			});*/
+			updatePieChartColor();
 		});
 	};
 
@@ -181,7 +187,7 @@
 			// Agrega o quita la clase 'dark-mode' a cada uno
 			elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
 		}
-		pieChart('dark');
+		pieChart();
 		changeDark();
 		contentWayPoint();
 		goToTop();

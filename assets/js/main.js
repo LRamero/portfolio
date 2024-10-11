@@ -111,9 +111,7 @@
 	// Modificar función pieChart para cambiar el color dinámicamente
 	var pieChart = function() {
 		$('.chart').each(function() {
-		var $this = $(this);				
-			// Crear el gráfico con el nuevo color
-			$this.easyPieChart({
+			$(this).easyPieChart({
 				scaleColor: false,
 				lineWidth: 4,
 				lineCap: 'butt',

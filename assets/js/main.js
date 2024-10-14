@@ -93,14 +93,22 @@
 		$(window).scroll(function(){
 
 			var $win = $(window);
+
+			// Controla el botón "Go to Top"
 			if ($win.scrollTop() > 200) {
 				$('.js-top').addClass('active');
 			} else {
 				$('.js-top').removeClass('active');
 			}
 
-		});
-	
+			// Controla el checkbox del menú
+			if ($win.scrollTop() > 200) {
+				$('label[for="menu_checkbox"]').addClass('active');
+			} else {
+				$('label[for="menu_checkbox"]').removeClass('active');
+			}
+
+		});	
 	};
 
 	// Nueva función para detectar si está en modo oscuro
@@ -116,7 +124,7 @@
 				lineWidth: 4,
 				lineCap: 'butt',
 				barColor: isDarkModeEnabled() ? '#00bd5e' : '#FF9000', // Cambia el color según el modo
-				trackColor: isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF',
+				trackColor: '#88888833',
 				size: 160,
 				animate: 1000
 			});
@@ -132,7 +140,6 @@
 	
 			// Actualizar el barColor y redibujar
 			chartInstance.options.barColor = isDarkModeEnabled() ? '#00bd5e' : '#FF9000';
-			chartInstance.options.trackColor = isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF';
 			chartInstance.update(currentPercentage); // Redibuja el gráfico con los nuevos colores
 		});
 	};
@@ -174,17 +181,6 @@
 		const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 		return prefersDarkScheme ? 'dark' : 'light';
 	}
-
-	var toggleMenu = function() {
-		var $menuToggle = $(".menu-toggle");
-		var $dropupMenu = $(".dropup-menu");
-
-		$menuToggle.on("click", function () {
-			$dropupMenu.toggle(); // Alternar la visibilidad del menú
-		});
-	}
-
-	
 	
 	$(function(){
 		if (detectSystemTheme() === 'dark'){
@@ -196,7 +192,6 @@
 			// Agrega o quita la clase 'dark-mode' a cada uno
 			elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
 		}
-		toggleMenu();
 		pieChart();
 		changeDark();
 		contentWayPoint();
@@ -207,3 +202,23 @@
 		skillsWayPoint();
 	});
 }());
+
+$(document).ready(function () {
+	// Mostrar u ocultar el menú al hacer clic en el botón
+	$('#menu_checkbox').on('change', function () {
+		if ($(this).is(':checked')) {
+			$('#menu_flotante').fadeIn();
+		} else {
+			$('#menu_flotante').fadeOut();
+		}
+	});
+
+	// Navegación suave entre secciones
+	$('#menu_flotante a').on('click', function (event) {
+		event.preventDefault(); // Evitar el comportamiento predeterminado
+		var target = $(this).attr('href'); // Obtener el id de la sección
+		$('html, body').animate({
+			scrollTop: $(target).offset().top
+		}, 500, 'easeInOutExpo');
+	});
+});

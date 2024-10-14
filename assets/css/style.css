@@ -53,6 +53,9 @@
     --progressbar3-light: #ffb301;
     --progressbar3-dark: #9AE66E;
     --progressbar3: ;
+    --back-menu-light: #eee;
+    --back-menu-dark: #333;
+    --back-menu: ;
 }
 
 body {
@@ -86,6 +89,7 @@ body {
     --progressbar2: var(--progressbar2-light);
     --progressbar3: var(--progressbar3-light);
     --background3: var(--background3-light);
+    --back-menu: var(--back-menu-light)
 }
 
 body.dark-mode {
@@ -107,6 +111,7 @@ body.dark-mode {
     --progressbar3: var(--progressbar3-dark);
     background-color: var(--background-dark);
     --background3: var(--background3-dark);
+    --back-menu: var(--back-menu-dark);
     transition: background-color 1s ease;
 }
 
@@ -340,11 +345,14 @@ h1, h2, h3, h4, h5, h6, figure {
     z-index: 999;
     top: 10px;
     right: 10px;
-    width: 50px;
-    height: 40px;
+    width: 60px;
+    /* Ancho un poco mayor para dar espacio al selector */
+    height: 30px;
+    /* Altura ajustada */
     background-color: rgba(226, 214, 198, 0.5);
     border: 2px solid rgb(240, 228, 187);
-    border-radius: 50px;
+    border-radius: 6px;
+    /* Borde ligeramente redondeado */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -388,22 +396,26 @@ h1, h2, h3, h4, h5, h6, figure {
     opacity: 1;
 }
 
-/* Estilo animado del botón */
+/* Estilo animado del selector */
 .mode-toggle::before {
     content: '';
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    /* Selector más grande y cuadrado */
+    height: 20px;
     background-color: #3f3f3f;
-    border-radius: 50%;
+    border-radius: 3px;
+    /* Borde del selector ligeramente redondeado */
     position: absolute;
-    left: 2px;
-    transition: left 0.3s ease, backgroud-color 1s esase;
+    left: 4px;
+    /* Espaciado desde la izquierda */
+    transition: left 0.3s ease, background-color 1s ease;
 }
 
 .mode-toggle.dark-mode::before {
-    left: 30px;
+    left: 32px;
+    /* Mueve el selector a la derecha en modo oscuro */
     background-color: #fff;
-    transition: background-color 1s ease;
+    transition: background-color 1s ease, left 0.3s ease;
 }
 
 .fh5co-social-icons {
@@ -979,40 +991,97 @@ h1, h2, h3, h4, h5, h6, figure {
     transform: translate3d(0, 0, 0);
 }
 
-.menu-toggle {
-    position: fixed;
-    bottom: 70px;
-    right: 23px;
+#menu_checkbox {
     z-index: 999;
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-}
-
-.line {
-    width: 25px;
-    height: 3px;
-    background-color: #00bd5e;
-    margin: 4px 0;
-}
-
-.dropup-menu {
     display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    z-index: 10;
 }
 
-.dropup-menu a {
+label {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    position: fixed;
+    top: 30px;
+    left: 20px;
+    margin: 0 auto;
     display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    transition: 0.3s ease transform, opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
 }
 
-.dropup-menu a:hover {
-    background-color: #f0f0f0;
+label.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+label div {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text);
+    margin-left: 0;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    transition: 0.3s ease width, 0.3s ease margin-left, 0.3s ease margin-bottom,
+        1s ease background-color;
+}
+
+label div:first-child {
+    width: 22px;
+}
+
+label div:nth-child(2) {
+    width: 15px;
+}
+
+label div:last-child {
+    width: 30px;
+    margin-bottom: 0;
+}
+
+#menu_checkbox:checked+label {
+    transform: translateY(-50%) rotateZ(-90deg);
+}
+
+#menu_checkbox:checked+label div {
+    width: 6px;
+    margin-left: 12px;
+    margin-bottom: 3px;
+    background-color: var(--select);
+}
+
+#menu_flotante {
+    position: fixed;
+    top: 60px;
+    left: 20px;
+    background-color: var(--back-menu);
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 998;
+    display: none;
+    /* Se oculta al principio */
+}
+
+#menu_flotante ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#menu_flotante ul li {
+    margin: 10px 0;
+}
+
+#menu_flotante ul li a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+#menu_flotante ul li a:hover {
+    color: var(--select);
+    /* Color al hacer hover */
 }

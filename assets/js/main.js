@@ -221,4 +221,13 @@ $(document).ready(function () {
 			scrollTop: $(target).offset().top
 		}, 500, 'easeInOutExpo');
 	});
+
+	$(document).click(function (event) {
+		// Verifica si el clic está fuera del menú y del botón
+		if (!$(event.target).closest('#menu_checkbox, label, .menu').length) {
+			// Si el menú está visible y se hizo clic fuera, desmarcar el checkbox
+			$('#menu_checkbox').prop('checked', false);
+			$('#menu_flotante').fadeOut();
+		}
+	});
 });

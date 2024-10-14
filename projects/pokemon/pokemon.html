@@ -2,12 +2,13 @@
 <html>
 <head>
     <title>A combatir!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/projects/pokemon/assets/css-pokemon-gameboy.css">
     <link rel="icon" type="image/x-icon" href="/projects/pokemon/assets/images/pk.ico">
 </head>
 <body>
     <section class="framed neutral">
-        <section>
+        <section class="row">
             <section>
                 <div class="atras">
                     <a href="/">
@@ -47,100 +48,108 @@
             </div>
         </section>
         <section>
-            <section class="pk-life-container" secondary selector>
-                <div id='pk_life1' class="elementos-container">
-                    <div id="pk1_select" class="pk-life-container">
-                        <div class=pk>
-                            <div id="pk1"></div>
-                            <div id="pokemon-container1" class="button-gallery"></div>
-                        </div>
-                        <div id="habilidades1">
-                            <div class=pk>
-                                <ul id='pk_ability1'>
-                                    <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
-                                        {% for ability in abilities1 %}
-                                            <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability2'>
-                                    <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
-                                        {% for ability in abilities1 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability3'>
-                                    <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
-                                        {% for ability in abilities1 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability4'>
-                                    <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
-                                        {% for ability in abilities1 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
+            <section class="row">
+                <section class="pk-life-container" secondary selector>
+                    <section class="col-md-5">
+                        <div id='pk_life1' class="elementos-container">
+                            <div id="pk1_select" class="pk-life-container">
+                                <div class=pk>
+                                    <div id="pk1"></div>
+                                    <div id="pokemon-container1" class="button-gallery"></div>
+                                </div>
+                                <div id="habilidades1">
+                                    <div class=pk>
+                                        <ul id='pk_ability1'>
+                                            <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
+                                                {% for ability in abilities1 %}
+                                                    <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability2'>
+                                            <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
+                                                {% for ability in abilities1 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability3'>
+                                            <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
+                                                {% for ability in abilities1 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability4'>
+                                            <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
+                                                {% for ability in abilities1 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div id='boton' class="elementos-container">
-                    <ul class=pk>
-                        <form id="ejecutar-JvC" action="/pokemon_combatJvC" method="post">
-                            <button secondary inicio_JvC>Iniciar J1vsCOM</button>
-                        </form>
-                        <form id="ejecutar-JvJ" action="/pokemon_combatJvJ" method="post">
-                            <button secondary inicio_JvJ>Iniciar J1vsJ2</button>
-                        </form>
-                        <form id="ejecutar-CvC" action="/pokemon_combatCvC" method="post">
-                            <button secondary inicio_CvC>Iniciar COMvsCOM</button>
-                        </form>
-                    </ul>
-                </div>
-                <div id='pk_life2' class="elementos-container">
-                    <div id="pk2_select" class="pk-life-container">
-                        <div class=pk>
-                            <div id="pk2"></div>
-                            <div id="pokemon-container2" class="button-gallery"></div>
+                    </section>
+                    <section class="col-md-2">
+                        <div id='boton' class="elementos-container">
+                            <ul class=pk>
+                                <form id="ejecutar-JvC" action="/pokemon_combatJvC" method="post">
+                                    <button secondary inicio_JvC>Iniciar J1vsCOM</button>
+                                </form>
+                                <form id="ejecutar-JvJ" action="/pokemon_combatJvJ" method="post">
+                                    <button secondary inicio_JvJ>Iniciar J1vsJ2</button>
+                                </form>
+                                <form id="ejecutar-CvC" action="/pokemon_combatCvC" method="post">
+                                    <button secondary inicio_CvC>Iniciar COMvsCOM</button>
+                                </form>
+                            </ul>
                         </div>
-                        <div id="habilidades2">
-                            <div class=pk>
-                                <ul id='pk_ability1'>
-                                    <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
-                                        {% for ability in abilities2 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability2'>
-                                    <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
-                                        {% for ability in abilities2 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability3'>
-                                    <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
-                                        {% for ability in abilities2 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
-                                <ul id='pk_ability4'>
-                                    <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
-                                        {% for ability in abilities2 %}
-                                        <option value="{{ ability }}">{{ ability }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </ul>
+                    </section>
+                    <section class="col-md-5">
+                        <div id='pk_life2' class="elementos-container">
+                            <div id="pk2_select" class="pk-life-container">
+                                <div class=pk>
+                                    <div id="pk2"></div>
+                                    <div id="pokemon-container2" class="button-gallery"></div>
+                                </div>
+                                <div id="habilidades2">
+                                    <div class=pk>
+                                        <ul id='pk_ability1'>
+                                            <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
+                                                {% for ability in abilities2 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability2'>
+                                            <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
+                                                {% for ability in abilities2 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability3'>
+                                            <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
+                                                {% for ability in abilities2 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                        <ul id='pk_ability4'>
+                                            <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
+                                                {% for ability in abilities2 %}
+                                                <option value="{{ ability }}">{{ ability }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </section>
+                </section>
             </section>
             <section class="pk-life-container" secondary buttons>
                 <section class="elementos-container">
@@ -631,7 +640,7 @@
                 createButtons();
             });
             document.getElementById("resultado_cvc").style.display = "block";
-            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
             form_JvC.style.display = "none";
             form_JvJ.style.display = "none";
             modo.style.display = "none";
@@ -658,7 +667,7 @@
                 createButtons();
             });
             document.getElementById("resultado_cvc").style.display = "none";
-            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
             modo.style.display = "none";
             form_JvC.style.display = "none";
             form_CvC.style.display = "none";
@@ -685,7 +694,7 @@
                 createButtons();
             });
             document.getElementById("resultado_cvc").style.display = "none";
-            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
             modo.style.display = "none";
             form_CvC.style.display = "none";
             form_JvJ.style.display = "none";
@@ -739,7 +748,7 @@
             });
             pkbuttonContainer.style.display = "none";
             atkselected.style.display = "none";
-            mensajes_gr.innerHTML = "<h1>Elige a los combatientes y sus ataques</h1>"
+            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
             resultado.forEach((resultado) => {
                 resultado.innerHTML = ""
             });

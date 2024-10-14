@@ -2591,7 +2591,7 @@ h1{
 }
 
 .pk-life-container .elementos-container {
-    max-width: 40%;
+    max-width: 100%;
     flex-grow: 1;
 }
 
@@ -2621,7 +2621,7 @@ h1{
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding: 10px;
+    padding: 2px;
     gap: 1px;
 }
 
@@ -2668,7 +2668,6 @@ h1{
 
 /* Contenido para que se vea el efecto del scrollbar */
 .button-gallery div {
-    padding: 10px;
-    margin: 5px;
+    padding: 2px;
     background-color: #ddd;
 }

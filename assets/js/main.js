@@ -132,7 +132,7 @@
 	
 			// Actualizar el barColor y redibujar
 			chartInstance.options.barColor = isDarkModeEnabled() ? '#00bd5e' : '#FF9000';
-			chartInstance.options.trackColor = isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF', 
+			chartInstance.options.trackColor = isDarkModeEnabled() ? "#1f1f1f" : '#DFDFDF';
 			chartInstance.update(currentPercentage); // Redibuja el gráfico con los nuevos colores
 		});
 	};
@@ -174,6 +174,17 @@
 		const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 		return prefersDarkScheme ? 'dark' : 'light';
 	}
+
+	var toggleMenu = function() {
+		var $menuToggle = $(".menu-toggle");
+		var $dropupMenu = $(".dropup-menu");
+
+		$menuToggle.on("click", function () {
+			$dropupMenu.toggle(); // Alternar la visibilidad del menú
+		});
+	}
+
+	
 	
 	$(function(){
 		if (detectSystemTheme() === 'dark'){
@@ -185,6 +196,7 @@
 			// Agrega o quita la clase 'dark-mode' a cada uno
 			elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
 		}
+		toggleMenu();
 		pieChart();
 		changeDark();
 		contentWayPoint();

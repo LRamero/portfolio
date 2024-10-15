@@ -2560,14 +2560,14 @@ h1,h2,h3,h4,h5,h6{
     font-weight:400
 }
 
-h1{
-    margin-bottom:1em
+ul {
+    margin-top: 0;
+    margin-bottom: 0
 }
 
 .wrapper{
     width:100%;
     max-width:900px;
-    margin:0 auto
 }
 
 .message span{
@@ -2581,6 +2581,7 @@ h1{
     justify-content: space-between;
     width: 100%;
     display: none;
+    margin-bottom: 0px;
 }
 
 .pk-life-container .elementos-container {

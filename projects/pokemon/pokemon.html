@@ -8,39 +8,24 @@
 </head>
 <body>
     <section class="framed neutral">
-        <section class="row">
-            <section>
-                <div class="atras">
-                    <a href="/">
-                        <button
-                            style="position: absolute;right: 400px;font-size: 12px;padding: 5px 10px;background-color: rgba(153, 132, 64, 0.6);"
-                            id="atras_modo" type="button" secondary atras_modo>Atrás</button>
-                        <button
-                            style="position: absolute;right: 160px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);"
-                            id="atras_combate" type="button" secondary atras_combate>Volver a combatir</button>
-                        <button
-                            style="position: absolute;right: 10px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);">Portfolio</button>
-                    </a>
-                </div>
-                <h2 id="mensajes_generales" style="font-size: 12px;padding: 5px 10px;"></h2>
-            </section>
+        <section>
             <div class="framed secondary" id="encabezado" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
                 <div class=progress-bar-container>
                     <div class="modo" style="width: 100%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
-                        <h3 style="font-size: 5vh;">Selecciona modo de juego</h3>
+                        <h3>Selecciona modo de juego</h3>
                         <ul>
                             <form id="JvC">
-                                <button style="font-size: 3vh;" type="button" secondary JvC>Jugador contra Computadora</button>
+                                <button type="button" secondary JvC>Jugador contra Computadora</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="JvJ">
-                                <button style="font-size: 3vh;" type="button" secondary JvJ>Jugador contra Jugador</button>
+                                <button  type="button" secondary JvJ>Jugador contra Jugador</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="CvC">
-                                <button style="font-size: 3vh;" type="button" secondary CvC>Computadora contra Computadora</button>
+                                <button type="button" secondary CvC>Computadora contra Computadora</button>
                             </form>
                         </ul>
                     </div>
@@ -50,7 +35,7 @@
         <section>
             <section class="row">
                 <section class="pk-life-container" secondary selector>
-                    <section class="col-md-5">
+                    <section id= "celda_pk1" class="col-md-5">
                         <div id='pk_life1' class="elementos-container">
                             <div id="pk1_select" class="pk-life-container">
                                 <div class=pk>
@@ -92,9 +77,9 @@
                             </div>
                         </div>
                     </section>
-                    <section class="col-md-2">
+                    <section id="celda_botones" class="col-md-2">
                         <div id='boton' class="elementos-container">
-                            <ul class=pk>
+                            <div class=pk>
                                 <form id="ejecutar-JvC" action="/pokemon_combatJvC" method="post">
                                     <button secondary inicio_JvC>Iniciar J1vsCOM</button>
                                 </form>
@@ -104,10 +89,10 @@
                                 <form id="ejecutar-CvC" action="/pokemon_combatCvC" method="post">
                                     <button secondary inicio_CvC>Iniciar COMvsCOM</button>
                                 </form>
-                            </ul>
+                            </div>
                         </div>
                     </section>
-                    <section class="col-md-5">
+                    <section id= "celda_pk2" class="col-md-5">
                         <div id='pk_life2' class="elementos-container">
                             <div id="pk2_select" class="pk-life-container">
                                 <div class=pk>
@@ -151,73 +136,104 @@
                     </section>
                 </section>
             </section>
-            <section class="pk-life-container" secondary buttons>
-                <section class="elementos-container">
-                    <div id='ataques_pk1'>
-                        <ul class=pk>
+            <section class="row">
+                <section class="pk-life-container" secondary buttons>
+                    <section class="col-md-4">
+                        <section class="elementos-container">
+                            <div id='ataques_pk1'>
+                                <ul class=pk>
+                                    <form>
+                                        <button id="ataque1_pk1" secondary atk1_p1>Ataque 1</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque2_pk1" secondary atk2_p1>Ataque 2</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque3_pk1" secondary atk3_p1>Ataque 3</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque4_pk1" secondary atk4_p1>Ataque 4</button>
+                                    </form>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                    <section class="col-md-3">
+                        <div class="pk">
                             <form>
-                                <button id="ataque1_pk1" secondary atk1_p1>Ataque 1</button>
+                                <button id="atacar">Ataquen!</button>
                             </form>
-                            <form>
-                                <button id="ataque2_pk1" secondary atk2_p1>Ataque 2</button>
-                            </form>
-                            <form>
-                                <button id="ataque3_pk1" secondary atk3_p1>Ataque 3</button>
-                            </form>
-                            <form>
-                                <button id="ataque4_pk1" secondary atk4_p1>Ataque 4</button>
-                            </form>
-                        </ul>
+                        </div>
+                    </section>
+                    <section class="col-md-4">
+                        <section class="elementos-container">
+                            <div id='ataques_pk2'>
+                                <ul class=pk>
+                                    <form>
+                                        <button id="ataque1_pk2" secondary atk1_p2>Ataque 1</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque2_pk2" secondary atk2_p2>Ataque 2</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque3_pk2" secondary atk3_p2>Ataque 3</button>
+                                    </form>
+                                    <form>
+                                        <button id="ataque4_pk2" secondary atk4_p2>Ataque 4</button>
+                                    </form>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row">
+                <section class="pk-life-container" secondary attack-selected>
+                    <div class="col-md-4">
+                        <div class="pk" id="ataque_pk1_seleccionado">
+                            <ul id="atk1_name"></ul>
+                            <ul id="atk1_tipo"></ul>
+                            <ul id="atk1_pow"></ul>
+                            <ul id="atk1_acc"></ul>
+                            <ul id="atk1_class"></ul>
+                            <ul id="atk1_eff"></ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="resultado"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pk" id="ataque_pk2_seleccionado">
+                            <ul id="atk2_name"></ul>
+                            <ul id="atk2_tipo"></ul>
+                            <ul id="atk2_pow"></ul>
+                            <ul id="atk2_acc"></ul>
+                            <ul id="atk2_class"></ul>
+                            <ul id="atk2_eff"></ul>
+                        </div>
                     </div>
                 </section>
-                <section>
-                    <ul class="pk">
-                        <form>
-                            <button id="atacar">Ataquen!</button>
-                        </form>
-                    </ul>
-                </section>
-                <section class="elementos-container">
-                    <div id='ataques_pk2'>
-                        <ul class=pk>
-                            <form>
-                                <button id="ataque1_pk2" secondary atk1_p2>Ataque 1</button>
-                            </form>
-                            <form>
-                                <button id="ataque2_pk2" secondary atk2_p2>Ataque 2</button>
-                            </form>
-                            <form>
-                                <button id="ataque3_pk2" secondary atk3_p2>Ataque 3</button>
-                            </form>
-                            <form>
-                                <button id="ataque4_pk2" secondary atk4_p2>Ataque 4</button>
-                            </form>
-                        </ul>
-                    </div>
-                </section>
             </section>
-            <section style="max-height: 20vh;overflow: hidden;width: 100%;" class="pk-life-container" secondary attack-selected>
-                <div class="pk" style="position: relative;" id="ataque_pk1_seleccionado">
-                    <ul id="atk1_name"></ul>
-                    <ul id="atk1_tipo"></ul>
-                    <ul id="atk1_pow"></ul>
-                    <ul id="atk1_acc"></ul>
-                    <ul id="atk1_class"></ul>
-                    <ul id="atk1_eff"></ul>
-                </div>
-                <div id="resultado_j" class="resultado" style="width: 50%;position: relative;left: 50%;"></div>
-                <div class="pk" style="position: relative;right: 0%;" id="ataque_pk2_seleccionado">
-                    <ul id="atk2_name"></ul>
-                    <ul id="atk2_tipo"></ul>
-                    <ul id="atk2_pow"></ul>
-                    <ul id="atk2_acc"></ul>
-                    <ul id="atk2_class"></ul>
-                    <ul id="atk2_eff"></ul>
-                </div>
-            </section>
-            </section>
-            <div id="resultado_cvc" class="resultado"></div>
         </section>
+    </section>
+    <section class="row framed general">
+        <div class="col-md-5">
+            <h2 id="mensajes_generales" style="font-size: 12px;padding: 5px 10px;"></h2>
+        </div>
+        <div class="col-md-7">
+            <div class="atras">
+                <a href="/">
+                    <button
+                        style="position: absolute;right: 400px;font-size: 12px;padding: 5px 10px;background-color: rgba(153, 132, 64, 0.6);"
+                        id="atras_modo" type="button" secondary atras_modo>Atrás</button>
+                    <button
+                        style="position: absolute;right: 160px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);"
+                        id="atras_combate" type="button" secondary atras_combate>Volver a combatir</button>
+                    <button
+                        style="position: absolute;right: 10px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);">Portfolio</button>
+                </a>
+            </div>
+        </div>
     </section>
     <section style="display: none;">
         <h6>id: <h6 id="id">{{random_id}}</h6><h6 id="actualizacion"></h6></h6>
@@ -231,6 +247,7 @@
         const resultado = document.querySelectorAll(".resultado"); /*Mensaje con los resultados*/
 
         const boton_peleas = document.getElementById("boton"); /*Grupo de botones de inicio de combate*/
+        const celda_botones = document.getElementById("celda_botones"); /*Celda de botones de combate*/
         const button_inicio_JvJ = form_JvJ.querySelector("button[secondary][inicio_JvJ]"); /*Botón inicio JvJ*/
         const button_inicio_JvC = form_JvC.querySelector("button[secondary][inicio_JvC]"); /*Botón inicio JvC*/
         const button_inicio_CvC = form_CvC.querySelector("button[secondary][inicio_CvC]"); /*Botón inicio CvC*/
@@ -242,6 +259,7 @@
         /*const abilityDivs = document.querySelectorAll('[id^="pk"][id*="_ability"]');*/
 
         const pk1_select = document.getElementById("pk1_select"); /*Div de pk1*/
+        const celda_pk1 = document.getElementById("celda_pk1"); /*Celda contenedora de pk1*/
         const pkLifeContainer = document.querySelector('.pk-life-container[secondary][selector]');  /*Sección de selección de pks y habilidades*/
         const pkbuttonContainer = document.querySelector('.pk-life-container[secondary][buttons]');  /*Sección de botones de pks y habilidades*/
         const pk1_ability1Select = document.getElementById("pk1_ability1"); /*Selector habilidad 1 pk1*/
@@ -254,6 +272,7 @@
         const pk1_ability4Button = document.getElementById("ataque4_pk1"); /*Botón habilidad 4 pk1*/
 
         const pk2_select = document.getElementById("pk2_select"); /*Div de pk2*/
+        const celda_pk2 = document.getElementById("celda_pk2"); /*Celda contenedora de pk2*/
         const pk2_ability1Select = document.getElementById("pk2_ability1"); /*Selector habilidad 1 pk2*/
         const pk2_ability2Select = document.getElementById("pk2_ability2"); /*Selector habilidad 2 pk2*/
         const pk2_ability3Select = document.getElementById("pk2_ability3"); /*Selector habilidad 3 pk2*/
@@ -336,7 +355,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString()
                                         pokemon1.innerHTML = "";
                                         pokemon1.innerHTML = "<div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img1 + ' alt=Imagen style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img1 + ' alt=Imagen style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
                                     }
                                     else if (logMsg.includes("data_pk2")) {
                                         const v_max = partes[partes.length - 2];
@@ -344,7 +363,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString();
                                         pokemon2.innerHTML = "";
                                         pokemon2.innerHTML = "<div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img2 + ' alt=Imagen style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img2 + ' alt=Imagen style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
                                     }
                                     else if (logMsg.includes("atk_pk1")) {
                                         pk1_ability1Button.innerText = partes[1];
@@ -358,27 +377,27 @@
                                         pk2_ability3Button.innerText = partes[3];
                                         pk2_ability4Button.innerText = partes[4];
                                     }
-                                    else if ((logMsg == "Definiendo parámetros...") | (logMsg.includes("Comenzando el combate"))) {
-                                        mensajes_gr.innerHTML = logMsg;
+                                    else if ((logMsg.includes("Definiendo")) | (logMsg.includes("Comenzando el combate"))) {
+                                        mensajes_gr.innerText = logMsg;
                                     }
                                     else if (logMsg.includes("El ganador")) {
-                                        mensajes_gr.innerHTML = "Combate finalizado. " + logMsg;
+                                        mensajes_gr.innerText = "Combate finalizado. " + logMsg;
                                         atras.style.display = "block";
                                         clearInterval(intervalId);
                                     }
                                     else if (logMsg.includes("Error!!")) {
-                                        if (!(mensajes_gr.innerHTML.includes("El ganador")) & !(mensajes_gr.innerHTML.includes("JvJ")) & !(mensajes_gr.innerHTML.includes("JvC"))) {
+                                        if (!(mensajes_gr.innerText.includes("El ganador")) & !(mensajes_gr.innerText.includes("JvJ")) & !(mensajes_gr.innerText.includes("JvC"))) {
                                             resultado.forEach((resultado) => {
-                                                resultado.innerHTML = ""
+                                                resultado.innerText = ""
                                             });
-                                            mensajes_gr.innerHTML = "Hubo un error!! Por favor vuelva a intentarlo.";
+                                            mensajes_gr.innerText = "Hubo un error!! Por favor vuelva a intentarlo.";
                                             atras.style.display = "block";
                                             clearInterval(intervalId);
                                         }
                                     }
                                     else {
                                         resultado.forEach((resultado) => {
-                                            resultado.innerHTML += logMsg + "<br>";
+                                            resultado.innerText += logMsg + "\n";
                                         });
                                     }
                                 }, index * 100);
@@ -391,7 +410,7 @@
 
         function acciones(response, modo) {
             let intervalId = null;
-            if (!(mensajes_gr.innerHTML.includes("JvJ") | mensajes_gr.innerHTML.includes("JvC"))){
+            if (!(mensajes_gr.innerText.includes("JvJ") | mensajes_gr.innerText.includes("JvC"))){
                 actualizacion.innerText = "00:00:00"
             }
 
@@ -418,9 +437,9 @@
             boton_peleas.style.display = "none";
             habilidades1.style.display = "none";
             habilidades2.style.display = "none";
-            mensajes_gr.innerHTML = "";
+            mensajes_gr.innerText = "";
             resultado.forEach((resultado) => {
-                resultado.innerHTML = ""
+                resultado.innerText = ""
             });
             
             const pokemon1_value = pk_lista[currentIndex1];
@@ -448,6 +467,11 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
+            celda_pk1.classList.remove("col-md-5");
+            celda_pk1.classList.add("col-md-6");
+            celda_pk2.classList.remove("col-md-5");
+            celda_pk2.classList.add("col-md-6");
+            celda_botones.classList.add("d-none");
         });
 
         button_inicio_JvJ.addEventListener("click", (e) => {
@@ -457,9 +481,9 @@
             boton_peleas.style.display = "none";
             habilidades1.style.display = "none";
             habilidades2.style.display = "none";
-            mensajes_gr.innerHTML = "";
+            mensajes_gr.innerText = "";
             resultado.forEach((resultado) => {
-                resultado.innerHTML = ""
+                resultado.innerText = ""
             });
             const pokemon1_value = pk_lista[currentIndex1];
             const pokemon2_value = pk_lista[currentIndex2];
@@ -487,13 +511,18 @@
                     console.log("Error al iniciar la ejecución del script", error);
                 });
             atras.style.display = "block";
+            celda_pk1.classList.remove("col-md-5");
+            celda_pk1.classList.add("col-md-6");
+            celda_pk2.classList.remove("col-md-5");
+            celda_pk2.classList.add("col-md-6");
+            celda_botones.classList.add("d-none");
         });
 
         button_inicio_JvC.addEventListener("click", (e) => {
             e.preventDefault();
-            mensajes_gr.innerHTML = "";
+            mensajes_gr.innerText = "";
             resultado.forEach((resultado) => {
-                resultado.innerHTML = ""
+                resultado.innerText = ""
             });
             pokemon1_container.style.display = "none";
             pokemon2_container.style.display = "none";
@@ -526,6 +555,11 @@
                     console.log("Error al iniciar la ejecución del script", error);
                 });
             atras.style.display = "block";
+            celda_pk1.classList.remove("col-md-5");
+            celda_pk1.classList.add("col-md-6");
+            celda_pk2.classList.remove("col-md-5");
+            celda_pk2.classList.add("col-md-6");
+            celda_botones.classList.add("d-none");
         });
 
         // Función para mostrar la tarjeta actual
@@ -540,16 +574,16 @@
                     img2 = "/projects/pokemon/assets/images/pk_aleatorio.png"
                 }
                 tarjeta.innerHTML = `
-                    <h3>${pk_lista[index]}</h3>
-                    <h5>Tipo 1: Aleatorio</h5>
-                    <h5>Tipo 2: Aleatorio</h5>
-                    <h5>Vida: Aleatorio</h5>
-                    <h5>Ataque: Aleatorio</h5>
-                    <h5>Defensa: Aleatorio</h5>
-                    <h5>Ataque Esp.: Aleatorio</h5>
-                    <h5>Defensa Esp.: Aleatorio</h5>
-                    <h5>Velocidad: Aleatorio</h5>
-                    <img src="/projects/pokemon/assets/images/pk_aleatorio.png" alt="Imagen" style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
+                    <h5>${pk_lista[index]}</h5>
+                    <h6>Tipo 1: Aleatorio</h6>
+                    <h6>Tipo 2: Aleatorio</h6>
+                    <h6>Vida: Aleatorio</h6>
+                    <h6>Ataque: Aleatorio</h6>
+                    <h6>Defensa: Aleatorio</h6>
+                    <h6>Ataque Esp.: Aleatorio</h6>
+                    <h6>Defensa Esp.: Aleatorio</h6>
+                    <h6>Velocidad: Aleatorio</h6>
+                    <img src="/projects/pokemon/assets/images/pk_aleatorio.png" alt="Imagen" style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
                 `  
             }
             else {
@@ -560,16 +594,16 @@
                     img2 = info.img
                 }
                 tarjeta.innerHTML = `
-                    <h3>${pk_lista[index]}</h3>
-                    <h5>Tipo 1: ${info.tipo1}</h5>
-                    <h5>Tipo 2: ${info.tipo2}</h5>
-                    <h5>Vida: ${info.hp}</h5>
-                    <h5>Ataque: ${info.atk}</h5>
-                    <h5>Defensa: ${info.deff}</h5>
-                    <h5>Ataque Esp.: ${info.sp_atk}</h5>
-                    <h5>Defensa Esp.: ${info.sp_def}</h5>
-                    <h5>Velocidad: ${info.speed}</h5>
-                    <img src="${info.img} " alt="Imagen" style="height: 100px; width: 100px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
+                    <h5>${pk_lista[index]}</h5>
+                    <h6>Tipo 1: ${info.tipo1}</h6>
+                    <h6>Tipo 2: ${info.tipo2}</h6>
+                    <h6>Vida: ${info.hp}</h6>
+                    <h6>Ataque: ${info.atk}</h6>
+                    <h6>Defensa: ${info.deff}</h6>
+                    <h6>Ataque Esp.: ${info.sp_atk}</h6>
+                    <h6>Defensa Esp.: ${info.sp_def}</h6>
+                    <h6>Velocidad: ${info.speed}</h6>
+                    <img src="${info.img} " alt="Imagen" style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
                 `
             }
             if (pk == 1) {
@@ -587,22 +621,22 @@
             tarjeta.className = "tarjeta";
             if (info === null) {
                 tarjeta.innerHTML = `
-                <h3>${atk}</h3>
-                <h5>Tipo: Aleatorio</h5>
-                <h5>Poder: Aleatorio</h5>
-                <h5>Precición: Aleatorio</h5>
-                <h5>Clase: Aleatorio</h5>
-                <h5>Efectos: Aleatorio</h5>
+                <h6>${atk}</h6>
+                <h6>Tipo: Aleatorio</h6>
+                <h6>Poder: Aleatorio</h6>
+                <h6>Precición: Aleatorio</h6>
+                <h6>Clase: Aleatorio</h6>
+                <h6>Efectos: Aleatorio</h6>
             `
             }
             else {
                 tarjeta.innerHTML = `
-                <h3>${atk}</h3>
-                <h5>Tipo: ${info.tipo1}</h5>
-                <h5>Poder: ${info.pow}</h5>
-                <h5>Precición: ${info.acc}</h5>
-                <h5>Clase: ${info.clase}</h5>
-                <h5>Efectos: ${info.eff}</h5>
+                <h6>${atk}</h6>
+                <h6>Tipo: ${info.tipo1}</h6>
+                <h6>Poder: ${info.pow}</h6>
+                <h6>Precición: ${info.acc}</h6>
+                <h6>Clase: ${info.clase}</h6>
+                <h6>Efectos: ${info.eff}</h6>
             `
             }
             if (pk == 1) {
@@ -639,8 +673,7 @@
                 mostrarTarjeta(2, currentIndex2);
                 createButtons();
             });
-            document.getElementById("resultado_cvc").style.display = "block";
-            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
+            mensajes_gr.innerText = "Elige a los combatientes y sus ataques"
             form_JvC.style.display = "none";
             form_JvJ.style.display = "none";
             modo.style.display = "none";
@@ -666,8 +699,7 @@
                 mostrarTarjeta(2, currentIndex2);
                 createButtons();
             });
-            document.getElementById("resultado_cvc").style.display = "none";
-            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
+            mensajes_gr.innerText = "Elige a los combatientes y sus ataques"
             modo.style.display = "none";
             form_JvC.style.display = "none";
             form_CvC.style.display = "none";
@@ -677,6 +709,7 @@
             pkLifeContainer.style.display = "flex";
             atras.style.display = "block";
             form_JvJ.style.display = "block";
+            celda_botones.classList.remove("d-none");
         });
 
         button_JvC.addEventListener('click', (e) => {
@@ -693,8 +726,7 @@
                 mostrarTarjeta(2, currentIndex2);
                 createButtons();
             });
-            document.getElementById("resultado_cvc").style.display = "none";
-            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
+            mensajes_gr.innerText = "Elige a los combatientes y sus ataques"
             modo.style.display = "none";
             form_CvC.style.display = "none";
             form_JvJ.style.display = "none";
@@ -704,6 +736,7 @@
             pkLifeContainer.style.display = "flex";
             atras.style.display = "block";
             form_JvC.style.display = "block";
+            celda_botones.classList.remove("d-none");
         });
 
         button_atras.addEventListener("click", (e) => {
@@ -715,9 +748,9 @@
             atkselected.style.display = "none";
             pokemon1.innerHTML = "";
             pokemon2.innerHTML = "";
-            mensajes_gr.innerHTML = "";
+            mensajes_gr.innerText = "";
             resultado.forEach((resultado) => {
-                resultado.innerHTML = ""
+                resultado.innerText = ""
             });
             atk1_sel.innerHTML = "";
             atk2_sel.innerHTML = "";
@@ -731,6 +764,11 @@
             form_JvC.style.display = "block";
             form_JvJ.style.display = "block";
             form_CvC.style.display = "block";
+            celda_pk1.classList.remove("col-md-6");
+            celda_pk1.classList.add("col-md-5");
+            celda_pk2.classList.remove("col-md-6");
+            celda_pk2.classList.add("col-md-5");
+            celda_botones.classList.remove("d-none");
         });
         
         button_combate.addEventListener("click", (e) => {
@@ -748,9 +786,9 @@
             });
             pkbuttonContainer.style.display = "none";
             atkselected.style.display = "none";
-            mensajes_gr.innerHTML = "<h6>Elige a los combatientes y sus ataques</h6>"
+            mensajes_gr.innerText = "Elige a los combatientes y sus ataques"
             resultado.forEach((resultado) => {
-                resultado.innerHTML = ""
+                resultado.innerText = ""
             });
             atk1_sel.innerText = "";
             atk2_sel.innerText = "";
@@ -763,6 +801,11 @@
             pk1_select.style.display = "block";
             pk2_select.style.display = "block";
             boton_peleas.style.display = "block";
+            celda_pk1.classList.remove("col-md-6");
+            celda_pk1.classList.add("col-md-5");
+            celda_pk2.classList.remove("col-md-6");
+            celda_pk2.classList.add("col-md-5");
+            celda_botones.classList.remove("d-none");
         });
         
         pk1_ability1Button.addEventListener("click", (e) => {
@@ -832,7 +875,7 @@
 
         pk2_ability1Button.addEventListener("click", (e) => {
             e.preventDefault();
-            if(mensajes_gr.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerText.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -853,7 +896,7 @@
         });
         pk2_ability2Button.addEventListener("click", (e) => {
             e.preventDefault();
-            if(mensajes_gr.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerText.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -874,7 +917,7 @@
         });
         pk2_ability3Button.addEventListener("click", (e) => {
             e.preventDefault();
-            if(mensajes_gr.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerText.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!";
             }
             else {
@@ -895,7 +938,7 @@
         });
         pk2_ability4Button.addEventListener("click", (e) => {
             e.preventDefault();
-            if(mensajes_gr.innerHTML.includes("JvC")) {
+            if(mensajes_gr.innerText.includes("JvC")) {
                 atk2_sel.innerText = "La computadora elegirá el ataque!"
             }
             else {
@@ -920,13 +963,13 @@
             atk_pk1 = atk1;
             atk_pk2 = atk2;
             id_s = document.getElementById("id").innerText;
-            if (mensajes_gr.innerHTML.includes("JvJ")) {
+            if (mensajes_gr.innerText.includes("JvJ")) {
                 modo_combate = "JvJ_c";
             }
-            else if (mensajes_gr.innerHTML.includes("JvC")) {
+            else if (mensajes_gr.innerText.includes("JvC")) {
                 modo_combate = "JvC_c";
             }
-            if(!(mensajes_gr.innerHTML.includes("ganador"))) {
+            if(!(mensajes_gr.innerText.includes("ganador"))) {
                 fetch("/pokemon_combat_c", {
                     method: "POST",
                     headers: {

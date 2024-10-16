@@ -7,8 +7,34 @@
     box-sizing:border-box
 }
 
-h1,h2,h3,h4,h5,h6{
-    margin:0
+body {
+    font-family: Pokemon GB;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+    min-width: 320px;
+    height: 100vh;
+    background: url("/projects/pokemon/assets/images/fondo_pk_light.jpg");
+    background-size: 100% 110%;
+    background-repeat: no-repeat;
+    color: #181010;
+    transition: background 1s ease;
+}
+
+body.dark-mode {
+    background: url("/projects/pokemon/assets/images/fondo_pk_dark.jpg");
+    background-size: 100% 110%;
+    background-repeat: no-repeat;
+    transition: background 1s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    margin: 0
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 0
 }
 
 .framed{
@@ -18,8 +44,18 @@ h1,h2,h3,h4,h5,h6{
     border-style:solid;
     width: 100%;
     max-width:100%;
-    max-height: 100%;
     overflow-x: hidden;
+}
+
+.atras {
+    display: flex;
+    gap: 10px;
+}
+
+#atras_modo, #atras_combate, #boton_portfolio {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: rgba(156, 156, 156, 0.6);
 }
 
 .framed.neutral{
@@ -30,12 +66,12 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .framed.general {
-    align-tracks: center;
+    align-items: center;
     background-color: #d0d0d08f;
 }
 
 .framed.secondary{
-    height: 26rem;
+    height: 80vh;
     background:#3a38367e;
     color:#f8f3f8;
     text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010
@@ -96,46 +132,223 @@ ul.buttons.compact{
     flex-wrap:wrap
 }
 
-.progress-bar-container{
-    display:flex;
-    align-items:center
+.wrapper{
+    width:100%;
+    max-width:900px;
 }
 
-.progress-bar-container label{
-    margin-right:1em
+.message span{
+    font-weight:bolder
 }
 
-.progress-bar-container .progress-bar, .progress-bar-container progress{
-    position:relative;
-    flex-grow:1;
-    height:4px;
-    border:2px solid transparent;
-    border-image-slice:1;
-    border-image-width:2px;
-    border-block:0;
-    border-image-outset:2px 0 2px 0;
-    border-image-repeat:stretch stretch;
-    border-image-source:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAYAAABLLYUHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNWRHWFIAAAAfSURBVBhXY/j//z+DhIAAkPrPAGeAaFQOjPH//38GAJDaGTlUem+VAAAAAElFTkSuQmCC);
-    background:none;
-    background-clip:padding-box
+.pk-life-container {
+    flex-wrap: nowrap;
+    height: 30%;
+    max-height: 33vh;
+    justify-content: space-between;
+    width: 100%;
+    display: none;
+    margin-bottom: 0px;
 }
 
-.progress-bar-container progress::-webkit-progress-bar{
-    background:none
+.pk-life-container>.elementos-container {
+    flex-grow: 1;
 }
 
-.progress-bar-container progress::-webkit-progress-value,.progress-bar-container progress.primary::-webkit-progress-value,.progress-bar-container progress.primary::-moz-progress-bar{
-    background:#48a058
+.pk {
+    font-size: clamp(6px, 1vw, 18px);
+    position: relative;
+    border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAMAAAAPdrEwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAABgQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMM8PuMAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4xLjVkR1hSAAAA5UlEQVRoQ+3MQQrDMBBD0fb+h06N/2A+MTHdTtBbKRpHn0u+UtUf6oepqinTQ1VT62kfyNgbuHcGTaYXmqbT9XXEU6vDUaZvWk/XHxtfn/KOa6YXrk2n/UGGG7K5J8NNpgc3rafBAW7I5p4MGmR6oMFrpvf8xG+ckemV0XraB+czv3RGpldG62n47PzEb5yR6ZXxmmm4IZt7MmiQ6YEGrad9IGNv4N4ZNJleaJpO19cRT60OR5m+aT1df2x8fco7rpleuDad9gcZbsjmngw3mR7ctJ4GB1T1h/phqmrK9FDV1HH6un4ss9jsFZtJkQAAAABJRU5ErkJggg==) 42 round;
+    border-width: 21px;
+    border-style: solid;
+    max-width: 100%;
+    max-height: 45vh;
 }
 
-.progress-bar-container .progress-bar.p1:after{
-    content:"";
-    display:inline-block;
-    position:absolute;
-    background:#b3181c;
-    width:1%;
-    height:4px;
-    top:0;left:0
+.resultado {
+    max-height: 30vh;
+    overflow-y: auto;
+    overflow: scroll;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.resultado::-webkit-scrollbar {
+    display: none;
+}
+
+.button-gallery {
+    font-size: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 2px;
+    gap: 1px;
+    height: 33%;
+}
+
+.button-gallery button {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-gallery button:hover {
+    background-color: #d0d0d0;
+}
+
+.button-gallery button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Scrollbar personalizado */
+.button-gallery::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Fondo de la pista del scrollbar */
+.button-gallery::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Thumb personalizado como un "bullet" negro */
+.button-gallery::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 50%;
+    height: 20px;
+    width: 4px;
+}
+
+.button-gallery::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
+}
+
+.button-gallery {
+    scrollbar-width: thin;
+    scrollbar-color: black transparent;
+}
+
+/* Contenido para que se vea el efecto del scrollbar */
+.button-gallery div {
+    padding: 2px;
+    background-color: #ddd;
+}
+
+.mode-toggle {
+    width: 60px;
+    height: 30px;
+    background-color: rgba(226, 214, 198, 0.5);
+    border: 2px solid rgb(240, 228, 187);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo de los iconos */
+.icon {
+    width: 15px;
+    height: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: opacity 0.3s ease;
+}
+
+/* Icono del sol (modo claro) */
+.sun {
+    background-image: url('/assets/images/sol.png');
+    opacity: 1;
+}
+
+/* Icono de la luna (modo oscuro) */
+.moon {
+    background-image: url('/assets/images/luna.png');
+    opacity: 0;
+}
+
+/* Modo oscuro: cambia el fondo y ajusta la visibilidad de los iconos */
+.mode-toggle.dark-mode {
+    background-color: rgba(51, 51, 51, 0.5);
+    border-color: #6e6e6e;
+}
+
+.sun.dark-mode {
+    opacity: 0;
+}
+
+.moon.dark-mode {
+    opacity: 1;
+}
+
+/* Estilo animado del selector */
+.mode-toggle::before {
+    content: '';
+    width: 20px;
+    /* Selector más grande y cuadrado */
+    height: 20px;
+    background-color: #3f3f3f;
+    border-radius: 3px;
+    /* Borde del selector ligeramente redondeado */
+    position: absolute;
+    left: 4px;
+    /* Espaciado desde la izquierda */
+    transition: left 0.3s ease, background-color 1s ease;
+}
+
+.mode-toggle.dark-mode::before {
+    left: 32px;
+    /* Mueve el selector a la derecha en modo oscuro */
+    background-color: #fff;
+    transition: background-color 1s ease, left 0.3s ease;
+}
+
+.progress-bar-container {
+    display: flex;
+    align-items: center
+}
+
+.progress-bar-container label {
+    margin-right: 1em
+}
+
+.progress-bar-container .progress-bar,
+.progress-bar-container progress {
+    position: relative;
+    flex-grow: 1;
+    height: 4px;
+    border: 2px solid transparent;
+    border-image-slice: 1;
+    border-image-width: 2px;
+    border-block: 0;
+    border-image-outset: 2px 0 2px 0;
+    border-image-repeat: stretch stretch;
+    border-image-source: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAYAAABLLYUHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNWRHWFIAAAAfSURBVBhXY/j//z+DhIAAkPrPAGeAaFQOjPH//38GAJDaGTlUem+VAAAAAElFTkSuQmCC);
+    background: none;
+    background-clip: padding-box
+}
+
+.progress-bar-container progress::-webkit-progress-bar {
+    background: none
+}
+
+.progress-bar-container progress::-webkit-progress-value,
+.progress-bar-container progress.primary::-webkit-progress-value,
+.progress-bar-container progress.primary::-moz-progress-bar {
+    background: #48a058
+}
+
+.progress-bar-container .progress-bar.p1:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    background: #b3181c;
+    width: 1%;
+    height: 4px;
+    top: 0;
+    left: 0
 }
 
 .progress-bar-container progress::-webkit-progress-value,
@@ -2542,129 +2755,4 @@ ul.buttons.compact{
 
 .progress-bar-container progress.p100::-webkit-progress-value {
     background: #48a058
-}
-
-
-body{
-    font-family:Pokemon GB;
-    font-smooth:never;
-    -webkit-font-smoothing:none;
-    min-width:320px;
-    background:url("/projects/pokemon/assets/images/fondo_pk.jpg");
-    background-size: 100% 120%;
-    background-repeat: no-repeat;
-    color:#181010;
-}
-
-h1,h2,h3,h4,h5,h6{
-    font-weight:400
-}
-
-ul {
-    margin-top: 0;
-    margin-bottom: 0
-}
-
-.wrapper{
-    width:100%;
-    max-width:900px;
-}
-
-.message span{
-    font-weight:bolder
-}
-
-.pk-life-container {
-    display: flex;
-    flex-wrap: nowrap;
-    height: 30%;
-    justify-content: space-between;
-    width: 100%;
-    display: none;
-    margin-bottom: 0px;
-}
-
-.pk-life-container .elementos-container {
-    max-width: 100%;
-    flex-grow: 1;
-}
-
-.atras{
-    display: none;
-}
-
-.pk {
-    position: relative;
-    border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAMAAAAPdrEwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAABgQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMM8PuMAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4xLjVkR1hSAAAA5UlEQVRoQ+3MQQrDMBBD0fb+h06N/2A+MTHdTtBbKRpHn0u+UtUf6oepqinTQ1VT62kfyNgbuHcGTaYXmqbT9XXEU6vDUaZvWk/XHxtfn/KOa6YXrk2n/UGGG7K5J8NNpgc3rafBAW7I5p4MGmR6oMFrpvf8xG+ckemV0XraB+czv3RGpldG62n47PzEb5yR6ZXxmmm4IZt7MmiQ6YEGrad9IGNv4N4ZNJleaJpO19cRT60OR5m+aT1df2x8fco7rpleuDad9gcZbsjmngw3mR7ctJ4GB1T1h/phqmrK9FDV1HH6un4ss9jsFZtJkQAAAABJRU5ErkJggg==) 42 round;
-    border-width: 21px;
-    border-style: solid;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.resultado {
-    overflow-x: hidden;
-    height: 100%;
-    overflow-y: auto;
-}
-
-.resultado::-webkit-scrollbar {
-    display: none;
-}
-
-.button-gallery {
-    font-size: 6px;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding: 2px;
-    gap: 1px;
-    height: 33%;
-}
-
-.button-gallery button {
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button-gallery button:hover {
-    background-color: #d0d0d0;
-}
-
-.button-gallery button.active {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Scrollbar personalizado */
-.button-gallery::-webkit-scrollbar {
-    width: 4px;
-}
-
-/* Fondo de la pista del scrollbar */
-.button-gallery::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Thumb personalizado como un "bullet" negro */
-.button-gallery::-webkit-scrollbar-thumb {
-    background-color: black;
-    border-radius: 50%;
-    height: 20px;
-    width: 4px;
-}
-
-.button-gallery::-webkit-scrollbar-thumb:hover {
-    background-color: #333;
-}
-
-.button-gallery {
-    scrollbar-width: thin;
-    scrollbar-color: black transparent;
-}
-
-/* Contenido para que se vea el efecto del scrollbar */
-.button-gallery div {
-    padding: 2px;
-    background-color: #ddd;
 }

@@ -44,34 +44,34 @@
                                 </div>
                                 <div id="habilidades1">
                                     <div class=pk>
-                                        <ul id='pk_ability1'>
+                                        <div id='pk_ability1'>
                                             <label for="pk1_ability1">Habilidad 1:</label><select name="pk1_ability1" id="pk1_ability1">
                                                 {% for ability in abilities1 %}
                                                     <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability2'>
+                                        </div>
+                                        <div id='pk_ability2'>
                                             <label for="pk1_ability2">Habilidad 2:</label><select name="pk1_ability2" id="pk1_ability2">
                                                 {% for ability in abilities1 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability3'>
+                                        </div>
+                                        <div id='pk_ability3'>
                                             <label for="pk1_ability3">Habilidad 3:</label><select name="pk1_ability3" id="pk1_ability3">
                                                 {% for ability in abilities1 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability4'>
+                                        </div>
+                                        <div id='pk_ability4'>
                                             <label for="pk1_ability4">Habilidad 4:</label><select name="pk1_ability4" id="pk1_ability4">
                                                 {% for ability in abilities1 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,34 +101,34 @@
                                 </div>
                                 <div id="habilidades2">
                                     <div class=pk>
-                                        <ul id='pk_ability1'>
+                                        <div id='pk_ability1'>
                                             <label for="pk2_ability1">Habilidad 1:</label><select name="pk2_ability1" id="pk2_ability1">
                                                 {% for ability in abilities2 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability2'>
+                                        </div>
+                                        <div id='pk_ability2'>
                                             <label for="pk2_ability2">Habilidad 2:</label><select name="pk2_ability2" id="pk2_ability2">
                                                 {% for ability in abilities2 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability3'>
+                                        </div>
+                                        <div id='pk_ability3'>
                                             <label for="pk2_ability3">Habilidad 3:</label><select name="pk2_ability3" id="pk2_ability3">
                                                 {% for ability in abilities2 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
-                                        <ul id='pk_ability4'>
+                                        </div>
+                                        <div id='pk_ability4'>
                                             <label for="pk2_ability4">Habilidad 4:</label><select name="pk2_ability4" id="pk2_ability4">
                                                 {% for ability in abilities2 %}
                                                 <option value="{{ ability }}">{{ ability }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                 </section>
             </section>
             <section class="row">
-                <section class="pk-life-container" secondary attack-selected>
+                <section style="max-height: 30%;" class="pk-life-container" secondary attack-selected>
                     <div class="col-md-4">
                         <div class="pk" id="ataque_pk1_seleccionado">
                             <ul id="atk1_name"></ul>
@@ -216,24 +216,25 @@
             </section>
         </section>
     </section>
-    <section class="row framed general">
-        <div class="col-md-5">
-            <h2 id="mensajes_generales" style="font-size: 12px;padding: 5px 10px;"></h2>
-        </div>
-        <div class="col-md-7">
-            <div class="atras">
-                <a href="/">
-                    <button
-                        style="position: absolute;right: 400px;font-size: 12px;padding: 5px 10px;background-color: rgba(153, 132, 64, 0.6);"
-                        id="atras_modo" type="button" secondary atras_modo>Atrás</button>
-                    <button
-                        style="position: absolute;right: 160px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);"
-                        id="atras_combate" type="button" secondary atras_combate>Volver a combatir</button>
-                    <button
-                        style="position: absolute;right: 10px;font-size: 12px;padding: 5px 10px;;background-color: rgba(153, 132, 64, 0.6);">Portfolio</button>
-                </a>
+    <section class="framed general">
+        <section class="row">
+            <div class="col-md-5">
+                <h2 id="mensajes_generales" style="font-size: 12px;padding: 5px 10px;"></h2>
             </div>
-        </div>
+            <div class="col-md-7">
+                <div class="atras">
+                    <button id="atras_modo" type="button" secondary atras_modo>Atrás</button>
+                    <button id="atras_combate" type="button" secondary atras_combate>Volver a combatir</button>
+                    <a href="/">
+                        <button id="boton_portfolio">Portfolio</button>
+                    </a>
+                    <button id="toggle-mode" class="mode-toggle">
+                        <span class="icon moon"></span>
+                        <span class="icon sun"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
     </section>
     <section style="display: none;">
         <h6>id: <h6 id="id">{{random_id}}</h6><h6 id="actualizacion"></h6></h6>
@@ -355,7 +356,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString()
                                         pokemon1.innerHTML = "";
                                         pokemon1.innerHTML = "<div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img1 + ' alt=Imagen style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img1 + ' alt=Imagen style="height: clamp(30px, 5vw, 100px); width: clamp(30px, 5vw, 100px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
                                     }
                                     else if (logMsg.includes("data_pk2")) {
                                         const v_max = partes[partes.length - 2];
@@ -363,7 +364,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString();
                                         pokemon2.innerHTML = "";
                                         pokemon2.innerHTML = "<div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + "</div>" + '<img src=' + img2 + ' alt=Imagen style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img2 + ' alt=Imagen style="height: clamp(30px, 5vw, 100px); width: clamp(30px, 5vw, 100px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
                                     }
                                     else if (logMsg.includes("atk_pk1")) {
                                         pk1_ability1Button.innerText = partes[1];
@@ -565,54 +566,42 @@
         // Función para mostrar la tarjeta actual
         function mostrarTarjeta(pk, index, info = null) {
             const tarjeta = document.createElement("div");
+            const fontSizeH5 = "clamp(6px, 1.5vw, 22px)";
+            const fontSizeH6 = "clamp(3px, 0.9vw, 18px)";
+            const imgvar = "clamp(8px, 2vw, 80px)";
             tarjeta.className = "tarjeta";
-            if (info === null || index == 0) {
-                if (pk==1){
-                    img1 = "/projects/pokemon/assets/images/pk_aleatorio.png"
-                }
-                else if (pk==2){
-                    img2 = "/projects/pokemon/assets/images/pk_aleatorio.png"
-                }
-                tarjeta.innerHTML = `
-                    <h5>${pk_lista[index]}</h5>
-                    <h6>Tipo 1: Aleatorio</h6>
-                    <h6>Tipo 2: Aleatorio</h6>
-                    <h6>Vida: Aleatorio</h6>
-                    <h6>Ataque: Aleatorio</h6>
-                    <h6>Defensa: Aleatorio</h6>
-                    <h6>Ataque Esp.: Aleatorio</h6>
-                    <h6>Defensa Esp.: Aleatorio</h6>
-                    <h6>Velocidad: Aleatorio</h6>
-                    <img src="/projects/pokemon/assets/images/pk_aleatorio.png" alt="Imagen" style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
-                `  
-            }
-            else {
-                if (pk == 1) {
-                    img1 = info.img
-                }
-                else if (pk == 2) {
-                    img2 = info.img
-                }
-                tarjeta.innerHTML = `
-                    <h5>${pk_lista[index]}</h5>
-                    <h6>Tipo 1: ${info.tipo1}</h6>
-                    <h6>Tipo 2: ${info.tipo2}</h6>
-                    <h6>Vida: ${info.hp}</h6>
-                    <h6>Ataque: ${info.atk}</h6>
-                    <h6>Defensa: ${info.deff}</h6>
-                    <h6>Ataque Esp.: ${info.sp_atk}</h6>
-                    <h6>Defensa Esp.: ${info.sp_def}</h6>
-                    <h6>Velocidad: ${info.speed}</h6>
-                    <img src="${info.img} " alt="Imagen" style="height: 80px; width: 80px; object-fit: cover; object-fit: contain; display: block; margin: 0 auto;">
-                `
-            }
+            const isAleatorio = (info === null || index === 0); 
+
+            tarjeta.innerHTML = `
+                <h5 style="font-size: ${fontSizeH5};text-align: center;"> ${pk_lista[index]} </h5>
+                <div style="display: flex; align-items: center;">
+                    <div style="flex: 2; display: flex; flex-direction: column; gap: 5px;">
+                        <h6 style="font-size: ${fontSizeH6};">Tipo 1: ${isAleatorio ? "Aleatorio" : info.tipo1}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Tipo 2: ${isAleatorio ? "Aleatorio" : info.tipo2}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Vida: ${isAleatorio ? "Aleatorio" : info.hp}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Ataque: ${isAleatorio ? "Aleatorio" : info.atk}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Defensa: ${isAleatorio ? "Aleatorio" : info.deff}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Ataque Esp.: ${isAleatorio ? "Aleatorio" : info.sp_atk}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Defensa Esp.: ${isAleatorio ? "Aleatorio" : info.sp_def}</h6>
+                        <h6 style="font-size: ${fontSizeH6};">Velocidad: ${isAleatorio ? "Aleatorio" : info.speed}</h6>
+                    </div>
+                    <!-- Columna derecha para la imagen (1/3 del ancho) -->
+                    <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+                        <img src="${isAleatorio ? "/projects/pokemon/assets/images/pk_aleatorio.png" : info.img}"
+                            alt="Imagen"
+                            style="height: 100px; width: auto; max-height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            `;
             if (pk == 1) {
                 pokemon1.innerHTML = ""; // Limpiar el contenido
                 pokemon1.appendChild(tarjeta);
+                img1 = isAleatorio ? "/projects/pokemon/assets/images/pk_aleatorio.png" : info.img;
             }
             else {
                 pokemon2.innerHTML = ""; // Limpiar el contenido
                 pokemon2.appendChild(tarjeta)
+                img2 = isAleatorio ? "/projects/pokemon/assets/images/pk_aleatorio.png" : info.img;
             }
         };
 
@@ -989,23 +978,38 @@
         function createButtons() {
             pokemon1_container.innerHTML = ''; // Limpiar contenedor
             pokemon2_container.innerHTML = ''; // Limpiar contenedor
+
+            // Definir tamaños dinámicos
+            const fontSize = "clamp(4px, 0.8vw, 12px)";
+            const buttonHeight = "clamp(15px, 2vh, 50px)";
+
             pk_lista.forEach((value, index) => {
-                const button = document.createElement('button');
-                button.textContent = value;
-                button.addEventListener('click', () => {
+                const button1 = document.createElement('button');
+                button1.textContent = value;
+                button1.style.fontSize = fontSize;
+                button1.style.height = buttonHeight;
+                button1.style.whiteSpace = "nowrap";
+
+                button1.addEventListener('click', () => {
                     updateSelectedValue(1, index);
                 });
-                pokemon1_container.appendChild(button);
-            })
+
+                pokemon1_container.appendChild(button1);
+            });
+
             pk_lista.forEach((value, index) => {
-                const button = document.createElement('button');
-                button.textContent = value;
-                button.addEventListener('click', () => {
+                const button2 = document.createElement('button');
+                button2.textContent = value;
+                button2.style.fontSize = fontSize;
+                button2.style.height = buttonHeight;
+                button2.style.whiteSpace = "nowrap";
+
+                button2.addEventListener('click', () => {
                     updateSelectedValue(2, index);
                 });
-                pokemon2_container.appendChild(button);
+
+                pokemon2_container.appendChild(button2);
             });
-            
         }
 
         // Función que actualiza el valor seleccionado
@@ -1067,7 +1071,31 @@
                 });
             }
         }
+        
+        var changeDark = function () {
+                document.querySelector('.mode-toggle').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const elementsToToggle = document.querySelectorAll('.mode-toggle, .sun, .moon, body');
+                    elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
+                    updatePieChartColor();
+                });
+            };
 
-        </script>
+            // Detectar el tema del sistema
+            function detectSystemTheme() {
+                const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                return prefersDarkScheme ? 'dark' : 'light';
+            }
+
+            // Al cargar la página
+            window.addEventListener('DOMContentLoaded', (event) => {
+                if (detectSystemTheme() === 'dark') {
+                    const elementsToToggle = document.querySelectorAll('.mode-toggle, .sun, .moon, body');
+                    elementsToToggle.forEach(el => el.classList.toggle('dark-mode'));
+                }
+                changeDark();
+            });
+
+    </script>
 </body>
 </html>

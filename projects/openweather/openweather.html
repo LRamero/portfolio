@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta del Clima</title>
+</head>
+
+<body>
+    <h1>Consulta el Clima</h1>
+    <form method="POST">
+        <label for="ciudad">Ingresa una ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if clima_info %}
+    <h2>Resultados del Clima</h2>
+    <p>Temperatura actual: {{ clima_info['current']['temp'] }}°C</p>
+    <p>La sensación térmica es de: {{ clima_info['current']['feels_like'] }}°C</p>
+    <p>Presión: {{ clima_info['current']['pressure'] }} hPa</p>
+    <p>Humedad: {{ clima_info['current']['humidity'] }}%</p>
+    {% endif %}
+</body>
+
+</html>

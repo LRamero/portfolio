@@ -12,20 +12,20 @@
             <div class="framed secondary" id="encabezado" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
                 <div class=progress-bar-container>
                     <div class="modo" style="width: 100%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
-                        <h3>Selecciona modo de juego</h3>
+                        <h3 style="font-size:  clamp(15px, 2.3vw, 40px); margin-bottom: 5vh;">Selecciona modo de juego</h3>
                         <ul>
                             <form id="JvC">
-                                <button type="button" secondary JvC>Jugador contra Computadora</button>
+                                <button type="button" secondary JvC style="font-size:  clamp(10px, 2vw, 35px);">Jugador contra Computadora</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="JvJ">
-                                <button  type="button" secondary JvJ>Jugador contra Jugador</button>
+                                <button  type="button" secondary JvJ style="font-size:  clamp(10px, 2vw, 35px);">Jugador contra Jugador</button>
                             </form>
                         </ul>
                         <ul>
                             <form id="CvC">
-                                <button type="button" secondary CvC>Computadora contra Computadora</button>
+                                <button type="button" secondary CvC style="font-size:  clamp(10px, 2vw, 35px);">Computadora contra Computadora</button>
                             </form>
                         </ul>
                     </div>
@@ -290,7 +290,7 @@
         const atk1_sel = document.getElementById("ataque_pk1_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 1*/
         const atk2_sel = document.getElementById("ataque_pk2_seleccionado"); /*Sección donde se informa el ataque seleccionado pk 2*/
         const atkselected = document.querySelector(".pk-life-container[secondary][attack-selected]"); /*Contenedor de las etiquetas de ataque seleccionado*/
-        const atras = document.querySelector('.atras'); /*Sección de botones de atrás*/
+
         const id = document.getElementById("id"); /*id de ejecución*/
         const actualizacion = document.getElementById("actualizacion"); /*Última actualización*/
         
@@ -308,6 +308,8 @@
 
         window.addEventListener('load', function () {
             modo.style.display = 'none';
+            button_atras.style.display = "none";
+            button_combate.style.display = "none";
             fetch("/pokemon_load")
                 .then((response) => {
                     if (response.ok) {
@@ -356,7 +358,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString()
                                         pokemon1.innerHTML = "";
                                         pokemon1.innerHTML = "<div class= progress-bar-container><label for= pk1>" + partes[1] + "</label><progress id=pk1 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img1 + ' alt=Imagen style="height: clamp(30px, 5vw, 100px); width: clamp(30px, 5vw, 100px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img1 + ' alt=Imagen style="height: clamp(30px, 5vw, 180px); width: clamp(30px, 5vw, 180px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
                                     }
                                     else if (logMsg.includes("data_pk2")) {
                                         const v_max = partes[partes.length - 2];
@@ -364,7 +366,7 @@
                                         porcentaje = Math.round((vida / v_max) * 100).toString();
                                         pokemon2.innerHTML = "";
                                         pokemon2.innerHTML = "<div class= progress-bar-container><label for= pk2>" + partes[1] + "</label><progress id=pk2 class=p" + porcentaje + " value=" +
-                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img2 + ' alt=Imagen style="height: clamp(30px, 5vw, 100px); width: clamp(30px, 5vw, 100px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
+                                            vida + " max=" + v_max + "></progress> " + vida + "/" + v_max + '<img src=' + img2 + ' alt=Imagen style="height: clamp(30px, 5vw, 180px); width: clamp(30px, 5vw, 180px); object-fit: cover; object-fit: contain; display: block; margin: 0 auto;"></div>';
                                     }
                                     else if (logMsg.includes("atk_pk1")) {
                                         pk1_ability1Button.innerText = partes[1];
@@ -383,7 +385,8 @@
                                     }
                                     else if (logMsg.includes("El ganador")) {
                                         mensajes_gr.innerText = "Combate finalizado. " + logMsg;
-                                        atras.style.display = "block";
+                                        button_atras.style.display = "block";
+                                        button_combate.style.display = "block";
                                         clearInterval(intervalId);
                                     }
                                     else if (logMsg.includes("Error!!")) {
@@ -392,7 +395,8 @@
                                                 resultado.innerText = ""
                                             });
                                             mensajes_gr.innerText = "Hubo un error!! Por favor vuelva a intentarlo.";
-                                            atras.style.display = "block";
+                                            button_atras.style.display = "block";
+                                            button_combate.style.display = "block";
                                             clearInterval(intervalId);
                                         }
                                     }
@@ -432,7 +436,8 @@
 
         button_inicio_CvC.addEventListener("click", (e) => {
             e.preventDefault();
-            atras.style.display = "none";
+            button_atras.style.display = "none";
+            button_combate.style.display = "none";
             pokemon1_container.style.display = "none";
             pokemon2_container.style.display = "none";
             boton_peleas.style.display = "none";
@@ -511,7 +516,8 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
-            atras.style.display = "block";
+            button_atras.style.display = "block";
+            button_combate.style.display = "block";
             celda_pk1.classList.remove("col-md-5");
             celda_pk1.classList.add("col-md-6");
             celda_pk2.classList.remove("col-md-5");
@@ -555,7 +561,8 @@
                 .catch((error) => {
                     console.log("Error al iniciar la ejecución del script", error);
                 });
-            atras.style.display = "block";
+            button_atras.style.display = "block";
+            button_combate.style.display = "block";
             celda_pk1.classList.remove("col-md-5");
             celda_pk1.classList.add("col-md-6");
             celda_pk2.classList.remove("col-md-5");
@@ -566,9 +573,9 @@
         // Función para mostrar la tarjeta actual
         function mostrarTarjeta(pk, index, info = null) {
             const tarjeta = document.createElement("div");
-            const fontSizeH5 = "clamp(6px, 1.5vw, 22px)";
-            const fontSizeH6 = "clamp(3px, 0.9vw, 18px)";
-            const imgvar = "clamp(8px, 2vw, 80px)";
+            const fontSizeH5 = "clamp(6px, 1.5vw, 30px)";
+            const fontSizeH6 = "clamp(3px, 0.9vw, 25px)";
+            const imgvar = "clamp(8px, 2vw, 180px)";
             tarjeta.className = "tarjeta";
             const isAleatorio = (info === null || index === 0); 
 
@@ -608,24 +615,25 @@
         function mostrarTarjeta_atk(pk, atk, info = null) {
             const tarjeta = document.createElement("div");
             tarjeta.className = "tarjeta";
+            const fontSizeH6 = "clamp(3px, 1.2vw, 35px)";
             if (info === null) {
                 tarjeta.innerHTML = `
-                <h6>${atk}</h6>
-                <h6>Tipo: Aleatorio</h6>
-                <h6>Poder: Aleatorio</h6>
-                <h6>Precición: Aleatorio</h6>
-                <h6>Clase: Aleatorio</h6>
-                <h6>Efectos: Aleatorio</h6>
+                <h6 style="font-size: ${fontSizeH6};">${atk}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Tipo: Aleatorio</h6>
+                <h6 style="font-size: ${fontSizeH6};">Poder: Aleatorio</h6>
+                <h6 style="font-size: ${fontSizeH6};">Precición: Aleatorio</h6>
+                <h6 style="font-size: ${fontSizeH6};">Clase: Aleatorio</h6>
+                <h6 style="font-size: ${fontSizeH6};">Efectos: Aleatorio</h6>
             `
             }
             else {
                 tarjeta.innerHTML = `
-                <h6>${atk}</h6>
-                <h6>Tipo: ${info.tipo1}</h6>
-                <h6>Poder: ${info.pow}</h6>
-                <h6>Precición: ${info.acc}</h6>
-                <h6>Clase: ${info.clase}</h6>
-                <h6>Efectos: ${info.eff}</h6>
+                <h6 style="font-size: ${fontSizeH6};">${atk}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Tipo: ${info.tipo1}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Poder: ${info.pow}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Precición: ${info.acc}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Clase: ${info.clase}</h6>
+                <h6 style="font-size: ${fontSizeH6};">Efectos: ${info.eff}</h6>
             `
             }
             if (pk == 1) {
@@ -667,7 +675,8 @@
             form_JvJ.style.display = "none";
             modo.style.display = "none";
             pkLifeContainer.style.display = "flex";
-            atras.style.display = "block";
+            button_atras.style.display = "block";
+            button_combate.style.display = "block";
             form_CvC.style.display = "block";
             boton_peleas.style.display = "block";
             pk1_select.style.display = "block";
@@ -696,7 +705,8 @@
             pk1_select.style.display = "block";
             pk2_select.style.display = "block";
             pkLifeContainer.style.display = "flex";
-            atras.style.display = "block";
+            button_atras.style.display = "block";
+            button_combate.style.display = "block";
             form_JvJ.style.display = "block";
             celda_botones.classList.remove("d-none");
         });
@@ -723,14 +733,16 @@
             pk1_select.style.display = "block";
             pk2_select.style.display = "block"; 
             pkLifeContainer.style.display = "flex";
-            atras.style.display = "block";
+            button_atras.style.display = "block";
+            button_combate.style.display = "block";
             form_JvC.style.display = "block";
             celda_botones.classList.remove("d-none");
         });
 
         button_atras.addEventListener("click", (e) => {
             e.preventDefault();
-            atras.style.display = "none";
+            button_atras.style.display = "none";
+            button_combate.style.display = "none";
             pkLifeContainer.style.display = "none";
             boton_peleas.style.display = "none";
             pkbuttonContainer.style.display = "none";
@@ -980,8 +992,8 @@
             pokemon2_container.innerHTML = ''; // Limpiar contenedor
 
             // Definir tamaños dinámicos
-            const fontSize = "clamp(4px, 0.8vw, 12px)";
-            const buttonHeight = "clamp(15px, 2vh, 50px)";
+            const fontSize = "clamp(4px, 0.8vw, 25px)";
+            const buttonHeight = "clamp(15px, 2vh, 60px)";
 
             pk_lista.forEach((value, index) => {
                 const button1 = document.createElement('button');

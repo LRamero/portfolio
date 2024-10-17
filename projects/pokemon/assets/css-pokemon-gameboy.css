@@ -27,6 +27,42 @@ body.dark-mode {
     transition: background 1s ease;
 }
 
+body.vertical-mode .main-content {
+    display: none;
+    transition: display 1s ease;
+}
+
+body.vertical-mode .rotate-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    transition: display 1s ease;
+}
+
+.main-content {
+    transition: display 1s ease;
+}
+
+.rotate-message {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 3rem;
+    transition: display 1s ease;
+}
+
+.rotate-message img {
+    width: 80vw;
+    height: auto;
+    z-index: -1;
+    opacity: 0.3;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin: 0
@@ -35,6 +71,10 @@ h1, h2, h3, h4, h5, h6 {
 ul {
     margin-top: 0;
     margin-bottom: 0
+}
+
+#contenido {
+    display: none;
 }
 
 .framed{
@@ -72,10 +112,13 @@ ul {
 }
 
 .framed.secondary{
-    height: 80vh;
+    height: 70vh;
     background:#3a38367e;
     color:#f8f3f8;
-    text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010
+    text-shadow:-1px -1px 0 #181010,1px -1px 0 #181010,-1px 1px 0 #181010,1px 1px 0 #181010;
+    width: 75vw;
+    justify-content: center;
+    align-items: center;
 }
 
 .framed.secondary.exclude-border{
@@ -156,6 +199,13 @@ ul.buttons.compact{
     flex-grow: 1;
 }
 
+.modo {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    text-wrap: "none";
+}
+
 .pk {
     font-size: clamp(6px, 1.2vw, 25px);
     position: relative;
@@ -171,8 +221,10 @@ ul.buttons.compact{
     overflow-y: auto;
     font-size: clamp(6px, 1.2vw, 25px);
     overflow: scroll;
-    padding: 20px;
-    border: 1px solid #ccc;
+    padding: 5px;
+    border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAMAAAAPdrEwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAABgQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMM8PuMAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4xLjVkR1hSAAAA5UlEQVRoQ+3MQQrDMBBD0fb+h06N/2A+MTHdTtBbKRpHn0u+UtUf6oepqinTQ1VT62kfyNgbuHcGTaYXmqbT9XXEU6vDUaZvWk/XHxtfn/KOa6YXrk2n/UGGG7K5J8NNpgc3rafBAW7I5p4MGmR6oMFrpvf8xG+ckemV0XraB+czv3RGpldG62n47PzEb5yR6ZXxmmm4IZt7MmiQ6YEGrad9IGNv4N4ZNJleaJpO19cRT60OR5m+aT1df2x8fco7rpleuDad9gcZbsjmngw3mR7ctJ4GB1T1h/phqmrK9FDV1HH6un4ss9jsFZtJkQAAAABJRU5ErkJggg==) 42 round;
+    border-width: 21px;
+    border-style: solid;
 }
 
 .resultado::-webkit-scrollbar {
@@ -238,7 +290,7 @@ ul.buttons.compact{
 
 .mode-toggle {
     width: 60px;
-    height: 30px;
+    height: 28px;
     background-color: rgba(226, 214, 198, 0.5);
     border: 2px solid rgb(187, 223, 240);
     display: flex;
@@ -252,7 +304,7 @@ ul.buttons.compact{
 /* Estilo de los iconos */
 .icon {
     width: 15px;
-    height: 15px;
+    height: 14px;
     background-size: contain;
     background-repeat: no-repeat;
     transition: opacity 1s ease;

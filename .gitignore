@@ -9,5 +9,4 @@ __pycache__/
 #Ignora los archivos de sesión
 *pok_*
 *session_*
-.env
 

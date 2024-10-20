@@ -3,3 +3,5 @@ Flask
 numpy
 logging
 gunicorn
+python-dotenv
+requests

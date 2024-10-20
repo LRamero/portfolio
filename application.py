@@ -4,8 +4,15 @@ import pandas as pd
 import pickle
 import random as rd
 import numpy as np
+from projects.openweather.codes.openweather import obtener_clima, obtener_coord
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__, template_folder="", static_folder="./assets")
+
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 
 #########################################################
 #              Fuciones para página principal           #
@@ -23,9 +30,30 @@ def send_static(path):
 def send_static_pk(path):
     return send_from_directory("projects/pokemon/assets", path)
 
+@app.route("/projects/openweather/assets/<path:path>")
+def send_static_ow(path):
+    return send_from_directory("projects/openweather/assets", path)
+
 @app.route("/projects/pokemon/assets/images/<path:path>")
 def send_image_pk(path):
     return send_from_directory("projects/pokemon/assets/images", path)
+
+@app.route("/projects/<path:path>", methods=['GET', 'POST'])
+
+def projects(path):
+    if path == "pokemon":
+        return pokemon()
+    elif path == "openweather":
+        return openweathers()
+    else:
+        return "Página no encontrada", 404
+
+def pokemon():
+    id = rd.randint(1, 99)
+    return render_template("projects/pokemon/pokemon.html", random_id=id)
+
+def openweathers():
+    return render_template('projects/openweather/openweather.html')
 
 ########################################################
 #           Funciones para página Pokemon              #
@@ -50,20 +78,6 @@ class PokemonCombat:
             "Cache-Control": "no-cache",
             "Content-Type": "text/event-stream"
         })
-    # def combat_stream(self):
-    #     def generar_eventos():
-    #         while True:
-    #             salida = self.proceso.stdout.readline()
-    #             if salida:
-    #                 yield "data: " + salida + "\n\n"
-    #             else:
-    #                 self.cerrar_proceso()
-    #                 yield "data: " + "Error!!" + "\n\n"
-    #                 break
-    #     return Response(generar_eventos(), mimetype="text/event-stream", headers={
-    #         "Cache-Control": "no-cache",
-    #         "Content-Type": "text/event-stream"
-    #     })
 
     def cerrar_proceso(self):
         if self.proceso:
@@ -80,8 +94,6 @@ class PokemonLoad:
         self.m_learn = pd.DataFrame()
     
     def load_data(self):
-        # script = "projects/codes/cargar_datos.py"
-        # self.carga_dato = subprocess.Popen(['python', script], stdout=subprocess.PIPE, universal_newlines=True)
         with open('projects/pokemon/assets/dataframes.pkl', 'rb') as f:
             self.pk, self.moves, self.nat, self.eff, self.m_learn = pickle.load(f, encoding='latin1')
         return Response("Iniciado", mimetype="text/event-stream", headers={
@@ -108,11 +120,6 @@ class PokemonLoad:
 
 pokemon_combat = PokemonCombat()
 pokemon_load = PokemonLoad()
-
-@app.route("/projects/<path:path>")
-def pokemon(path):
-    id = rd.randint(1, 999)
-    return render_template("projects/pokemon/pokemon.html", random_id=id)
 
 @app.route('/pokemon_load')
 def cargar_df():
@@ -226,6 +233,22 @@ def get_info():
             'eff': eff
         }
         return jsonify(data)
+    
+#################################################
+#                 Openweathers                  #
+#################################################
+
+@app.route('/get_weather', methods=["POST"])
+def get_weather():
+    clima_info = None
+    ciudad = request.form['ciudad']
+    api_key_pos = "2eae4d6ab559560aff57f36d082f1557"
+    api_key_weather = OPENWEATHER_API_KEY
+    
+    lat, lon = obtener_coord(ciudad, api_key_pos)
+    if lat is not None and lon is not None:
+        clima_info = obtener_clima(lat, lon, api_key_weather)
+    return jsonify(clima_info)
 
 #################################################
 #                      main                     #

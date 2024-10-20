@@ -60,6 +60,40 @@
             });
         });
 
+        $('#ciudad').on('input', function() {
+            const query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: '/get_suggestions',
+                    type: 'POST',
+                    data: { ciudad: query },
+                    success: function(data) {
+                        const suggestions = data.map(item => {
+                            return `<li class="suggestion-item" data-city="${item.display_name}">
+                                        ${item.display_name}
+                                    </li>`;
+                        }).join('');
+                        $('#suggestions').html(suggestions).show();
+                    }
+                });
+            } else {
+                $('#suggestions').hide();
+            }
+        });
+
+        $(document).on('click', '.suggestion-item', function() {
+            const city = $(this).data('city');
+            $('#ciudad').val(city);
+            $('#suggestions').hide();
+        });
+    
+        // Cerrar sugerencias si se hace clic fuera
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#ciudad, #suggestions').length) {
+                $('#suggestions').hide();
+            }
+        });
+
         $(window).on("scroll", function() {
             var scrollThreshold = window.innerHeight * 0.02;
             if ($(window).scrollTop() > scrollThreshold) {
@@ -72,6 +106,7 @@
         $(window).on("resize", function() {
             scrollThreshold = window.innerHeight * 0.10;
         });
+        
     });
 
 	$(window).load(function(){

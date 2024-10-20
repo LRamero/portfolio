@@ -9,9 +9,10 @@
     <title>Consulta del Clima</title>
 
     <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
-    <link href="/projects/openweather/assets/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/projects/noticias/assets/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="/projects/openweather/assets/style.css">
+    <link rel="stylesheet" href="/projects/noticias/assets/style.css">
 </head>
 
 <body>
@@ -34,20 +35,29 @@
             </div>
         </div>
     </div>
-    <div class="hero" data-bg-image="openweather/assets/images/banner.png">
-        <div class="container">
-            <form id="climaForm" class="find-location" method="POST">
-                <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
-                <input type="submit" value="Buscar">
-            </form>
-            <div id="climaResultado"></div>
+    <div class="hero" data-bg-image="noticias/assets/images/banner.png">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="container">
+                    <form id="climaForm" class="find-location" method="POST">
+                        <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
+                        <input type="submit" value="Buscar">
+                    </form>
+                </div>
+            </div>
+            <div class="col-10">
+                <ul id="suggestions" class="suggestions-list"></ul>
+            </div>
+            <div class="col-10">
+                <div id="climaResultado"></div>
+            </div>
         </div>
     </div>
     <div class="hero"></div>
     
-    <script src="/projects/openweather/assets/js/jquery-1.11.1.min.js"></script>
-    <script src="/projects/openweather/assets/js/plugins.js"></script>
-    <script src="/projects/openweather/assets/js/app.js"></script>
+    <script src="/projects/noticias/assets/js/jquery-1.11.1.min.js"></script>
+    <script src="/projects/noticias/assets/js/plugins.js"></script>
+    <script src="/projects/noticias/assets/js/app.js"></script>
 </body>
 
 </html>

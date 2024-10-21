@@ -5,3 +5,4 @@ logging
 gunicorn
 python-dotenv
 requests
+newsapi-python

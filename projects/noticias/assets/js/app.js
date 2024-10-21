@@ -1,4 +1,17 @@
 (function($, document, window){
+
+    function getWindDirection(deg) {
+        const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        const index = Math.round(deg / 45) % 8;
+        return directions[index];
+    }
+
+    // Formato de fecha.
+    function formatDate(dt) {
+        var date = new Date(dt * 1000);
+        var options = { weekday: 'long', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString("en-US", options);
+    }
 	
 	$(document).ready(function(){
 
@@ -9,26 +22,6 @@
 		$(".menu-toggle").click(function(){
 			$(".mobile-navigation").slideToggle();
 		});
-
-		var map = $(".map");
-		var latitude = map.data("latitude");
-		var longitude = map.data("longitude");
-		if( map.length ){
-			
-			map.gmap3({
-				map:{
-					options:{
-						center: [latitude,longitude],
-						zoom: 15,
-						scrollwheel: false
-					}
-				},
-				marker:{
-					latLng: [latitude,longitude],
-				}
-			});
-			
-		}
 	
         $('#climaForm').submit(function(event) {
             event.preventDefault();  // Evita el envío normal del formulario
@@ -42,13 +35,41 @@
                 data: { ciudad: ciudad },
                 success: function(data) {
                     if (data) {
-                        $('#climaResultado').html(`
-                            <h3>Clima en ${ciudad}</h3>
-                            <p>Temperatura: ${data.current.temp}°C</p>
-                            <p>Descripción: ${data.current.feels_like}°C</p>
-                            <p>Presión: ${data.current.pressure} hPa</p>
-                            <p>Humedad: ${data.current.humidity}%</p>
-                        `);
+                        $('.forecast-container').empty();
+                        data.daily.forEach(function (forecast) {
+                            var formattedDate = formatDate(forecast.dt);
+                            var dayOfWeek = formattedDate.split(", ")[0];
+                            var date = formattedDate.split(", ")[1];
+                            var iconCode = forecast.weather[0].icon;
+                            var popPercentage = (forecast.pop * 100.0) + '%';
+                            var windSpeed = Math.round(forecast.wind_speed) + ' km/h';
+                            var windDirection = getWindDirection(forecast.wind_deg);
+
+                            // Estructura HTML de cada tarjeta
+                            var cardHtml = `
+                                <div class="forecast">
+                                    <div class="forecast-header">
+                                        <div class="day">${dayOfWeek}</div>
+                                        <div class="date">${date}</div>
+                                    </div>
+                                    <div class="forecast-content">
+                                        <div class="location">${ciudad}</div>
+                                        <div class="degree">
+                                            <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
+                                            <div class="forecast-icon">
+                                                <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="90">
+                                            </div>
+                                        </div>
+                                        <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
+                                        <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
+                                        <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                    </div>
+                                </div>
+                            `;
+
+                            // Agregar la tarjeta a la estructura del contenedor
+                            $('.forecast-container').append(cardHtml);
+                        });
                     } else {
                         alert("No se encontró información del clima para esa ciudad.");
                     }
@@ -56,6 +77,47 @@
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
                     alert("Ocurrió un error al obtener el clima.");
+                }
+            });
+
+            // Obtener noticias
+            $.ajax({
+                url: '/get_news_loc',
+                type: 'POST',
+                data: { ciudad: ciudad },
+                success: function (data) {
+                    if (data.error) {
+                        alert("Ocurrió un error al obtener las noticias.");
+                        return;
+                    }
+
+                    // Mostrar noticias de la ciudad
+                    const noticiasCiudad = data.ciudad.articles.map(article => {
+                        return `
+                            <div class="card">
+                                <h5>${article.title}</h5>
+                                <p>${article.summary}</p>
+                                <a href="${article.url}" target="_blank">Leer más</a>
+                            </div>
+                        `;
+                    }).slice(0, 5).join('');
+                    $('#noticiasCiudad').html(noticiasCiudad);
+
+                    // Mostrar noticias del país
+                    const noticiasPais = data.pais.articles.map(article => {
+                        return `
+                            <div class="card">
+                                <h5>${article.title}</h5>
+                                <p>${article.summary}</p>
+                                <a href="${article.url}" target="_blank">Leer más</a>
+                            </div>
+                        `;
+                    }).slice(0, 5).join('');
+                    $('#noticiasPais').html(noticiasPais);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert("Ocurrió un error al obtener las noticias.");
                 }
             });
         });

@@ -441,7 +441,6 @@ form textarea {
   background-size: cover;
   padding: 70px 0;
   min-height: 350px;
-  height: 100dvh; 
 }
 
 .find-location {
@@ -461,17 +460,13 @@ form textarea {
   padding: 0 40px; }
 
 .forecast-container {
-  width: 100%;
-  background: #323544;
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-  margin-top: -150px;
-  margin-bottom: 50px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .forecast-container .forecast {
   display: table-cell;
   vertical-align: top;
@@ -489,12 +484,62 @@ form textarea {
   }
 }
 
-.forecast-container .forecast.today {
-  width: 420px;
+.forecast.today {
+  width: 30vw;
+  /* Ocupa el 30% del ancho de la pantalla */
+  height: 50vh;
+  /* Ocupa el 50% del alto de la pantalla */
+  background-color: #323544;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 3% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.forecast-grid .forecast {
+  width: 20vw;
+  /* 20% del ancho de la pantalla */
+  height: 20vh;
+  /* 20% del alto de la pantalla */
+  background-color: #262936;
+  border-radius: 10px;
+  margin: 3% 0;
+  /* Márgenes arriba y abajo del 3% */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes para asegurar que las tarjetas en la grilla llenen el espacio */
+.forecast-container .row.forecast-grid {
+  height: 20dvh;
+  max-height: 20dvh;
+}
+
+.forecast-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* Sin espaciado en el ancho */
+  gap: 4%;
+  /* Espacio del 4% entre filas */
+}
+
+.forecast-header .day,
+.forecast-header .date,
+.forecast-content .degree .num {
+  font-size: calc(1.5rem + 1vw);
+  color: #fff;
 }
 
 .forecast-container .forecast.today .forecast-header {
   *zoom: 1;
+  font-size: 1dvw;
 }
 
 .forecast-container .forecast.today .forecast-header:after {
@@ -505,82 +550,53 @@ form textarea {
   height: 0;
 }
 
-.forecast-container .forecast.today .forecast-header .day {
-  float: left;
+.forecast-content span {
+  font-size: calc(1rem + 0.5vw);
+  /* Texto responsivo más pequeño */
 }
 
-.forecast-container .forecast.today .forecast-header .date {
-  float: right;
+/* Icono del clima en la tarjeta */
+.forecast-content .forecast-icon img {
+  width: 20%;
+  /* Ajuste del tamaño del icono para que sea responsivo */
 }
 
-.forecast-container .forecast.today .forecast-content {
-  text-align: left;
-  padding-top: 30px;
-  padding-bottom: 30px;
+/* Otros ajustes para el contenido de la tarjeta */
+.forecast-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.forecast-container .forecast.today .location {
-  font-size: 18px;
-  font-size: 1.2857142857em;
-  font-weight: 400;
+.forecast-content .degree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.forecast-container .forecast.today .degree .num,
-.forecast-container .forecast.today .degree .forecast-icon {
-  display: inline-block;
-  vertical-align: middle;
+.forecast-content .degree .num {
+  font-size: calc(2rem + 2vw);
+  /* Escala el tamaño del número de temperatura */
 }
 
-.forecast-container .forecast.today .degree .num {
-  font-size: 90px;
-  font-size: 6.4285714286rem;
-  margin-right: 30px;
-}
+/* Eliminar márgenes internos en dispositivos pequeños */
+@media (max-width: 768px) {
 
-.forecast-container .forecast.today span {
-  margin-right: 20px;
-}
-
-.forecast-container .forecast.today span img {
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-@media screen and (max-width: 990px) {
-  .forecast-container .forecast.today {
-    display: block;
+  .forecast.today,
+  .forecast-grid .forecast {
     width: 100%;
+    /* Ajuste para pantallas pequeñas */
+    height: auto;
+  }
+
+  .forecast.today {
+    margin-bottom: 2rem;
+    /* Reducir el margen inferior */
   }
 }
 
-.forecast-container .forecast .forecast-header {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  text-align: center;
-  font-weight: 400;
-}
-
-.forecast-container .forecast .forecast-icon {
-  height: 50px;
-}
-
-.forecast-container .forecast .forecast-content {
-  padding: 50px 20px 10px;
-  text-align: center;
-}
-
-.forecast-container .forecast .forecast-content .forecast-icon {
-  margin-bottom: 20px;
-}
-
-.forecast-container .forecast .forecast-content .degree {
-  font-size: 24px;
-  font-size: 1.7142857143em;
-  color: white;
-  font-weight: 700;
-}
-
-.forecast-container .forecast .forecast-content small {
-  font-size: 16px;
-  font-size: 1.1428571429em;
+.forecast-header {
+  font-size: 1dvw;
+  display: flex;
+  justify-content: space-between;
 }

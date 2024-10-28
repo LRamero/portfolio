@@ -113,9 +113,6 @@ q:after {
   content: '';
   content: none; }
 
-small {
-  font-size: 80%; }
-
 sub,
 sup {
   font-size: 75%;
@@ -273,17 +270,6 @@ form textarea {
   overflow: hidden;
   height: 0; 
 }
-
-.container-fluid {
-  padding-left: 15px;
-  padding-right: 15px;
-  *zoom: 1; }
-  .container-fluid:after {
-    content: " ";
-    clear: both;
-    display: block;
-    overflow: hidden;
-    height: 0; }
 
 .site-header {
   width: 100dvw;
@@ -467,6 +453,7 @@ form textarea {
   justify-content: space-between;
   align-items: center;
 }
+
 .forecast-container .forecast {
   display: table-cell;
   vertical-align: top;
@@ -479,35 +466,23 @@ form textarea {
 @media screen and (max-width: 990px) {
   .forecast-container .forecast {
     display: block;
-    width: 16.6667%;
     float: left;
   }
 }
 
 .forecast.today {
-  width: 30vw;
-  /* Ocupa el 30% del ancho de la pantalla */
-  height: 50vh;
-  /* Ocupa el 50% del alto de la pantalla */
-  background-color: #323544;
+  background-color: #666a7e;
   border-radius: 10px;
-  padding: 20px;
-  margin: 3% 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .forecast-grid .forecast {
-  width: 20vw;
-  /* 20% del ancho de la pantalla */
-  height: 20vh;
-  /* 20% del alto de la pantalla */
-  background-color: #262936;
+  background-color: #505361;
   border-radius: 10px;
-  margin: 3% 0;
-  /* Márgenes arriba y abajo del 3% */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -515,53 +490,58 @@ form textarea {
   align-items: center;
 }
 
-/* Ajustes para asegurar que las tarjetas en la grilla llenen el espacio */
-.forecast-container .row.forecast-grid {
-  height: 20dvh;
-  max-height: 20dvh;
-}
-
 .forecast-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* Sin espaciado en el ancho */
-  gap: 4%;
-  /* Espacio del 4% entre filas */
 }
 
-.forecast-header .day,
-.forecast-header .date,
-.forecast-content .degree .num {
-  font-size: calc(1.5rem + 1vw);
+.forecast-header.big, .forecast-header.small {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forecast-header.big .day,
+.forecast-header.big .date,
+.forecast-content.big .degree .num {
+  font-size: clamp(12px, 3dvw, 45px);
   color: #fff;
+  flex: 1;
 }
 
-.forecast-container .forecast.today .forecast-header {
-  *zoom: 1;
-  font-size: 1dvw;
+.forecast-header.small .day,
+.forecast-header.small .date,
+.forecast-content.small .degree .num {
+  font-size: clamp(8px, 1.8dvw, 25px);
+  color: #fff;
+  flex: 1;
 }
 
-.forecast-container .forecast.today .forecast-header:after {
-  content: " ";
-  clear: both;
-  display: block;
-  overflow: hidden;
-  height: 0;
+.forecast-content.big span {
+  font-size: clamp(8px, 1.8dvw, 25px);
 }
 
-.forecast-content span {
-  font-size: calc(1rem + 0.5vw);
-  /* Texto responsivo más pequeño */
+.forecast-content.small span {
+  font-size: clamp(5px, 1.1dvw, 20px);
 }
 
-/* Icono del clima en la tarjeta */
-.forecast-content .forecast-icon img {
-  width: 20%;
-  /* Ajuste del tamaño del icono para que sea responsivo */
+.forecast-content.big .forecast-icon img {
+  width: 10dvw;
 }
 
-/* Otros ajustes para el contenido de la tarjeta */
+.forecast-content.small .forecast-icon img {
+  width: 5dvw;
+}
+
+.forecast-content.big img {
+  width: max(2dvw, 2dvh);
+}
+
+.forecast-content.small img {
+  width: max(1dvw, 1dvh);
+}
+
 .forecast-content {
   display: flex;
   flex-direction: column;
@@ -574,29 +554,23 @@ form textarea {
   justify-content: center;
 }
 
-.forecast-content .degree .num {
-  font-size: calc(2rem + 2vw);
-  /* Escala el tamaño del número de temperatura */
+.forecast-content.big .degree .num {
+  font-size: clamp(15px, 3.2dvw, 50px);
 }
 
-/* Eliminar márgenes internos en dispositivos pequeños */
+.forecast-content.small .degree .num {
+  font-size: clamp(6px, 2dvw, 23px);
+}
+
 @media (max-width: 768px) {
 
   .forecast.today,
   .forecast-grid .forecast {
     width: 100%;
-    /* Ajuste para pantallas pequeñas */
     height: auto;
   }
 
   .forecast.today {
     margin-bottom: 2rem;
-    /* Reducir el margen inferior */
   }
-}
-
-.forecast-header {
-  font-size: 1dvw;
-  display: flex;
-  justify-content: space-between;
 }

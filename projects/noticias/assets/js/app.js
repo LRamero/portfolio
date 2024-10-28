@@ -62,11 +62,11 @@
                         var windDirection = getWindDirection(firstForecast.wind_deg);
 
                         var firstDayHtml = `
-                            <div class="forecast-header">
+                            <div class="forecast-header big">
                                 <div class="day">${dayOfWeek}</div>
                                 <div class="date">${date}</div>
                             </div>
-                            <div class="forecast-content">
+                            <div class="forecast-content big">
                                 <div class="location">${ciudad}</div>
                                 <div class="degree">
                                     <div class="num">${Math.round(firstForecast.temp.day)}<sup>o</sup>C</div>
@@ -95,11 +95,11 @@
                             var cardHtml = `
                                 <div class="col-md-4">
                                     <div class="forecast">
-                                        <div class="forecast-header">
+                                        <div class="forecast-header small">
                                             <div class="day">${dayOfWeek}</div>
                                             <div class="date">${date}</div>
                                         </div>
-                                        <div class="forecast-content">
+                                        <div class="forecast-content small">
                                             <div class="degree">
                                                 <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
                                                 <div class="forecast-icon">
@@ -220,7 +220,106 @@
     });
 
 	$(window).load(function(){
+        const ciudad = "San Luis, Argentina";
+        $.ajax({
+            url: '/get_weather',
+            type: 'POST',
+            data: { ciudad: ciudad },
+            success: function (data) {
+                if (data) {
+                    $('.forecast-container').empty();
 
+                    // Crear la estructura de la grilla principal
+                    var mainHtml = `
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="forecast today">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row forecast-grid">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    $('.forecast-container').append(mainHtml);
+
+                    // Crear la tarjeta grande (primer día)
+                    var firstForecast = data.daily[0];
+                    var formattedDate = formatDate(firstForecast.dt);
+                    var dayOfWeek = formattedDate.split(", ")[0];
+                    var date = formattedDate.split(", ")[1];
+                    var iconCode = firstForecast.weather[0].icon;
+                    var popPercentage = firstForecast.pop * 100.0 + '%';
+                    var windSpeed = firstForecast.wind_speed + ' km/h';
+                    var windDirection = getWindDirection(firstForecast.wind_deg);
+
+                    var firstDayHtml = `
+                            <div class="forecast-header big">
+                                <div class="day">${dayOfWeek}</div>
+                                <div class="date">${date}</div>
+                            </div>
+                            <div class="forecast-content big">
+                                <div class="location">${ciudad}</div>
+                                <div class="degree">
+                                    <div class="num">${Math.round(firstForecast.temp.day)}<sup>o</sup>C</div>
+                                    <div class="forecast-icon">
+                                        <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${firstForecast.weather[0].description}" width="90">
+                                    </div>
+                                </div>
+                                <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
+                                <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
+                                <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                            </div>
+                        `;
+                    $('.forecast.today').html(firstDayHtml);
+
+                    // Crear las 6 tarjetas para los días restantes (grilla 3x2)
+                    var gridHtml = '';
+                    data.daily.slice(1, 7).forEach(function (forecast) {
+                        var formattedDate = formatDate(forecast.dt);
+                        var dayOfWeek = formattedDate.split(", ")[0];
+                        var date = formattedDate.split(", ")[1];
+                        var iconCode = forecast.weather[0].icon;
+                        var popPercentage = forecast.pop * 100.0 + '%';
+                        var windSpeed = forecast.wind_speed + ' km/h';
+                        var windDirection = getWindDirection(forecast.wind_deg);
+
+                        var cardHtml = `
+                                <div class="col-4">
+                                    <div class="forecast">
+                                        <div class="forecast-header small">
+                                            <div class="day">${dayOfWeek}</div>
+                                            <div class="date">${date}</div>
+                                        </div>
+                                        <div class="forecast-content small">
+                                            <div class="degree">
+                                                <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
+                                                <div class="forecast-icon">
+                                                    <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="50">
+                                                </div>
+                                            </div>
+                                            <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
+                                            <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
+                                            <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        gridHtml += cardHtml;
+                    });
+
+                    // Agregar las tarjetas de la grilla a su contenedor
+                    $('.forecast-grid').append(gridHtml);
+                } else {
+                    alert("No se encontró información del clima para esa ciudad.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert("Ocurrió un error al obtener el clima.");
+            }
+        });
 	});
 
 })(jQuery, document, window);

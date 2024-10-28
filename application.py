@@ -4,15 +4,20 @@ import pandas as pd
 import pickle
 import random as rd
 import numpy as np
-from projects.openweather.codes.openweather import obtener_clima, obtener_coord
+from projects.noticias.codes.openweather import obtener_clima, obtener_coord
 from dotenv import load_dotenv
 import os
+import requests
+import datetime
 
 load_dotenv()
 
 app = Flask(__name__, template_folder="", static_folder="./assets")
 
 OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+LOCATIONIQ_API_KEY = os.getenv('LOCATIONIQ_API_KEY')
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
+POSITIONSTACK_API_KEY = os.getenv('POSITIONSTACK_API_KEY')
 
 #########################################################
 #              Fuciones para página principal           #
@@ -30,9 +35,9 @@ def send_static(path):
 def send_static_pk(path):
     return send_from_directory("projects/pokemon/assets", path)
 
-@app.route("/projects/openweather/assets/<path:path>")
+@app.route("/projects/noticias/assets/<path:path>")
 def send_static_ow(path):
-    return send_from_directory("projects/openweather/assets", path)
+    return send_from_directory("projects/noticias/assets", path)
 
 @app.route("/projects/pokemon/assets/images/<path:path>")
 def send_image_pk(path):
@@ -43,8 +48,8 @@ def send_image_pk(path):
 def projects(path):
     if path == "pokemon":
         return pokemon()
-    elif path == "openweather":
-        return openweathers()
+    elif path == "noticias":
+        return noticias()
     else:
         return "Página no encontrada", 404
 
@@ -52,8 +57,8 @@ def pokemon():
     id = rd.randint(1, 99)
     return render_template("projects/pokemon/pokemon.html", random_id=id)
 
-def openweathers():
-    return render_template('projects/openweather/openweather.html')
+def noticias():
+    return render_template('projects/noticias/info.html')
 
 ########################################################
 #           Funciones para página Pokemon              #
@@ -235,14 +240,14 @@ def get_info():
         return jsonify(data)
     
 #################################################
-#                 Openweathers                  #
+#                     Noticias                  #
 #################################################
 
 @app.route('/get_weather', methods=["POST"])
 def get_weather():
     clima_info = None
     ciudad = request.form['ciudad']
-    api_key_pos = "2eae4d6ab559560aff57f36d082f1557"
+    api_key_pos = POSITIONSTACK_API_KEY
     api_key_weather = OPENWEATHER_API_KEY
     
     lat, lon = obtener_coord(ciudad, api_key_pos)
@@ -250,6 +255,48 @@ def get_weather():
         clima_info = obtener_clima(lat, lon, api_key_weather)
     return jsonify(clima_info)
 
+@app.route('/get_news_loc', methods=["POST"])
+def get_news():
+    loc = request.form['ciudad']
+    ciudad, pais = loc.split(", ")
+    ciudad.replace(" ", "%20")
+    ahora = datetime.datetime.now()
+    h24 = ahora - datetime.timedelta(hours=24)
+
+    ahora = ahora.strftime("%Y%m%d%H%M%S")
+    h24 = h24.strftime("%Y%m%d%H%M%S")
+    
+    # Petición para obtener noticias de la ciudad
+    url_noticias_ciudad = f"httpsna://api.gdeltproject.org/api/v2/doc/doc?query=%22{ciudad}%22+AND+sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
+    response_noticias_ciudad = requests.get(url_noticias_ciudad)
+    
+    # Petición para obtener noticias del país
+    url_noticias_pais = f"https://api.gdeltproject.org/api/v2/doc/doc?query=sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
+    response_noticias_pais = requests.get(url_noticias_pais)
+
+    if response_noticias_ciudad.status_code == 200 and response_noticias_pais.status_code == 200:
+        noticias_ciudad_data = response_noticias_ciudad.json()
+        noticias_pais_data = response_noticias_pais.json()
+
+        return jsonify({
+            "ciudad": noticias_ciudad_data,
+            "pais": noticias_pais_data
+        })
+    else:
+        return jsonify({"error": "Error en la solicitud"}), 500
+
+@app.route('/get_suggestions', methods=["POST"])
+def get_suggestions():
+    ciudad = request.form['ciudad']
+    api_key_sug = LOCATIONIQ_API_KEY
+    url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        return jsonify(response.json())
+    else:
+        return jsonify({"error": "Error en la solicitud"})
+    
 #################################################
 #                      main                     #
 #################################################

@@ -401,13 +401,18 @@ form textarea {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  background-color: rgba(86, 86, 86, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid #ddd;
-  border-radius: 1dvw;
+  border-radius: 1vw;
   max-height: 150px;
   overflow-y: auto;
   display: none;
   z-index: 1000;
+
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
 }
 
 .suggestions-list::-webkit-scrollbar {
@@ -444,6 +449,10 @@ form textarea {
   right: 5px;
   bottom: 5px;
   padding: 0 40px; }
+
+.forecast-table {
+  padding: 2dvh;
+}
 
 .forecast-container {
   padding: 0;
@@ -524,6 +533,14 @@ form textarea {
 
 .forecast-content.small span {
   font-size: clamp(5px, 1.1dvw, 20px);
+}
+
+.forecast-content.big summary {
+  font-size: clamp(5px, 1.3dvw, 18px);
+}
+
+.forecast-content.small summary {
+  font-size: clamp(3px, 0.8dvw, 14px);
 }
 
 .forecast-content.big .forecast-icon img {

@@ -57,9 +57,10 @@
                         var dayOfWeek = formattedDate.split(", ")[0];
                         var date = formattedDate.split(", ")[1];
                         var iconCode = firstForecast.weather[0].icon;
-                        var popPercentage = firstForecast.pop * 100.0 + '%';
+                        var popPercentage = Math.round(firstForecast.pop * 100.0) + '%';
                         var windSpeed = firstForecast.wind_speed + ' km/h';
                         var windDirection = getWindDirection(firstForecast.wind_deg);
+                        var summary = firstForecast.summary;
 
                         var firstDayHtml = `
                             <div class="forecast-header big">
@@ -77,6 +78,7 @@
                                 <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                 <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                 <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                <div class="summary">${summary}</div>
                             </div>
                         `;
                         $('.forecast.today').html(firstDayHtml);
@@ -88,12 +90,13 @@
                             var dayOfWeek = formattedDate.split(", ")[0];
                             var date = formattedDate.split(", ")[1];
                             var iconCode = forecast.weather[0].icon;
-                            var popPercentage = forecast.pop * 100.0 + '%';
+                            var popPercentage = Math.round(forecast.pop * 100.0) + '%';
                             var windSpeed = forecast.wind_speed + ' km/h';
                             var windDirection = getWindDirection(forecast.wind_deg);
+                            var summary = forecast.summary;
 
                             var cardHtml = `
-                                <div class="col-md-4">
+                                <div class="col-4">
                                     <div class="forecast">
                                         <div class="forecast-header small">
                                             <div class="day">${dayOfWeek}</div>
@@ -109,6 +112,7 @@
                                             <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                             <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                             <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                            <div class="summary">${summary}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -250,9 +254,10 @@
                     var dayOfWeek = formattedDate.split(", ")[0];
                     var date = formattedDate.split(", ")[1];
                     var iconCode = firstForecast.weather[0].icon;
-                    var popPercentage = firstForecast.pop * 100.0 + '%';
+                    var popPercentage = Math.round(firstForecast.pop * 100.0) + '%';
                     var windSpeed = firstForecast.wind_speed + ' km/h';
                     var windDirection = getWindDirection(firstForecast.wind_deg);
+                    var summary = firstForecast.summary;
 
                     var firstDayHtml = `
                             <div class="forecast-header big">
@@ -270,6 +275,7 @@
                                 <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                 <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                 <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                <div class="summary">${summary}</div>
                             </div>
                         `;
                     $('.forecast.today').html(firstDayHtml);
@@ -281,9 +287,10 @@
                         var dayOfWeek = formattedDate.split(", ")[0];
                         var date = formattedDate.split(", ")[1];
                         var iconCode = forecast.weather[0].icon;
-                        var popPercentage = forecast.pop * 100.0 + '%';
+                        var popPercentage = Math.round(forecast.pop * 100.0) + '%';
                         var windSpeed = forecast.wind_speed + ' km/h';
                         var windDirection = getWindDirection(forecast.wind_deg);
+                        var summary = forecast.summary;
 
                         var cardHtml = `
                                 <div class="col-4">
@@ -302,6 +309,7 @@
                                             <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                             <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                             <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                            <div class="summary">${summary}</div>
                                         </div>
                                     </div>
                                 </div>

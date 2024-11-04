@@ -455,7 +455,7 @@ form textarea {
 }
 
 .forecast-container {
-  padding: 0;
+  padding: 1dvh 0;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
@@ -497,9 +497,11 @@ form textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .forecast-grid {
+  row-gap: min(1dvh, 1dvw);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

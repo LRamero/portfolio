@@ -22,6 +22,25 @@
 		$(".menu-toggle").click(function(){
 			$(".mobile-navigation").slideToggle();
 		});
+
+        function translateText(text, callback) {
+            $.ajax({
+                url: '/get_translate',
+                type: 'POST',
+                data: { texto: text },
+                success: function (response) {
+                    if (response.translated_text) {
+                        callback(response.translated_text);
+                    } else {
+                        callback(text);  // Si hay error, usa el texto original
+                    }
+                },
+                error: function () {
+                    console.error('Error al traducir el texto');
+                    callback(text);  // Si hay error, usa el texto original
+                }
+            });
+        }
 	
         $('#climaForm').submit(function(event) {
             event.preventDefault();  // Evita el envío normal del formulario
@@ -38,17 +57,17 @@
 
                         // Crear la estructura de la grilla principal
                         var mainHtml = `
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="forecast today">
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="row forecast-grid">
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="forecast today">
                             </div>
-                        `;
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row forecast-grid">
+                            </div>
+                        </div>
+                    </div>
+                `;
                         $('.forecast-container').append(mainHtml);
 
                         // Crear la tarjeta grande (primer día)
@@ -62,9 +81,12 @@
                         var windDirection = getWindDirection(firstForecast.wind_deg);
                         var summary = firstForecast.summary;
 
-                        var firstDayHtml = `
+                        // Traducción de dayOfWeek y summary
+                        translateText(dayOfWeek, function (translatedDay) {
+                            translateText(summary, function (translatedSummary) {
+                                var firstDayHtml = `
                             <div class="forecast-header big">
-                                <div class="day">${dayOfWeek}</div>
+                                <div class="day">${translatedDay}</div>
                                 <div class="date">${date}</div>
                             </div>
                             <div class="forecast-content big">
@@ -78,10 +100,12 @@
                                 <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                 <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                 <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                <div class="summary">${summary}</div>
+                                <div class="summary">${translatedSummary}</div>
                             </div>
                         `;
-                        $('.forecast.today').html(firstDayHtml);
+                                $('.forecast.today').html(firstDayHtml);
+                            });
+                        });
 
                         // Crear las 6 tarjetas para los días restantes (grilla 3x2)
                         var gridHtml = '';
@@ -95,11 +119,13 @@
                             var windDirection = getWindDirection(forecast.wind_deg);
                             var summary = forecast.summary;
 
-                            var cardHtml = `
+                            translateText(dayOfWeek, function (translatedDay) {
+                                translateText(summary, function (translatedSummary) {
+                                    var cardHtml = `
                                 <div class="col-4">
                                     <div class="forecast">
                                         <div class="forecast-header small">
-                                            <div class="day">${dayOfWeek}</div>
+                                            <div class="day">${translatedDay}</div>
                                             <div class="date">${date}</div>
                                         </div>
                                         <div class="forecast-content small">
@@ -112,16 +138,16 @@
                                             <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
                                             <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                             <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                            <div class="summary">${summary}</div>
+                                            <div class="summary">${translatedSummary}</div>
                                         </div>
                                     </div>
                                 </div>
                             `;
-                            gridHtml += cardHtml;
+                                    $('.forecast-grid').append(cardHtml);
+                                });
+                            });
                         });
 
-                        // Agregar las tarjetas de la grilla a su contenedor
-                        $('.forecast-grid').append(gridHtml);
                     } else {
                         alert("No se encontró información del clima para esa ciudad.");
                     }
@@ -224,110 +250,7 @@
     });
 
 	$(window).load(function(){
-        const ciudad = "San Luis, Argentina";
-        $.ajax({
-            url: '/get_weather',
-            type: 'POST',
-            data: { ciudad: ciudad },
-            success: function (data) {
-                if (data) {
-                    $('.forecast-container').empty();
-
-                    // Crear la estructura de la grilla principal
-                    var mainHtml = `
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="forecast today">
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="row forecast-grid">
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    $('.forecast-container').append(mainHtml);
-
-                    // Crear la tarjeta grande (primer día)
-                    var firstForecast = data.daily[0];
-                    var formattedDate = formatDate(firstForecast.dt);
-                    var dayOfWeek = formattedDate.split(", ")[0];
-                    var date = formattedDate.split(", ")[1];
-                    var iconCode = firstForecast.weather[0].icon;
-                    var popPercentage = Math.round(firstForecast.pop * 100.0) + '%';
-                    var windSpeed = firstForecast.wind_speed + ' km/h';
-                    var windDirection = getWindDirection(firstForecast.wind_deg);
-                    var summary = firstForecast.summary;
-
-                    var firstDayHtml = `
-                            <div class="forecast-header big">
-                                <div class="day">${dayOfWeek}</div>
-                                <div class="date">${date}</div>
-                            </div>
-                            <div class="forecast-content big">
-                                <div class="location">${ciudad}</div>
-                                <div class="degree">
-                                    <div class="num">${Math.round(firstForecast.temp.day)}<sup>o</sup>C</div>
-                                    <div class="forecast-icon">
-                                        <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${firstForecast.weather[0].description}" width="90">
-                                    </div>
-                                </div>
-                                <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
-                                <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
-                                <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                <div class="summary">${summary}</div>
-                            </div>
-                        `;
-                    $('.forecast.today').html(firstDayHtml);
-
-                    // Crear las 6 tarjetas para los días restantes (grilla 3x2)
-                    var gridHtml = '';
-                    data.daily.slice(1, 7).forEach(function (forecast) {
-                        var formattedDate = formatDate(forecast.dt);
-                        var dayOfWeek = formattedDate.split(", ")[0];
-                        var date = formattedDate.split(", ")[1];
-                        var iconCode = forecast.weather[0].icon;
-                        var popPercentage = Math.round(forecast.pop * 100.0) + '%';
-                        var windSpeed = forecast.wind_speed + ' km/h';
-                        var windDirection = getWindDirection(forecast.wind_deg);
-                        var summary = forecast.summary;
-
-                        var cardHtml = `
-                                <div class="col-4">
-                                    <div class="forecast">
-                                        <div class="forecast-header small">
-                                            <div class="day">${dayOfWeek}</div>
-                                            <div class="date">${date}</div>
-                                        </div>
-                                        <div class="forecast-content small">
-                                            <div class="degree">
-                                                <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
-                                                <div class="forecast-icon">
-                                                    <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="50">
-                                                </div>
-                                            </div>
-                                            <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
-                                            <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
-                                            <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                            <div class="summary">${summary}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        gridHtml += cardHtml;
-                    });
-
-                    // Agregar las tarjetas de la grilla a su contenedor
-                    $('.forecast-grid').append(gridHtml);
-                } else {
-                    alert("No se encontró información del clima para esa ciudad.");
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-                alert("Ocurrió un error al obtener el clima.");
-            }
-        });
+        
 	});
 
 })(jQuery, document, window);

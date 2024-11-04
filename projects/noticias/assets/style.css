@@ -276,7 +276,7 @@ form textarea {
   background-color: rgba(45, 45, 45, 0.8);
   transition: all 0.3s ease;
   z-index: 999;
-  padding: clamp(9px, 2.5dvh, 12px) 0;
+  padding: min(clamp(9px, 2.5dvh, 12px), clamp(9px, 2.5dvw, 12px)) 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   height: clamp(40px, 8vh, 70px);
   position: fixed;
@@ -284,8 +284,8 @@ form textarea {
 }
 .shrink {
   background-color: rgba(15, 15, 15, 0.3);
-  padding: clamp(5px, 1dvh, 9px) 0;
-  height: clamp(30px, 6vh, 60px);
+  padding: min(clamp(5px, 1dvh, 9px), clamp(5px, 1dvw, 9px)) 0;
+  height: min(clamp(30px, 6vh, 60px), clamp(30px, 6vw, 60px));
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: background-color 0.5s ease, padding 0.5s ease, box-shadow 0.5s ease, height 0.5s ease;
 }
@@ -516,7 +516,7 @@ form textarea {
 .forecast-header.big .day,
 .forecast-header.big .date,
 .forecast-content.big .degree .num {
-  font-size: clamp(12px, 3dvw, 45px);
+  font-size: max(clamp(12px, 3dvw, 45px), clamp(12px, 3dvh, 45px));
   color: #fff;
   flex: 1;
 }
@@ -524,25 +524,25 @@ form textarea {
 .forecast-header.small .day,
 .forecast-header.small .date,
 .forecast-content.small .degree .num {
-  font-size: clamp(8px, 1.8dvw, 25px);
+  font-size: max(clamp(8px, 1.8dvw, 25px), clamp(8px, 1.8dvh, 25px));
   color: #fff;
   flex: 1;
 }
 
 .forecast-content.big span {
-  font-size: clamp(8px, 1.8dvw, 25px);
+  font-size: max(clamp(8px, 1.8dvw, 25px), clamp(8px, 1.8dvh, 25px));
 }
 
 .forecast-content.small span {
-  font-size: clamp(5px, 1.1dvw, 20px);
+  font-size: max(clamp(5px, 1.1dvw, 20px), clamp(5px, 1.1dvh, 20px));
 }
 
 .forecast-content.big summary {
-  font-size: clamp(5px, 1.3dvw, 18px);
+  font-size: max(clamp(5px, 1.3dvw, 18px), clamp(5px, 1.3dvh, 18px));
 }
 
 .forecast-content.small summary {
-  font-size: clamp(3px, 0.8dvw, 14px);
+  font-size: max(clamp(3px, 0.8dvw, 14px), clamp(3px, 0.8dvh, 14px));
 }
 
 .forecast-content.big .forecast-icon img {
@@ -574,11 +574,11 @@ form textarea {
 }
 
 .forecast-content.big .degree .num {
-  font-size: clamp(15px, 3.2dvw, 50px);
+  font-size: max(clamp(15px, 3.2dvw, 50px), clamp(15px, 3.2dvh, 50px));
 }
 
 .forecast-content.small .degree .num {
-  font-size: clamp(6px, 2dvw, 23px);
+  font-size: max(clamp(6px, 2dvw, 23px), clamp(6px, 2dvh, 23px));
 }
 
 @media (max-width: 768px) {
@@ -586,7 +586,7 @@ form textarea {
   .forecast.today,
   .forecast-grid .forecast {
     width: 100%;
-    height: auto;
+    height: 100%;
   }
 
   .forecast.today {

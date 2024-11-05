@@ -260,9 +260,6 @@ form textarea {
 .map {
   height: 220px; }
 
-.container {
-  *zoom: 1;
-}
 .container:after {
   content: " ";
   clear: both;
@@ -409,7 +406,7 @@ form textarea {
   display: none;
   z-index: 1000;
 
-  position: absolute;
+  position: relative;
   top: 100%;
   left: 0;
   width: 100%;
@@ -487,6 +484,8 @@ form textarea {
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .forecast-grid .forecast {
@@ -505,11 +504,11 @@ form textarea {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .forecast-header.big, .forecast-header.small {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -524,13 +523,13 @@ form textarea {
 .forecast-header.small .day,
 .forecast-header.small .date,
 .forecast-content.small .degree .num {
-  font-size: max(clamp(8px, 1.8dvw, 25px), clamp(8px, 1.8dvh, 25px));
+  font-size: max(clamp(7px, 1.5dvw, 25px), clamp(7px, 1.5dvh, 25px));
   color: #fff;
   flex: 1;
 }
 
 .forecast-content.big span {
-  font-size: max(clamp(8px, 1.8dvw, 25px), clamp(8px, 1.8dvh, 25px));
+  font-size: max(clamp(8px, 1.6dvw, 25px), clamp(8px, 1.6dvh, 25px));
 }
 
 .forecast-content.small span {

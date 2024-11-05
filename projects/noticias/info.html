@@ -29,45 +29,28 @@
                         <li class="menu-item"><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-    
                 <div class="mobile-navigation"></div>
-    
             </div>
         </div>
     </div>
     <div class="hero" data-bg-image="noticias/assets/images/banner.png">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <div class="container">
-                    <form id="climaForm" class="find-location" method="POST">
-                        <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
-                        <input type="submit" value="Buscar">
-                    </form>
-                </div>
-            </div>
-            <div class="col-10">
-                <ul id="suggestions" class="suggestions-list"></ul>
-            </div>
-            <div class="forecast-table">
-                <div class="container">
-                    <div class="forecast-container" id="forecast-container">
-            
-                    </div>
+        <div class="container">
+            <form id="climaForm" class="find-location" method="POST">
+                <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
+                <input type="submit" value="Buscar">
+            </form>
+        </div>
+        <div>
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+        <div class="forecast-table">
+            <div class="container">
+                <div class="forecast-container" id="forecast-container">
+        
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <h2>Noticias de la Ciudad</h2>
-            <div id="noticiasCiudad" class="row"></div>
-        </div>
-        <div class="col-12">
-            <h2>Noticias del País</h2>
-            <div id="noticiasPais" class="row"></div>
-        </div>
-    </div>
-    
+    </div>    
     <script src="/projects/noticias/assets/js/jquery-1.11.1.min.js"></script>
     <script src="/projects/noticias/assets/js/plugins.js"></script>
     <script src="/projects/noticias/assets/js/app.js"></script>

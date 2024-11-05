@@ -57,17 +57,17 @@
 
                         // Crear la estructura de la grilla principal
                         var mainHtml = `
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="forecast today">
+                            <div class="row">
+                                <div class="col-lg-4 px-2">
+                                    <div class="forecast today">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row forecast-grid">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="row forecast-grid">
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        `;
                         $('.forecast-container').append(mainHtml);
 
                         // Crear la tarjeta grande (primer día)
@@ -80,29 +80,30 @@
                         var windSpeed = firstForecast.wind_speed + ' km/h';
                         var windDirection = getWindDirection(firstForecast.wind_deg);
                         var summary = firstForecast.summary;
+                        var rainHtml = firstForecast.rain !== undefined ? `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage} ${firstForecast.rain} mm</span>` : `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>`;
 
                         // Traducción de dayOfWeek y summary
                         translateText(dayOfWeek, function (translatedDay) {
                             translateText(summary, function (translatedSummary) {
                                 var firstDayHtml = `
-                            <div class="forecast-header big">
-                                <div class="day">${translatedDay}</div>
-                                <div class="date">${date}</div>
-                            </div>
-                            <div class="forecast-content big">
-                                <div class="location">${ciudad}</div>
-                                <div class="degree">
-                                    <div class="num">${Math.round(firstForecast.temp.day)}<sup>o</sup>C</div>
-                                    <div class="forecast-icon">
-                                        <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${firstForecast.weather[0].description}" width="90">
+                                    <div class="forecast-header big">
+                                        <div class="day">${translatedDay}</div>
+                                        <div class="date">${date}</div>
                                     </div>
-                                </div>
-                                <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
-                                <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
-                                <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                <div class="summary">${translatedSummary}</div>
-                            </div>
-                        `;
+                                    <div class="forecast-content big">
+                                        <div class="location">${ciudad}</div>
+                                        <div class="degree">
+                                            <div class="num">${Math.round(firstForecast.temp.day)}<sup>o</sup>C</div>
+                                            <div class="forecast-icon">
+                                                <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${firstForecast.weather[0].description}" width="90">
+                                            </div>
+                                        </div>
+                                        ${rainHtml}
+                                        <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
+                                        <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                        <div class="summary">${translatedSummary}</div>
+                                    </div>
+                                `;
                                 $('.forecast.today').html(firstDayHtml);
                             });
                         });
@@ -118,11 +119,12 @@
                             var windSpeed = forecast.wind_speed + ' km/h';
                             var windDirection = getWindDirection(forecast.wind_deg);
                             var summary = forecast.summary;
+                            var rainHtml = forecast.rain !== undefined ? `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage} ${forecast.rain} mm</span>` : `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>`;
 
                             translateText(dayOfWeek, function (translatedDay) {
                                 translateText(summary, function (translatedSummary) {
                                     var cardHtml = `
-                                <div class="col-4">
+                                <div class="col-4 px-1">
                                     <div class="forecast">
                                         <div class="forecast-header small">
                                             <div class="day">${translatedDay}</div>
@@ -135,7 +137,7 @@
                                                     <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="50">
                                                 </div>
                                             </div>
-                                            <span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>
+                                            ${rainHtml}
                                             <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
                                             <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
                                             <div class="summary">${translatedSummary}</div>

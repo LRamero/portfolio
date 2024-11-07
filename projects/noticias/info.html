@@ -33,11 +33,17 @@
             </div>
         </div>
     </div>
-    <div class="hero" data-bg-image="noticias/assets/images/banner.png">
+    <div class="hero">
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
         <div class="container">
-            <form id="climaForm" class="find-location" method="POST">
+            <form id="climaForm" class="find-location" method="POST" style="position: relative;">
                 <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
                 <input type="submit" value="Buscar">
+                <ul id="suggestions" class="suggestions-list"></ul>
             </form>
         </div>
         <div>

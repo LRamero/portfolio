@@ -275,7 +275,7 @@ form textarea {
   z-index: 999;
   padding: min(clamp(9px, 2.5dvh, 12px), clamp(9px, 2.5dvw, 12px)) 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: clamp(40px, 8vh, 70px);
+  height: min(clamp(40px, 8dvh, 70px), clamp(40px, 8dvw, 70px));
   position: fixed;
   transition: background-color 0.5s ease, padding 0.5s ease, box-shadow 0.5s ease, height 0.5s ease;
 }
@@ -406,10 +406,11 @@ form textarea {
   display: none;
   z-index: 1000;
 
-  position: relative;
+  position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .suggestions-list::-webkit-scrollbar {
@@ -426,9 +427,15 @@ form textarea {
 }
 
 .hero {
+  background-image: url('images/00.jpg');
+  height: 100dvh;
+  min-height: 100dvh;
   background-size: cover;
+  background-position: center;
   padding: 70px 0;
   min-height: 350px;
+  transition: background-image 0.5s ease-in-out, height 0.5 ease-in-out;
+  z-index: -6;
 }
 
 .find-location {
@@ -591,4 +598,17 @@ form textarea {
   .forecast.today {
     margin-bottom: 2rem;
   }
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }

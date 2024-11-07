@@ -4,7 +4,7 @@ import pandas as pd
 import pickle
 import random as rd
 import numpy as np
-from projects.noticias.codes.openweather import obtener_clima, obtener_coord
+from projects.noticias.codes.funciones_info import obtener_clima, obtener_coord, obtener_noticias, obtener_sugerencias, traducir_texto
 from dotenv import load_dotenv
 import os
 import requests
@@ -18,6 +18,7 @@ OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 LOCATIONIQ_API_KEY = os.getenv('LOCATIONIQ_API_KEY')
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 POSITIONSTACK_API_KEY = os.getenv('POSITIONSTACK_API_KEY')
+DEEPL_API_KEY = os.getenv('DEEPL_API_KEY')
 
 #########################################################
 #              Fuciones para página principal           #
@@ -267,12 +268,10 @@ def get_news():
     h24 = h24.strftime("%Y%m%d%H%M%S")
     
     # Petición para obtener noticias de la ciudad
-    url_noticias_ciudad = f"httpsna://api.gdeltproject.org/api/v2/doc/doc?query=%22{ciudad}%22+AND+sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
-    response_noticias_ciudad = requests.get(url_noticias_ciudad)
+    response_noticias_ciudad = obtener_noticias(pais, h24, ahora, ciudad)
     
     # Petición para obtener noticias del país
-    url_noticias_pais = f"https://api.gdeltproject.org/api/v2/doc/doc?query=sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
-    response_noticias_pais = requests.get(url_noticias_pais)
+    response_noticias_pais = obtener_noticias(pais, h24, ahora)
 
     if response_noticias_ciudad.status_code == 200 and response_noticias_pais.status_code == 200:
         noticias_ciudad_data = response_noticias_ciudad.json()
@@ -289,13 +288,23 @@ def get_news():
 def get_suggestions():
     ciudad = request.form['ciudad']
     api_key_sug = LOCATIONIQ_API_KEY
-    url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1"
-    response = requests.get(url)
+    response = obtener_sugerencias (api_key_sug, ciudad)
 
     if response.status_code == 200:
         return jsonify(response.json())
     else:
         return jsonify({"error": "Error en la solicitud"})
+    
+@app.route('/get_translate', methods=["POST"])
+def get_translate():
+    texto = request.form['texto']
+    api_key_deepl = DEEPL_API_KEY
+    texto_traducido = traducir_texto(texto, api_key_deepl, "ES")
+    
+    if texto_traducido:
+        return jsonify({"translated_text": texto_traducido})
+    else:
+        return jsonify({"error": "Error en la solicitud"}), 500
     
 #################################################
 #                      main                     #

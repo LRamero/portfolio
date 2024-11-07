@@ -17,6 +17,8 @@
 
 		// Cloning main navigation for mobile menu
 		$(".mobile-navigation").append($(".main-navigation .menu").clone());
+        
+        $('#loadingOverlay').hide();
 
 		// Mobile menu toggle 
 		$(".menu-toggle").click(function(){
@@ -44,6 +46,7 @@
 	
         $('#climaForm').submit(function(event) {
             event.preventDefault();  // Evita el envío normal del formulario
+            $('#loadingOverlay').show();
 
             const ciudad = $('#ciudad').val();  // Obtiene el valor del campo de texto
 
@@ -76,6 +79,7 @@
                         var dayOfWeek = formattedDate.split(", ")[0];
                         var date = formattedDate.split(", ")[1];
                         var iconCode = firstForecast.weather[0].icon;
+                        var todayIconPrefix = iconCode.substring(0, 2);
                         var popPercentage = Math.round(firstForecast.pop * 100.0) + '%';
                         var windSpeed = firstForecast.wind_speed + ' km/h';
                         var windDirection = getWindDirection(firstForecast.wind_deg);
@@ -108,8 +112,6 @@
                             });
                         });
 
-                        // Crear las 6 tarjetas para los días restantes (grilla 3x2)
-                        var gridHtml = '';
                         data.daily.slice(1, 7).forEach(function (forecast) {
                             var formattedDate = formatDate(forecast.dt);
                             var dayOfWeek = formattedDate.split(", ")[0];
@@ -124,39 +126,41 @@
                             translateText(dayOfWeek, function (translatedDay) {
                                 translateText(summary, function (translatedSummary) {
                                     var cardHtml = `
-                                <div class="col-4 px-1">
-                                    <div class="forecast">
-                                        <div class="forecast-header small">
-                                            <div class="day">${translatedDay}</div>
-                                            <div class="date">${date}</div>
-                                        </div>
-                                        <div class="forecast-content small">
-                                            <div class="degree">
-                                                <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
-                                                <div class="forecast-icon">
-                                                    <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="50">
+                                        <div class="col-4 px-1">
+                                            <div class="forecast">
+                                                <div class="forecast-header small">
+                                                    <div class="day">${translatedDay}</div>
+                                                    <div class="date">${date}</div>
+                                                </div>
+                                                <div class="forecast-content small">
+                                                    <div class="degree">
+                                                        <div class="num">${Math.round(forecast.temp.day)}<sup>o</sup>C</div>
+                                                        <div class="forecast-icon">
+                                                            <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${forecast.weather[0].description}" width="50">
+                                                        </div>
+                                                    </div>
+                                                    ${rainHtml}
+                                                    <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
+                                                    <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
+                                                    <div class="summary">${translatedSummary}</div>
                                                 </div>
                                             </div>
-                                            ${rainHtml}
-                                            <span><img src="noticias/assets/images/icon-wind.png" alt="">${windSpeed}</span>
-                                            <span><img src="noticias/assets/images/icon-compass.png" alt="">${windDirection}</span>
-                                            <div class="summary">${translatedSummary}</div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
                                     $('.forecast-grid').append(cardHtml);
                                 });
                             });
                         });
 
+                        $('.hero').css('background-image', `url('noticias/assets/images/${todayIconPrefix}.jpg')`);
+
                     } else {
                         alert("No se encontró información del clima para esa ciudad.");
                     }
+                    $('#loadingOverlay').hide();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
-                    alert("Ocurrió un error al obtener el clima.");
                 }
             });
 
@@ -197,9 +201,12 @@
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
-                    alert("Ocurrió un error al obtener las noticias.");
                 }
             });
+        });
+
+        $(document).on("ajaxStop", function () {
+            $('#loadingOverlay').hide();
         });
 
         $('#ciudad').on('input', function() {

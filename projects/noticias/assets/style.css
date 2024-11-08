@@ -434,6 +434,7 @@ form textarea {
   background-position: center;
   padding: 70px 0;
   min-height: 350px;
+  overflow-y: scroll;
   transition: background-image 0.5s ease-in-out, height 0.5 ease-in-out;
   z-index: -6;
 }

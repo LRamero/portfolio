@@ -61,11 +61,11 @@
                         // Crear la estructura de la grilla principal
                         var mainHtml = `
                             <div class="row">
-                                <div class="col-lg-4 px-2">
+                                <div class="col-xl-4 col-lg-4 col-md-4 px-2">
                                     <div class="forecast today">
                                     </div>
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-xl-8 col-lg-8 col-md-8">
                                     <div class="row forecast-grid">
                                     </div>
                                 </div>
@@ -112,6 +112,9 @@
                             });
                         });
 
+                        var cardsHtml = [];
+                        var translationsRemaining = data.daily.slice(1, 7).length; // Contar cuántas traducciones quedan
+
                         data.daily.slice(1, 7).forEach(function (forecast) {
                             var formattedDate = formatDate(forecast.dt);
                             var dayOfWeek = formattedDate.split(", ")[0];
@@ -123,8 +126,10 @@
                             var summary = forecast.summary;
                             var rainHtml = forecast.rain !== undefined ? `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage} ${forecast.rain} mm</span>` : `<span><img src="noticias/assets/images/icon-umberella.png" alt="">${popPercentage}</span>`;
 
+                            // Traducción de dayOfWeek y summary
                             translateText(dayOfWeek, function (translatedDay) {
                                 translateText(summary, function (translatedSummary) {
+                                    // Crear el HTML de la tarjeta
                                     var cardHtml = `
                                         <div class="col-4 px-1">
                                             <div class="forecast">
@@ -147,7 +152,13 @@
                                             </div>
                                         </div>
                                     `;
-                                    $('.forecast-grid').append(cardHtml);
+                                    cardsHtml.push(cardHtml); // Almacenar la tarjeta en el array
+
+                                    // Verificar si se han completado todas las traducciones
+                                    translationsRemaining--;
+                                    if (translationsRemaining === 0) {
+                                        $('.forecast-grid').append(cardsHtml.join('')); // Agregar todas las tarjetas al DOM de una vez
+                                    }
                                 });
                             });
                         });

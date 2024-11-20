@@ -10,13 +10,13 @@ def obtener_clima(lat, lon, api_key):
         return None
     
 def obtener_coord(direccion, api_key):
-    url = f"https://api.positionstack.com/v1/forward?access_key={api_key}&query={direccion}"
+    url = f"https://us1.locationiq.com/v1/search?key={api_key}&q={direccion}&format=json"
     response = requests.get(url)
 
     if response.status_code == 200:
         data = response.json()
-        lat = data["data"][0]["latitude"]
-        lon = data["data"][0]["longitude"]
+        lat = data[0]["lat"]
+        lon = data[0]["lon"]
         return lat, lon
     else:
         return None, None

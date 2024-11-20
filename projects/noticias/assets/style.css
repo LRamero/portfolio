@@ -484,6 +484,10 @@ form textarea {
   }
 }
 
+.forecast {
+  width: 100%;
+}
+
 .forecast.today {
   background-color: #666a7e;
   border-radius: 10px;
@@ -549,7 +553,7 @@ form textarea {
 }
 
 .forecast-content.small summary {
-  font-size: max(clamp(3px, 0.8dvw, 14px), clamp(3px, 0.8dvh, 14px));
+  font-size: max(clamp(2px, 0.8dvw, 14px), clamp(2px, 0.8dvh, 14px));
 }
 
 .forecast-content.big .forecast-icon img {

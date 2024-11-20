@@ -38,22 +38,19 @@
                 <span class="sr-only">Cargando...</span>
             </div>
         </div>
-        <div id="clima">
-            <div class="container">
-                <form id="climaForm" class="find-location" method="POST" style="position: relative;">
-                    <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
-                    <input type="submit" value="Buscar">
-                    <ul id="suggestions" class="suggestions-list"></ul>
-                </form>
-            </div>
-            <div>
+        <div class="container">
+            <form id="climaForm" class="find-location" method="POST" style="position: relative;">
+                <input type="text" id="ciudad" name="ciudad" placeholder="Busca tu ubicación..." required>
+                <input type="submit" value="Buscar">
                 <ul id="suggestions" class="suggestions-list"></ul>
-            </div>
-            <div class="forecast-table">
-                <div class="container">
-                    <div class="forecast-container" id="forecast-container">
-            
-                    </div>
+            </form>
+        </div>
+        <div>
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+        <div class="forecast-table">
+            <div class="container">
+                <div class="forecast-container" id="forecast-container">
                 </div>
             </div>
         </div>

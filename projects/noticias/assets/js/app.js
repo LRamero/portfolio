@@ -179,34 +179,35 @@
             $.ajax({
                 url: '/get_news_loc',
                 type: 'POST',
-                data: { ciudad: ciudad },
+                data: { query: ciudad , tipo: 'ciudad'},
                 success: function (data) {
                     if (data.error) {
                         alert("Ocurrió un error al obtener las noticias.");
                         return;
                     }
 
-                    // Mostrar noticias de la ciudad
-                    const noticiasCiudad = data.ciudad.articles.map(article => {
+                    // Mostrar noticias de la ciudad (suponiendo que todas las noticias son relevantes para la ciudad)
+                    const noticiasCiudad = data.data.map(article => {
                         return `
-                            <div class="card">
-                                <h5>${article.title}</h5>
-                                <p>${article.summary}</p>
-                                <a href="${article.url}" target="_blank">Leer más</a>
-                            </div>
-                        `;
+                <div class="card">
+                    <h5>${article.title}</h5>
+                    <p>${article.description}</p>
+                    <a href="${article.url}" target="_blank">Leer más</a>
+                </div>
+            `;
                     }).slice(0, 5).join('');
                     $('#noticiasCiudad').html(noticiasCiudad);
 
-                    // Mostrar noticias del país
-                    const noticiasPais = data.pais.articles.map(article => {
+                    // Si deseas mostrar noticias del país, puedes filtrar o usar la misma lista
+                    // Aquí simplemente se repite el mismo conjunto de noticias
+                    const noticiasPais = data.data.map(article => {
                         return `
-                            <div class="card">
-                                <h5>${article.title}</h5>
-                                <p>${article.summary}</p>
-                                <a href="${article.url}" target="_blank">Leer más</a>
-                            </div>
-                        `;
+                <div class="card">
+                    <h5>${article.title}</h5>
+                    <p>${article.description}</p>
+                    <a href="${article.url}" target="_blank">Leer más</a>
+                </div>
+            `;
                     }).slice(0, 5).join('');
                     $('#noticiasPais').html(noticiasPais);
                 },

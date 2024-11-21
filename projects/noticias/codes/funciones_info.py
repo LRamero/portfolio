@@ -39,13 +39,78 @@ def traducir_texto(texto, clave_api, idioma_destino):
         print("Error en la traducción:", respuesta.status_code, respuesta.text)
         return None
     
-def obtener_noticias(pais, h24, ahora, ciudad = None):
-    if(ciudad):
-        url_noticias = f"https://api.gdeltproject.org/api/v2/doc/doc?query=%22{ciudad}%22+AND+sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
+def obtener_noticias(query, api_key, pais = None):
+    pais_codigo = {
+        "Argentina": "AR",
+        "Australia": "AU",
+        "Austria": "AT",
+        "Belgium": "BE",
+        "Brazil": "BR",
+        "Bulgaria": "BG",
+        "Canada": "CA",
+        "China": "CN",
+        "Colombia": "CO",
+        "Czech Republic": "CZ",
+        "Egypt": "EG",
+        "France": "FR",
+        "Germany": "DE",
+        "Greece": "GR",
+        "Hong Kong": "HK",
+        "Hungary": "HU",
+        "India": "IN",
+        "Indonesia": "ID",
+        "Ireland": "IE",
+        "Israel": "IL",
+        "Italy": "IT",
+        "Japan": "JP",
+        "Latvia": "LV",
+        "Lithuania": "LT",
+        "Malaysia": "MY",
+        "Mexico": "MX",
+        "Morocco": "MA",
+        "Netherlands": "NL",
+        "New Zealand": "NZ",
+        "Nigeria": "NG",
+        "Norway": "NO",
+        "Philippines": "PH",
+        "Poland": "PL",
+        "Portugal": "PT",
+        "Romania": "RO",
+        "Saudi Arabia": "SA",
+        "Serbia": "RS",
+        "Singapore": "SG",
+        "Slovakia": "SK",
+        "Slovenia": "SI",
+        "South Africa": "ZA",
+        "South Korea": "KR",
+        "Sweden": "SE",
+        "Switzerland": "CH",
+        "Taiwan": "TW",
+        "Thailand": "TH",
+        "Turkey": "TR",
+        "UAE": "AE",
+        "Ukraine": "UA",
+        "United Kingdom": "GB",
+        "United States": "US",
+        "Venezuela": "VE"
+    }
+
+    def obtener_codigo_pais(nombre_pais):
+        return pais_codigo.get(nombre_pais, "Código no encontrado")
+
+    if (pais):
+        codigo = obtener_codigo_pais(pais)
     else:
-        url_noticias = f"https://api.gdeltproject.org/api/v2/doc/doc?query=sourcecountry:{pais}&startdatetime={h24}&enddatetime={ahora}&maxrecords=5&mode=artlist&maxrecords=5&format=json&lang=es"
-    
-    return requests.get(url_noticias)
+        codigo = "US"
+
+    print(pais, codigo)
+    url_noticias = f"https://api.mediastack.com/v1/news?access_key={api_key}&keywords={query}&countries={codigo}"
+    respuesta = requests.get(url_noticias)
+    if respuesta.status_code == 200:
+        datos = respuesta.json()
+        return datos, url_noticias
+    else:
+        return None
 
 def obtener_sugerencias(api_key_sug, ciudad):
     url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1&tag=tag%3Dplace%3Acountry%2Cplace%3Astate%2Cplace%3Aregion%2Cplace%3Aprovince%2Cplace%3Adistrict%2Cplace%3Acountry%2Cplace%3Acity%2Cplace%3Atown%2Cplace%3Avillage"

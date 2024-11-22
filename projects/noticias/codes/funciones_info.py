@@ -101,14 +101,13 @@ def obtener_noticias(query, api_key, pais = None):
     if (pais):
         codigo = obtener_codigo_pais(pais)
     else:
-        codigo = "US"
+        codigo = "AR"
 
-    print(pais, codigo)
     url_noticias = f"https://api.mediastack.com/v1/news?access_key={api_key}&keywords={query}&countries={codigo}"
     respuesta = requests.get(url_noticias)
     if respuesta.status_code == 200:
         datos = respuesta.json()
-        return datos, url_noticias
+        return datos
     else:
         return None
 

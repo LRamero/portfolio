@@ -158,6 +158,7 @@
                                     translationsRemaining--;
                                     if (translationsRemaining === 0) {
                                         $('.forecast-grid').append(cardsHtml.join('')); // Agregar todas las tarjetas al DOM de una vez
+                                        $('#loadingOverlay').hide();
                                     }
                                 });
                             });
@@ -168,7 +169,6 @@
                     } else {
                         alert("No se encontró información del clima para esa ciudad.");
                     }
-                    $('#loadingOverlay').hide();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -186,39 +186,24 @@
                         return;
                     }
 
+                    const maxArticulos = Math.min(data.data.length, 10);
+
                     // Mostrar noticias de la ciudad (suponiendo que todas las noticias son relevantes para la ciudad)
                     const noticiasCiudad = data.data.map(article => {
                         return `
-                <div class="card">
-                    <h5>${article.title}</h5>
-                    <p>${article.description}</p>
-                    <a href="${article.url}" target="_blank">Leer más</a>
-                </div>
-            `;
-                    }).slice(0, 5).join('');
+                            <div class="card">
+                                <h5>${article.title}</h5>
+                                <p>${article.description}</p>
+                                <a href="${article.url}" target="_blank">Leer más</a>
+                            </div>
+                        `;
+                    }).slice(0, maxArticulos).join('');
                     $('#noticiasCiudad').html(noticiasCiudad);
-
-                    // Si deseas mostrar noticias del país, puedes filtrar o usar la misma lista
-                    // Aquí simplemente se repite el mismo conjunto de noticias
-                    const noticiasPais = data.data.map(article => {
-                        return `
-                <div class="card">
-                    <h5>${article.title}</h5>
-                    <p>${article.description}</p>
-                    <a href="${article.url}" target="_blank">Leer más</a>
-                </div>
-            `;
-                    }).slice(0, 5).join('');
-                    $('#noticiasPais').html(noticiasPais);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
-        });
-
-        $(document).on("ajaxStop", function () {
-            $('#loadingOverlay').hide();
         });
 
         $('#ciudad').on('input', function() {
@@ -255,9 +240,9 @@
             }
         });
 
-        $(window).on("scroll", function() {
-            var scrollThreshold = window.innerHeight * 0.02;
-            if ($(window).scrollTop() > scrollThreshold) {
+        $('.hero').on("scroll", function () {
+            var scrollThreshold = $('.hero').height() * 0.02; // Umbral basado en la altura del contenido visible
+            if (heroContent.scrollTop() > scrollThreshold) {
                 $('.site-header').addClass('shrink');
             } else {
                 $('.site-header').removeClass('shrink');

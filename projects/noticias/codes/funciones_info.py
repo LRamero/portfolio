@@ -112,5 +112,5 @@ def obtener_noticias(query, api_key, pais = None):
         return None
 
 def obtener_sugerencias(api_key_sug, ciudad):
-    url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1&tag=tag%3Dplace%3Acountry%2Cplace%3Astate%2Cplace%3Aregion%2Cplace%3Aprovince%2Cplace%3Adistrict%2Cplace%3Acountry%2Cplace%3Acity%2Cplace%3Atown%2Cplace%3Avillage"
+    url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1&tag=place%3Acountry%2Cplace%3Astate%2Cplace%3Aregion%2Cplace%3Aprovince%2Cplace%3Acountry%2Cplace%3Acity"
     return requests.get(url)

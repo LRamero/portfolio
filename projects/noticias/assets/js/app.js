@@ -179,7 +179,7 @@
             $.ajax({
                 url: '/get_news_loc',
                 type: 'POST',
-                data: { query: ciudad , tipo: 'ciudad'},
+                data: { query: ciudad, tipo: 'ciudad' },
                 success: function (data) {
                     if (data.error) {
                         alert("Ocurrió un error al obtener las noticias.");
@@ -188,17 +188,49 @@
 
                     const maxArticulos = Math.min(data.data.length, 10);
 
-                    // Mostrar noticias de la ciudad (suponiendo que todas las noticias son relevantes para la ciudad)
+                    // Mostrar noticias como tarjetas
                     const noticiasCiudad = data.data.map(article => {
                         return `
-                            <div class="card">
-                                <h5>${article.title}</h5>
-                                <p>${article.description}</p>
-                                <a href="${article.url}" target="_blank">Leer más</a>
-                            </div>
-                        `;
+                <div>
+                    <div class="card">
+                        <h5>${article.title}</h5>
+                        <p>${article.description}</p>
+                        <a href="${article.url}" target="_blank">Leer más</a>
+                    </div>
+                </div>
+            `;
                     }).slice(0, maxArticulos).join('');
-                    $('#noticiasCiudad').html(noticiasCiudad);
+
+                    const $noticiasCiudad = $('#noticiasCiudad');
+
+                    // Destruir el carrusel existente si ya está inicializado
+                    if ($noticiasCiudad.hasClass('slick-initialized')) {
+                        $noticiasCiudad.slick('unslick');
+                    }
+
+                    // Agregar el nuevo contenido
+                    $noticiasCiudad.html(noticiasCiudad);
+
+                    // Inicializar nuevamente el carrusel
+                    $noticiasCiudad.slick({
+                        infinite: true,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 4000,
+                        arrows: true,
+                        dots: true,
+                        centerMode: true,
+                        variableWidth: false,
+                        responsive: [
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 1
+                                }
+                            }
+                        ]
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -237,15 +269,6 @@
         $(document).click(function(e) {
             if (!$(e.target).closest('#ciudad, #suggestions').length) {
                 $('#suggestions').hide();
-            }
-        });
-
-        $('.hero').on("scroll", function () {
-            var scrollThreshold = $('.hero').height() * 0.02; // Umbral basado en la altura del contenido visible
-            if (heroContent.scrollTop() > scrollThreshold) {
-                $('.site-header').addClass('shrink');
-            } else {
-                $('.site-header').removeClass('shrink');
             }
         });
 

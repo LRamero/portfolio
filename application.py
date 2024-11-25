@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 import requests
 import datetime
+from time import sleep
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ LOCATIONIQ_API_KEY = os.getenv('LOCATIONIQ_API_KEY')
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
 POSITIONSTACK_API_KEY = os.getenv('POSITIONSTACK_API_KEY')
 DEEPL_API_KEY = os.getenv('DEEPL_API_KEY')
+MEDIASTACK_API_KEY = os.getenv('MEDIASTACK_API_KEY')
 
 #########################################################
 #              Fuciones para página principal           #
@@ -248,7 +250,7 @@ def get_info():
 def get_weather():
     clima_info = None
     ciudad = request.form['ciudad']
-    api_key_pos = POSITIONSTACK_API_KEY
+    api_key_pos = LOCATIONIQ_API_KEY
     api_key_weather = OPENWEATHER_API_KEY
     
     lat, lon = obtener_coord(ciudad, api_key_pos)
@@ -257,32 +259,18 @@ def get_weather():
     return jsonify(clima_info)
 
 @app.route('/get_news_loc', methods=["POST"])
-def get_news():
-    loc = request.form['ciudad']
-    ciudad, pais = loc.split(", ")
-    ciudad.replace(" ", "%20")
-    ahora = datetime.datetime.now()
-    h24 = ahora - datetime.timedelta(hours=24)
-
-    ahora = ahora.strftime("%Y%m%d%H%M%S")
-    h24 = h24.strftime("%Y%m%d%H%M%S")
-    
-    # Petición para obtener noticias de la ciudad
-    response_noticias_ciudad = obtener_noticias(pais, h24, ahora, ciudad)
-    
-    # Petición para obtener noticias del país
-    response_noticias_pais = obtener_noticias(pais, h24, ahora)
-
-    if response_noticias_ciudad.status_code == 200 and response_noticias_pais.status_code == 200:
-        noticias_ciudad_data = response_noticias_ciudad.json()
-        noticias_pais_data = response_noticias_pais.json()
-
-        return jsonify({
-            "ciudad": noticias_ciudad_data,
-            "pais": noticias_pais_data
-        })
+def get_news_loc():
+    api_key = MEDIASTACK_API_KEY
+    tipo = request.form['tipo']
+    query = request.form['query']
+    if tipo == "ciudad":
+        query, pais = query.split(", ")
+        query.replace(" ", "%20")
+        response = obtener_noticias(query, api_key, pais)
     else:
-        return jsonify({"error": "Error en la solicitud"}), 500
+        response= obtener_noticias(query, api_key)
+
+    return jsonify(response)
 
 @app.route('/get_suggestions', methods=["POST"])
 def get_suggestions():

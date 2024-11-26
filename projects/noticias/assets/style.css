@@ -820,11 +820,7 @@ form textarea {
 }
 
 .noticias-carrusel .card h5{
-  font-size: 1.7em;
-}
-
-.noticias-carrusel .card p {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 .slick-prev,

@@ -6,3 +6,5 @@ gunicorn
 python-dotenv
 requests
 newsapi-python
+pycountry
+gdeltdoc

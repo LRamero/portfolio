@@ -1,4 +1,6 @@
 import requests
+from gdeltdoc import GdeltDoc, Filters
+import pycountry
 
 def obtener_clima(lat, lon, api_key):
     url = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={api_key}&units=metric"
@@ -39,77 +41,27 @@ def traducir_texto(texto, clave_api, idioma_destino):
         print("Error en la traducción:", respuesta.status_code, respuesta.text)
         return None
     
-def obtener_noticias(query, api_key, pais = None):
-    pais_codigo = {
-        "Argentina": "AR",
-        "Australia": "AU",
-        "Austria": "AT",
-        "Belgium": "BE",
-        "Brazil": "BR",
-        "Bulgaria": "BG",
-        "Canada": "CA",
-        "China": "CN",
-        "Colombia": "CO",
-        "Czech Republic": "CZ",
-        "Egypt": "EG",
-        "France": "FR",
-        "Germany": "DE",
-        "Greece": "GR",
-        "Hong Kong": "HK",
-        "Hungary": "HU",
-        "India": "IN",
-        "Indonesia": "ID",
-        "Ireland": "IE",
-        "Israel": "IL",
-        "Italy": "IT",
-        "Japan": "JP",
-        "Latvia": "LV",
-        "Lithuania": "LT",
-        "Malaysia": "MY",
-        "Mexico": "MX",
-        "Morocco": "MA",
-        "Netherlands": "NL",
-        "New Zealand": "NZ",
-        "Nigeria": "NG",
-        "Norway": "NO",
-        "Philippines": "PH",
-        "Poland": "PL",
-        "Portugal": "PT",
-        "Romania": "RO",
-        "Saudi Arabia": "SA",
-        "Serbia": "RS",
-        "Singapore": "SG",
-        "Slovakia": "SK",
-        "Slovenia": "SI",
-        "South Africa": "ZA",
-        "South Korea": "KR",
-        "Sweden": "SE",
-        "Switzerland": "CH",
-        "Taiwan": "TW",
-        "Thailand": "TH",
-        "Turkey": "TR",
-        "UAE": "AE",
-        "Ukraine": "UA",
-        "United Kingdom": "GB",
-        "United States": "US",
-        "Venezuela": "VE"
-    }
+def obtener_noticias(query, start_date, end_date, pais = None):
 
     def obtener_codigo_pais(nombre_pais):
-        return pais_codigo.get(nombre_pais, "Código no encontrado")
+        try:
+            country = pycountry.countries.lookup(nombre_pais)
+            return country.alpha_2
+        except LookupError:
+            return "AR"
+        
+    codigo = obtener_codigo_pais(pais)
 
-    if (pais):
-        codigo = obtener_codigo_pais(pais)
-    else:
-        codigo = "AR"
+    f = Filters(
+        keyword = query,
+        start_date = start_date,
+        end_date = end_date,
+        num_records = 10,
+        country = codigo
+    )
 
-    url_noticias = f"https://api.mediastack.com/v1/news?access_key={api_key}&keywords={query}&countries={codigo}"
-    respuesta = requests.get(url_noticias)
-    if respuesta.status_code == 200:
-        datos = respuesta.json()
-        return datos
-    else:
-        return None
+    gd = GdeltDoc()
+    return gd.article_search(f).to_dict(orient='records')
 
 def obtener_sugerencias(api_key_sug, ciudad):
     url = f"https://api.locationiq.com/v1/autocomplete?key={api_key_sug}&q={ciudad}&limit=5&dedupe=1&tag=place%3Acountry%2Cplace%3Astate%2Cplace%3Aregion%2Cplace%3Aprovince%2Cplace%3Acountry%2Cplace%3Acity"

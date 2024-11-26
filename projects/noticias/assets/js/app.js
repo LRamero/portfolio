@@ -186,19 +186,19 @@
                         return;
                     }
 
-                    const maxArticulos = Math.min(data.data.length, 10);
+                    const maxArticulos = Math.min(data.length, 10);  // Cambié data.data a data directamente, ya que la respuesta es una lista
 
                     // Mostrar noticias como tarjetas
-                    const noticiasCiudad = data.data.map(article => {
+                    const noticiasCiudad = data.map(article => {
                         return `
-                <div>
-                    <div class="card">
-                        <h5>${article.title}</h5>
-                        <p>${article.description}</p>
-                        <a href="${article.url}" target="_blank">Leer más</a>
-                    </div>
-                </div>
-            `;
+                            <div>
+                                <div class="card">
+                                    <img src="${article.socialimage}" alt="Imagen de la noticia" class="card-img">
+                                    <h5>${article.title}</h5>
+                                    <a href="${article.url}" target="_blank">Leer más</a>
+                                </div>
+                            </div>
+                        `;
                     }).slice(0, maxArticulos).join('');
 
                     const $noticiasCiudad = $('#noticiasCiudad');

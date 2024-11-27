@@ -8,8 +8,7 @@ from projects.noticias.codes.funciones_info import obtener_clima, obtener_coord,
 from dotenv import load_dotenv
 import os
 import requests
-import datetime
-from time import sleep
+from datetime import date, timedelta
 
 load_dotenv()
 
@@ -17,10 +16,7 @@ app = Flask(__name__, template_folder="", static_folder="./assets")
 
 OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 LOCATIONIQ_API_KEY = os.getenv('LOCATIONIQ_API_KEY')
-NEWS_API_KEY = os.getenv('NEWS_API_KEY')
-POSITIONSTACK_API_KEY = os.getenv('POSITIONSTACK_API_KEY')
 DEEPL_API_KEY = os.getenv('DEEPL_API_KEY')
-MEDIASTACK_API_KEY = os.getenv('MEDIASTACK_API_KEY')
 
 #########################################################
 #              Fuciones para página principal           #
@@ -260,16 +256,21 @@ def get_weather():
 
 @app.route('/get_news_loc', methods=["POST"])
 def get_news_loc():
-    api_key = MEDIASTACK_API_KEY
     tipo = request.form['tipo']
     query = request.form['query']
+
+    end_date = date.today()
+    start_date = end_date - timedelta(days=7)
+
+    end_date = end_date.strftime("%Y-%m-%d")
+    start_date = start_date.strftime("%Y-%m-%d")
+
     if tipo == "ciudad":
         query, pais = query.split(", ")
-        query.replace(" ", "%20")
-        response = obtener_noticias(query, api_key, pais)
+        response = obtener_noticias(query, start_date, end_date, pais)
     else:
-        response= obtener_noticias(query, api_key)
-
+        response= obtener_noticias(query, start_date, end_date)
+    
     return jsonify(response)
 
 @app.route('/get_suggestions', methods=["POST"])

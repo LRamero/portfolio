@@ -531,6 +531,7 @@ form textarea {
 .forecast.today {
   background-color: rgba(102, 106, 126, 0.8);
   border-radius: 10px;
+  border: 1px solid #3b3b3b;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -542,6 +543,7 @@ form textarea {
 
 .forecast-grid .forecast {
   background-color: rgba(80, 83, 97, 0.8);
+  border: 1px solid #3b3b3b;
   border-radius: 10px;
   text-align: center;
   display: flex;
@@ -863,5 +865,5 @@ form textarea {
 }
 
 .slick-dots li.slick-active button:before {
-  color: #dee7aa;
+  color: #84bb82;
 }

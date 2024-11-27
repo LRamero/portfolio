@@ -14,11 +14,8 @@
     }
 	
 	$(document).ready(function(){
-
 		// Cloning main navigation for mobile menu
 		$(".mobile-navigation").append($(".main-navigation .menu").clone());
-        
-        $('#loadingOverlay').hide();
 
 		// Mobile menu toggle 
 		$(".menu-toggle").click(function(){
@@ -112,10 +109,10 @@
                             });
                         });
 
-                        var cardsHtml = [];
+                        var cardsHtml = new Array(data.daily.slice(1, 7).length); // Array para mantener las tarjetas en orden
                         var translationsRemaining = data.daily.slice(1, 7).length; // Contar cuántas traducciones quedan
 
-                        data.daily.slice(1, 7).forEach(function (forecast) {
+                        data.daily.slice(1, 7).forEach(function (forecast, index) {
                             var formattedDate = formatDate(forecast.dt);
                             var dayOfWeek = formattedDate.split(", ")[0];
                             var date = formattedDate.split(", ")[1];
@@ -152,12 +149,15 @@
                                             </div>
                                         </div>
                                     `;
-                                    cardsHtml.push(cardHtml); // Almacenar la tarjeta en el array
+
+                                    // Almacenar la tarjeta en su posición correspondiente
+                                    cardsHtml[index] = cardHtml;
 
                                     // Verificar si se han completado todas las traducciones
                                     translationsRemaining--;
                                     if (translationsRemaining === 0) {
-                                        $('.forecast-grid').append(cardsHtml.join('')); // Agregar todas las tarjetas al DOM de una vez
+                                        // Agregar todas las tarjetas al DOM en orden
+                                        $('.forecast-grid').append(cardsHtml.join(''));
                                         $('#loadingOverlay').hide();
                                     }
                                 });
@@ -186,7 +186,7 @@
                         return;
                     }
 
-                    const maxArticulos = Math.min(data.length, 10);  // Cambié data.data a data directamente, ya que la respuesta es una lista
+                    const maxArticulos = Math.min(data.length, 25);
 
                     // Mostrar noticias como tarjetas
                     const noticiasCiudad = data.map(article => {
@@ -279,7 +279,19 @@
     });
 
 	$(window).load(function(){
-        
+        // Lista de ciudades predefinidas
+        const ciudades = ['Buenos Aires, Argentina', 'Madrid, Spain', 'New York, USA', 'Paris, France', 'Sydney, Australia', 'London, UK', 'Toronto, Canada', 'Roma, Italy', 'Berlin, Germany'];
+
+        // Variable para controlar la consulta automática
+        let consultaAutomaticaRealizada = false;
+
+        // Selección y envío automático de una ciudad al cargar la página
+        if (!consultaAutomaticaRealizada) {
+            consultaAutomaticaRealizada = true; // Marcar como realizada
+            const ciudadAleatoria = ciudades[Math.floor(Math.random() * ciudades.length)];
+            $('#ciudad').val(ciudadAleatoria); // Establece la ciudad en el campo
+            $('#climaForm').trigger('submit'); // Envía el formulario automáticamente
+        }        
 	});
 
 })(jQuery, document, window);

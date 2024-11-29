@@ -280,7 +280,7 @@
 
 	$(window).load(function(){
         // Lista de ciudades predefinidas
-        const ciudades = ['Buenos Aires, Argentina', 'Madrid, Spain', 'New York, USA', 'Paris, France', 'Sydney, Australia', 'London, UK', 'Toronto, Canada', 'Roma, Italy', 'Berlin, Germany'];
+        const ciudades = ['Buenos Aires, Argentina', 'Madrid, Spain', 'New York, USA', 'Paris, France', 'Sydney, Australia', 'London, United Kingdom', 'Toronto, Canada', 'Roma, Italy', 'Berlin, Germany'];
 
         // Variable para controlar la consulta automática
         let consultaAutomaticaRealizada = false;

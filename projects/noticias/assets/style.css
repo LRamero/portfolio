@@ -798,56 +798,38 @@ form textarea {
   }
 }
 
-.noticias-carrusel {
-  width: 100%;
-  margin: 0 5px;
-  position: relative;
-}
-
 .noticias-carrusel .slick-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-}
-
-.noticias-carrusel .card {
-  width: 95%;
-  margin: 0 5px;
-  background: rgba(78, 78, 78, 0.7);
-  border: 1px solid #3b3b3b;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.noticias-carrusel .card h5{
-  font-size: 1em;
+  height: auto;
+  /* Permite que el carrusel se adapte a las tarjetas */
 }
 
 .slick-prev,
 .slick-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-100%);
-  z-index: 2;
+  width: 30px;
+  height: 30px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  z-index: 2;
 }
 
 .slick-prev {
-  left: 5px;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
 }
 
 .slick-next {
-  right: 5px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
 }
 
 .slick-prev:hover,
@@ -856,7 +838,18 @@ form textarea {
 }
 
 .slick-dots {
-  bottom: -25px;
+  right: 10px;
+  /* Mueve los puntos de navegación hacia la derecha */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  /* Puntos en columna para navegación vertical */
+}
+
+.slick-dots li {
+  margin-bottom: 5px;
+  /* Espacio entre puntos */
 }
 
 .slick-dots li button:before {
@@ -866,4 +859,33 @@ form textarea {
 
 .slick-dots li.slick-active button:before {
   color: #84bb82;
+}
+
+.upper-section,
+.lower-section {
+  display: flex;
+  flex-direction: column;
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.upper-section {
+  padding: 10px;
+}
+
+.lower-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* Fondo para la sección inferior */
+}
+
+.news-section,
+.map-section,
+.images-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
 }
